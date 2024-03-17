@@ -8,6 +8,17 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <div class="container">
+	<div class="row justify-content-center mb-3">
+		<div class="col-md-6">
+			<form id="textSearchForm" action="@Url.Action("Index", "Article")" method="get" class="form-inline rounded-pill bg-light p-2 position-relative">
+				<div class="form-group mx-sm-3 mb-2 position-relative">
+					<input type="text" id="searchQuery" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control form-control-sm rounded-pill pl-4" style="max-width: 80%; padding-left: 29px;" />
+					<i class="fa-solid fa-magnifying-glass position-absolute" style="left: 10px; width: 15px; height: 15px; top: 50%; transform: translateY(-50%);"></i>
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class="col-md-6 text-md-right">
 			<nav aria-label="Page navigation">
