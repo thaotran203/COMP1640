@@ -1,0 +1,115 @@
+﻿ @model IEnumerable<WebEnterprise_1640.Models.ArticleModel>
+<link rel="stylesheet" href="~/css/articles.css">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    @{
+	ViewData["Title"] = "Articles Page";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 text-md-right">
+			<nav aria-label="Page navigation">
+				<ul class="pagination justify-content-end mb-0">
+					@if (Model.Any())
+					{
+						<li class="page-item @(ViewBag.PageIndex == 1 ? "disabled" : "")">
+							<a class="page-link" href="@(Url.Action("Index", "Article", new { magazineId = ViewBag.MagazineId, page = ViewBag.PageIndex - 1, searchQuery = ViewBag.SearchQuery, searchDate = ViewBag.SearchDate }))">
+								<i class="fa-solid fa-chevron-left"></i>
+							</a>
+						</li>
+						<li class="page-item @(ViewBag.PageIndex == ViewBag.TotalPages ? "disabled" : "")">
+							<a class="page-link" href="@(Url.Action("Index", "Article", new { magazineId = ViewBag.MagazineId, page = ViewBag.PageIndex + 1, searchQuery = ViewBag.SearchQuery, searchDate = ViewBag.SearchDate }))">
+								<i class="fa-solid fa-chevron-right"></i>
+							</a>
+						</li>
+					}
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+	<table class="table" style="width: 100%;">
+		<tbody>
+			@foreach (var article in Model)
+			{
+				<tr>
+					<td>@article.User.FullName</td>
+					<td>@article.Name</td>
+					<td class="table-button">
+						<button onclick="handleSelect" class="action-button">
+							<i class="fa-regular fa-star"></i>
+						</button>
+						<button onclick="handleDeny" class="action-button">
+							<i class="fa-regular fa-square-minus"></i>
+						</button>
+					</td>
+					<td class="table-date">@article.SubmitDate.ToString("dd MMMM")</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+<script>
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	// Function to set the date input value from URL parameter
+	function setDateInputFromUrlParam() {
+		var searchDate = getParameterByName('searchDate');
+		if (searchDate) {
+			document.getElementById('searchDate').value = searchDate;
+		}
+	}
+
+	// Call the function to set the date input value when the page loads
+	setDateInputFromUrlParam();
+
+	// Function to handle key press events in the search input field
+	document.getElementById("searchQuery").addEventListener("keypress", function (event) {
+		// Check if the pressed key is Enter (key code 13)
+		if (event.keyCode === 13) {
+			// Prevent the default action of the Enter key (form submission)
+			event.preventDefault();
+			// Submit the form
+			submitForms();
+		}
+	});
+
+function submitForms() {
+    var textSearchForm = document.getElementById("textSearchForm");
+    var dateSearchForm = document.getElementById("dateSearchForm");
+
+    var textFormData = new FormData(textSearchForm);
+    var dateFormData = new FormData(dateSearchForm);
+
+// Construct the base URL with magazine ID
+var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
+
+
+    // Add search query parameter to the URL
+    for (var pair of textFormData.entries()) {
+        if (pair[0] === 'searchQuery' && pair[1] !== '') {
+            url += '&searchQuery=' + pair[1];
+        }
+    }
+
+    // Add search date parameter to the URL
+    for (var pair of dateFormData.entries()) {
+        if (pair[0] === 'searchDate' && pair[1] !== '') {
+            url += '&searchDate=' + pair[1];
+        }
+    }
+
+    // Redirect to the constructed URL
+    window.location.href = url;
+}
+</script>

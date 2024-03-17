@@ -1,0 +1,122 @@
+﻿html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.page-link {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    width: 40px;
+    height: 30px;
+}
+
+    .page-link:hover {
+        background: none;
+    }
+
+    .page-link:focus {
+        outline: none;
+    }
+
+.action-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+    .action-button:focus {
+        outline: none;
+    }
+
+.action-button {
+    width: 15%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.table-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    height: 800px;
+}
+
+.form-control {
+    max-width: 150px;
+}
+
+.main-content {
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+/* Tablet */
+@media screen and (min-width:741px) and (max-width:1024px) {
+    .action-button {
+        width: 30%;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width:740px) {
+    .table-main {
+        width: 100%;
+    }
+
+    .pagination-right {
+        width: 10%;
+    }
+
+    .pagination-left {
+        width: 10%;
+    }
+
+    .table-button {
+        width: 20%;
+    }
+
+    .table-date {
+        width: 23%;
+    }
+
+    .col-md-6 {
+        width: 50%;
+    }
+
+    .form-control {
+        width: 100%;
+    }
+
+    .pagination-image {
+        width: 60%;
+        height: 60%;
+    }
+
+    .action-button {
+        width: 30%;
+    }
+
+    .table-date {
+        width: 30%;
+    }
+}
