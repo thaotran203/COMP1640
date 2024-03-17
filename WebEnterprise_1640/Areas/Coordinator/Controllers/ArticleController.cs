@@ -17,7 +17,7 @@ namespace WebEnterprise_1640.ArticlesControllers
 		}
 
 		// GET: Articles
-		public async Task<IActionResult> Index(int? magazineId, int page = 1)
+		public async Task<IActionResult> Index(int? magazineId, int page = 1, DateTime? searchDate = null, string searchQuery = "")
 		{
 			if (magazineId == null)
 			{
@@ -33,6 +33,25 @@ namespace WebEnterprise_1640.ArticlesControllers
 				.Include(a => a.Magazine)
 				.OrderByDescending(a => a.SubmitDate);
 
+			// Apply combined search by student name or article name
+			if (!string.IsNullOrWhiteSpace(searchQuery))
+			{
+				articlesQuery = (IOrderedQueryable<Models.ArticleModel>)articlesQuery.Where(a => a.User.FullName.Contains(searchQuery) || a.Name.Contains(searchQuery));
+			}
+
+			// Apply search by date
+			if (searchDate != null)
+			{
+				articlesQuery = (IOrderedQueryable<Models.ArticleModel>)articlesQuery.Where(a => a.SubmitDate.Date == searchDate.Value.Date);
+				// Format searchDate as mm/dd/yyyy
+				ViewBag.SearchDate = searchDate.Value.ToString("MM/dd/yyyy");
+			}
+			else
+			{
+				// If searchDate is null, make sure ViewBag.SearchDate is also null
+				ViewBag.SearchDate = null;
+			}
+
 			// Continue with pagination and final query execution
 			var totalArticles = await articlesQuery.CountAsync();
 			var totalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
@@ -44,6 +63,7 @@ namespace WebEnterprise_1640.ArticlesControllers
 
 			ViewBag.PageIndex = page;
 			ViewBag.TotalPages = totalPages;
+			ViewBag.SearchQuery = searchQuery; // Pass back the search term for re-rendering the search box
 			ViewBag.MagazineId = magazineId; // Make sure to include MagazineId
 
 			return View("Index", articles);
