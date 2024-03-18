@@ -70,14 +70,12 @@ body {
     padding: 20px;
 }
 
-/* Tablet */
 @media screen and (min-width:741px) and (max-width:1024px) {
     .action-button {
         width: 30%;
     }
 }
 
-/* Mobile */
 @media screen and (max-width:740px) {
     .table-main {
         width: 100%;
