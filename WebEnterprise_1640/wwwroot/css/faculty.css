@@ -1,0 +1,14 @@
+﻿@media only screen and (max-width: 500px) {
+    .modal-content {
+        width: 250px;
+        margin-left: auto;
+        margin-right: auto
+    }
+
+    .pb-3 {
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 75%;
+    }
+}

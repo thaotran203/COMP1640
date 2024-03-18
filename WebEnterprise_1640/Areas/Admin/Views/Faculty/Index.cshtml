@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebEnterprise_1640.Models.FacultyModel>
+
+@{
+    ViewData["Title"] = "List of Faculty";
+}
+
+<head>
+    <link href="~/css/faculty.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        th {
+            border: none;
+        }
+
+        #createBtn {
+            background: #cddefd;
+            color: black;
+            border-width: 0;
+            float: right;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<p>
+    <a asp-action="Create" class="btn btn-primary" id="createBtn"><i class="fa fa-plus-circle"></i><b>&nbsp; Add New Faculty</b></a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th><b>ID</b></th>
+            <th><b>Faculty Name</b></th>
+            <th><b>Account Count</b></th>
+            <th colspan="2"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Users)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" style="color: black"><i class="fa fa-pencil"></i></a>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id" style="color: black"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
