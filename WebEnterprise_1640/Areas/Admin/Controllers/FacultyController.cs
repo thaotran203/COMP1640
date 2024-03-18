@@ -21,11 +21,10 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         }
 
         // GET: Admin/Faculty
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return _context.Faculties != null ?
-                        View(await _context.Faculties.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Faculties'  is null.");
+            List<FacultyModel> faculties = _context.Faculties.ToList();
+            return View(faculties);
         }
 
         // GET: Admin/Faculty/Create
@@ -33,17 +32,12 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         {
             return View();
         }
-
-        // POST: Admin/Faculty/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(FacultyModel facultyModel)
+        public IActionResult Create(FacultyModel facultyModel)
         {
-            _context.Add(facultyModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            _context.Faculties.Add(facultyModel);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
