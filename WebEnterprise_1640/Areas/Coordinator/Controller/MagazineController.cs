@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using WebEnterprise_1640.Models;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using WebEnterprise_1640.Data;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using WebEnterprise_1640.Data;
+using WebEnterprise_1640.Models;
 
-namespace WebEnterprise_1640.Controllers
+namespace WebEnterprise_1640.MagazineController
 {
+    [Area("Coordinator")]
     public class MagazineController : Controller
     {
         private readonly ILogger<MagazineController> _logger;
@@ -34,7 +37,7 @@ namespace WebEnterprise_1640.Controllers
                 }
             }
 
-            return View(magazines);
+            return View("Index", magazines);
         }
 
         public IActionResult Privacy()
