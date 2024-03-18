@@ -1,0 +1,57 @@
+﻿@model WebEnterprise_1640.Models.FacultyModel
+
+@{
+    ViewData["Title"] = "Update";
+}
+<head>
+    <style>
+        #modalHeader, #modalBody {
+            border: none;
+            padding-bottom: 5px
+        }
+    </style>
+</head>
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" id="modalHeader">
+                <h5 class="modal-title" id="exampleModalLabel" style="bottom:50px">Update the Faculty</h5>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="modal-footer" style="border:none">
+                        <button type="submit" class="btn btn-primary" style="background-color:#4644a0">Update</button>
+                        <a asp-action="Index" class="btn btn-secondary">Close</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#exampleModal1").modal('show');
+        })
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+
+
+
+
+
