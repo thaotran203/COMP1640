@@ -73,7 +73,6 @@
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
-	// Function to set the date input value from URL parameter
 	function setDateInputFromUrlParam() {
 		var searchDate = getParameterByName('searchDate');
 		if (searchDate) {
@@ -81,16 +80,11 @@
 		}
 	}
 
-	// Call the function to set the date input value when the page loads
 	setDateInputFromUrlParam();
 
-	// Function to handle key press events in the search input field
 	document.getElementById("searchQuery").addEventListener("keypress", function (event) {
-		// Check if the pressed key is Enter (key code 13)
 		if (event.keyCode === 13) {
-			// Prevent the default action of the Enter key (form submission)
 			event.preventDefault();
-			// Submit the form
 			submitForms();
 		}
 	});
@@ -102,25 +96,21 @@ function submitForms() {
     var textFormData = new FormData(textSearchForm);
     var dateFormData = new FormData(dateSearchForm);
 
-// Construct the base URL with magazine ID
 var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
 
 
-    // Add search query parameter to the URL
     for (var pair of textFormData.entries()) {
         if (pair[0] === 'searchQuery' && pair[1] !== '') {
             url += '&searchQuery=' + pair[1];
         }
     }
 
-    // Add search date parameter to the URL
     for (var pair of dateFormData.entries()) {
         if (pair[0] === 'searchDate' && pair[1] !== '') {
             url += '&searchDate=' + pair[1];
         }
     }
 
-    // Redirect to the constructed URL
     window.location.href = url;
 }
 </script>
