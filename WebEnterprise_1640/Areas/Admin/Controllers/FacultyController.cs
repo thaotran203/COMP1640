@@ -35,9 +35,13 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(FacultyModel facultyModel)
         {
-            _context.Faculties.Add(facultyModel);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _context.Faculties.Add(facultyModel);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
         // GET: Admin/Faculty/Edit/5
@@ -58,9 +62,13 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(FacultyModel facultyModel)
         {
-            _context.Faculties.Update(facultyModel);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _context.Faculties.Update(facultyModel);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
         // GET: Admin/Faculty/Delete/5
