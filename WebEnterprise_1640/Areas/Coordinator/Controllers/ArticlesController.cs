@@ -12,12 +12,12 @@ using WebEnterprise_1640.Models;
 namespace WebEnterprise_1640.Controllers
 {
     [Area("Coordinator")]
-    public class ArticleController : Controller
+    public class ArticlesController : Controller
     {
-        private readonly ILogger<ArticleController> _logger;
+        private readonly ILogger<ArticlesController> _logger;
         private readonly ApplicationDbContext _dbContext;
 
-        public ArticleController(ILogger<ArticleController> logger, ApplicationDbContext dbContext)
+        public ArticlesController(ILogger<ArticlesController> logger, ApplicationDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -42,8 +42,9 @@ namespace WebEnterprise_1640.Controllers
 
             article.Documents = _dbContext.Documents.Where(d => d.ArticleId == article.Id).ToList();
 
-            return View(new List<ArticleModel> { article });
+            return View("Article", new List<ArticleModel> { article });
         }
+
 
 
         public IActionResult Privacy()
