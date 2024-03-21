@@ -1,0 +1,53 @@
+﻿html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #F1F1F1;
+}
+
+.magazine-card {
+    color: #000;
+    padding: 10px;
+    display: block;
+    line-height: 1.5;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    max-width: 600px;
+    border-radius: 5px;
+    height: auto; /* Sử dụng 'auto' để tự động điều chỉnh chiều cao */
+}
+
+.card-container {
+    max-height: 300px; /* Chiều cao tối đa của mỗi card nhỏ */
+    overflow: auto; /* Thêm thanh cuộn nếu chiều cao vượt quá giới hạn */
+}
+
+    .magazine-card .card-body {
+        display: table-row;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+        .magazine-card .card-body p {
+            display: table-cell;
+            padding-right: 20px;
+            color: #0053D8;
+        }
+
+        .magazine-card .card-body a {
+            display: table-cell;
+            padding-right: 20px;
+        }
