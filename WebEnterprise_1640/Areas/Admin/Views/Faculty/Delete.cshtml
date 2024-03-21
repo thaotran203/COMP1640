@@ -1,0 +1,48 @@
+﻿@model WebEnterprise_1640.Models.FacultyModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<head>
+    <style>
+        #modalHeader, #modalBody {
+            border: none;
+            padding-bottom: 5px
+        }
+    </style>
+</head>
+<div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center d-block" id="modalHeader">
+                    <img src="~/img/{5e96d738-624f-412d-a7ff-32f94db4f292}.png.jpg" style="width:150px; height:128px; bottom:20px" />
+                </div>
+                <div class="modal-body text-center d-block" id="modalBody">
+                    <form asp-action="Delete" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
+                        <h6 class="modal-title" id="exampleModalLabel">You will not be able to revover anymore!</h6>
+
+                        <div class="modal-footer text-center d-block" style="border:none">
+                            <button type="submit" class="btn btn-primary" style="background-color:#da4453">Delete</button>
+                            <a asp-action="Index" class="btn btn-secondary">Close</a>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <script>
+            $(document).ready(function () {
+                $("#exampleModal2").modal('show');
+            })
+        </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
