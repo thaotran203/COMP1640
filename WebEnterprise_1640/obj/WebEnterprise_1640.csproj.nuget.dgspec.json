@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ACER\\Visual Studio 2022\\WebEnterprise_1640\\WebEnterprise_1640\\WebEnterprise_1640.csproj": {}
+    "C:\\Users\\ACER\\Visual Studio 2022\\COMP1640\\WebEnterprise_1640\\WebEnterprise_1640.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ACER\\Visual Studio 2022\\WebEnterprise_1640\\WebEnterprise_1640\\WebEnterprise_1640.csproj": {
+    "C:\\Users\\ACER\\Visual Studio 2022\\COMP1640\\WebEnterprise_1640\\WebEnterprise_1640.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ACER\\Visual Studio 2022\\WebEnterprise_1640\\WebEnterprise_1640\\WebEnterprise_1640.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\Visual Studio 2022\\COMP1640\\WebEnterprise_1640\\WebEnterprise_1640.csproj",
         "projectName": "WebEnterprise_1640",
-        "projectPath": "C:\\Users\\ACER\\Visual Studio 2022\\WebEnterprise_1640\\WebEnterprise_1640\\WebEnterprise_1640.csproj",
+        "projectPath": "C:\\Users\\ACER\\Visual Studio 2022\\COMP1640\\WebEnterprise_1640\\WebEnterprise_1640.csproj",
         "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ACER\\Visual Studio 2022\\WebEnterprise_1640\\WebEnterprise_1640\\obj\\",
+        "outputPath": "C:\\Users\\ACER\\Visual Studio 2022\\COMP1640\\WebEnterprise_1640\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -54,13 +54,13 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.27, )"
+              "version": "[6.0.28, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.27, )"
+              "version": "[6.0.28, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",

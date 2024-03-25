@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WebEnterprise_1640.Models.SemesterModel>
+
+@{
+    ViewData["Title"] = "Semester";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    <a role="button" asp-action="Create" class="button-link">
+        <i class="fa-solid fa-plus"></i>&nbsp<b>Add semester</b>
+    </a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                Semester
+            </th>
+            <th>
+                Final Closure Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @item.FinalClosureDate.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa-regular fa-pen-to-square" style="color: black"></i></a> |
+                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa-regular fa-trash-can" style="color: black"></i></a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link href="~/css/SemesterStyle.css" rel="stylesheet" />

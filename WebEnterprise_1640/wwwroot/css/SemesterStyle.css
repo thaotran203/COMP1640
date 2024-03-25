@@ -1,0 +1,13 @@
+﻿.button-link {
+    background-color: #CDDFFC;
+    color: black;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    width: 9vw;
+    height: 5.5vh;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
