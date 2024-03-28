@@ -1,0 +1,64 @@
+﻿body {
+    position: relative;
+    /* Đảm bảo phần tử cha có một vị trí tương đối */
+    overflow: hidden;
+    /* Ngăn cản phần tử con vượt ra khỏi phần tử cha */
+}
+
+.toast {
+    background-color: green;
+    color: white;
+    position: absolute;
+    z-index: 4;
+    animation: mymove 2s ease;
+    border-radius: 3px;
+}
+
+@keyframes mymove {
+    from {
+        right: -200px;
+    }
+
+    to {
+        right: 15px;
+    }
+}
+
+/* Laptop */
+@media screen and (min-width:1025px) {
+    .toast {
+        padding: 10px 20px;
+        margin-top: 50px;
+        font-size: 18px;
+    }
+
+    i {
+        padding-right: 10px;
+    }
+}
+
+/* Tablet */
+@media screen and (min-width:741px) and (max-width:1024px) {
+    .toast {
+        padding: 10px 20px;
+        margin-top: 50px;
+        font-size: 18px;
+    }
+
+    i {
+        padding-right: 10px;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width:740px) {
+    .toast {
+        padding: 5px 10px;
+        font-size: 15px;
+        margin-top: 50px;
+    }
+
+    i {
+        padding-right: 5px;
+    }
+}
