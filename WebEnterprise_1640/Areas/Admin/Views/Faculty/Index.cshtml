@@ -40,7 +40,7 @@
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Id)</td>
                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>@ViewBag.UserList</td>
+                <td>@ViewBag.UserList[item.Id]</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" style="color: black"><i class="fa fa-pencil"></i></a>
                 </td>

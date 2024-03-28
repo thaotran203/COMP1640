@@ -23,10 +23,16 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         }
 
         // GET: Admin/Faculty
-        public IActionResult Index(int? id)
+        public IActionResult Index()
         {
+            Dictionary<int, int> userCounts = new Dictionary<int, int>();
             List<FacultyModel> faculties = _context.Faculties.ToList();
-            ViewBag.UserList = _context.Users.Where(u => u.FacultyId == id).Count();
+            foreach (var faculty in faculties)
+            {
+                var accountCount = _context.Users.Where(u => u.FacultyId == faculty.Id).Count();
+                userCounts.Add(faculty.Id, accountCount);
+            }
+            ViewBag.UserList = userCounts;
             return View(faculties);
         }
 
