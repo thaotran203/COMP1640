@@ -30,7 +30,7 @@ img {
             height: 100vh;
             .discover {
                 font-size: 27px;
-                top: 50%;
+                top: 70%;
                 left: 50px;
             }
         }
@@ -58,7 +58,7 @@ img {
         height: 50vh;
             .discover {
                 font-size: 13px;
-                top: 20%;
+                top: 40%;
                 left: 30px;
             }
         }

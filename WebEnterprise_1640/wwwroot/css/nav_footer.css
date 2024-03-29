@@ -38,7 +38,8 @@ header {
         }
         .login-button {
             border-radius: 5px;
-            background-color: black;
+            padding: 10px;
+            text-decoration: none !important;
         }
         .login-button:hover {
             cursor: pointer;
