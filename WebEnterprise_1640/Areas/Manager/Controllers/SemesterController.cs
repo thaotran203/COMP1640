@@ -33,7 +33,7 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,FinalClosureDate")] SemesterModel semesterModel)
+        public async Task<IActionResult> Create(SemesterModel semesterModel)
         {
             if (ModelState.IsValid)
             {
