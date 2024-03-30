@@ -1,0 +1,42 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model WebEnterprise_1640.Models.Login
+@{
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body style="background-image:url(/img/background_login.png)">
+    <div class="container" >
+        <h1>Login</h1>
+        <form asp-controller="Account" asp-action="Login" class="form-login" method="post" enctype="multipart/form-data">
+            <input type="text" asp-for="Username" name="Username" placeholder="Email" required>
+            <input type="password" asp-for="Password" name="Password" placeholder="Password" required>
+            <button type="submit" class="login-btn">Login</button>
+            @if (ViewBag.Err != null)
+            {
+                <span style="color:red">@ViewBag.Err</span>
+            }
+            
+        </form>
+        <div class="back-home">
+            <div class="icon-back">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+            <a style="text-decoration:none"  href="/home">Back to home</a>
+        </div>
+    </div>
+</body>
+
+</html>
