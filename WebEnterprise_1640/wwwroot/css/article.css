@@ -1,0 +1,110 @@
+﻿html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.table td {
+    width: 30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table-button {
+    overflow: visible;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.page-link {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    width: 40px;
+    height: 30px;
+}
+
+    .page-link:hover {
+        background: none;
+    }
+
+    .page-link:focus {
+        outline: none;
+    }
+
+.action-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+    min-width: 30px;
+}
+
+    .action-button:focus {  
+        outline: none;
+    }
+
+body {
+    margin-bottom: 60px;
+}
+
+.table-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    height: 800px;
+}
+
+.form-control {
+    max-width: 150px;
+}
+
+.main-content {
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+/* Tablet */
+@media screen and (min-width:741px) and (max-width:1024px) {
+    .action-button {
+        width: 30%;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width:740px) {
+    /* Adjust table row and column widths */
+    .table-main {
+        width: 100%;
+    }
+
+    .table-button {
+        width: 20%;
+    }
+
+    .table-date {
+        width: 30%;
+    }
+
+    .form-control {
+        width: 100%;
+    }
+
+    .col-md-6 {
+        flex: 0 0 calc(50% - 10px); /* Adjust the width to 50% minus margin */
+        max-width: calc(50% - 10px); /* Adjust the max-width to 50% minus margin */
+        margin-bottom: 10px; /* Add spacing between elements */
+    }
+}
