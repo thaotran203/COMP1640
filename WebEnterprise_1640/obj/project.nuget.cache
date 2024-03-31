@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "o47viC/gL8qpO9ZHM66+pnph/4DnLo1OvbukTWmtg09D5SYMVAOAAlbYC1tUsonTjfiRVuB6et6mPOSreGlgrA==",
+  "dgSpecHash": "LGS02vyLn4d62KYZibVmvcKhu+QDvrUaCFacQdxEUPAN16Z5Cm4mMYtmYtV28MyU+sTxwBBBEsus6c1fLKFIcg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\COMP1640\\WebEnterprise_1640\\WebEnterprise_1640.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\Desktop\\COMP\\WebEnterprise_1640\\WebEnterprise_1640.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
