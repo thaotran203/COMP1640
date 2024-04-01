@@ -19,6 +19,7 @@ namespace WebEnterprise_1640.Models
 
         [Required]
         [ForeignKey("Articles")]
+        public int ArticleId { get; set; }
         public ArticleModel Article { get; set; }
     }
 }

@@ -180,6 +180,9 @@ footer {
     .none {
         display: none;
     }
+    .an {
+        display: none;
+    }
     header {
         .nav-bar {
             padding: 10px 20px;
