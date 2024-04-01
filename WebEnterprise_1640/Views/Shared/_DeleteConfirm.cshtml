@@ -11,133 +11,25 @@
     <link rel="stylesheet" href="~/css/delete confirm.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="container-fluid admin">
-        <main role="main">
-            <div class="body-admin">
-                <div class="show-modal none">
-                    <div class="panel">
-                        <div class="img-delete">
-                            <img src="https://freepngtransparent.com/wp-content/uploads/2023/03/X-Png-136.png" alt="">
-                        </div>
-                        <h2>Are you sure?</h2>
-                        <p>You will not be able to recover anymore !</p>
-                        <div class="deleted" onclick="closemodal()">
-                            <button class="del">Delete</button>
-                            <button class="can">Cancel</button>
-                        </div>
-                    </div>
+    <div class="body-admin">
+        <div class="show-modal-delete none">
+            <div class="panel">
+                <div class="img-delete">
+                    <img src="https://freepngtransparent.com/wp-content/uploads/2023/03/X-Png-136.png" alt="">
                 </div>
-                <div class="left-panel">
-                    <button class="manage">
-                        <div class="account">
-                            <div class="icon-1">
-                                <i class="fa-solid fa-list-check"></i>
-                            </div>
-                            <p>Manage Faculty</p>
-                        </div>
-                    </button>
-                    <button class="manage">
-                        <div class="account">
-                            <div class="icon-2">
-                                <i class="fa-solid fa-users"></i>
-                            </div>
-                            <p>Manage Account</p>
-                        </div>
-                    </button>
-                    <button class="icon-arrow" onclick="arrow()">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        <i class="fa-solid fa-arrow-right none"></i>
-                    </button>
-
-                </div>
-                <div class="main-box">
-                    <div class="box">
-                        <div class="btn-add">
-                            <div class="btn-add-new">
-                                <div class="icon-add">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <p>Add new faculty</p>
-                            </div>
-                        </div>
-                        <div class="content">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Faculty name</th>
-                                    <th>Account count</th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Graphic Design</td>
-                                    <td>10</td>
-                                    <td>
-                                        <div class="icon-up-de">
-                                            <div class="icon-update">
-                                                <i class="fa-solid fa-pen"></i>
-                                            </div>
-                                            <div onclick="deletel()" class="icon-delete">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Information Technology</td>
-                                    <td>14</td>
-                                    <td>
-                                        <div class="icon-up-de">
-                                            <div class="icon-update">
-                                                <i class="fa-solid fa-pen"></i>
-                                            </div>
-                                            <div onclick="deletel()" class="icon-delete">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Business</td>
-                                    <td>17</td>
-                                    <td>
-                                        <div class="icon-up-de">
-                                            <div class="icon-update">
-                                                <i class="fa-solid fa-pen"></i>
-                                            </div>
-                                            <div onclick="deletel()" class="icon-delete">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Event</td>
-                                    <td>12</td>
-                                    <td>
-                                        <div class="icon-up-de">
-                                            <div class="icon-update">
-                                                <i class="fa-solid fa-pen"></i>
-                                            </div>
-                                            <div onclick="deletel()" class="icon-delete">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </table>
-
-                        </div>
-                    </div>
-
+                <h2>Are you sure?</h2>
+                <p>You will not be able to recover anymore !</p>
+                <div class="deleted" onclick="closemodal_()">
+                    <button class="del">Delete</button>
+                    <button class="can">Cancel</button>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+        <div class="icon-up-de">
+            <div onclick="deletel()" class="icon-delete">
+                <i class="fa-solid fa-trash"></i>
+            </div>
+        </div>
     <script src="~/js/delete confirm.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

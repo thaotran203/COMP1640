@@ -10,134 +10,13 @@ img {
 }
 
 body {
-    p {
-         margin:0;
-    }
     background-color: #f2edf3;
-    .body-admin {
-        display: flex;
-    }
-    .admin {
-         padding:0;
-    }
     .none {
         display: none !important;
     }
 
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
 
-    th,
-    td {
-        padding: 8px;
-        text-align: left;
-        border: 1px solid #ddd;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    }
-
-    .left-panel {
-        background-color: white;
-        padding: 40px 20px;
-        height: 100vh;
-        position: relative;
-
-        .icon-arrow {
-            padding: 15px;
-            border: 1px solid white;
-            background-color: #f3f3f3;
-            text-align: center;
-            width: 100%;
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-        }
-
-        .manage {
-            margin-top: 20px;
-            width: 100%;
-            border: none;
-            background-color: transparent;
-
-            .account {
-                display: flex;
-                padding: 10px;
-                border: 1px solid white;
-                background-color: #f3f3f3;
-                border-radius: 10px;
-                justify-content: center;
-
-                p {
-                    margin-left: 20px;
-                }
-            }
-
-            .account:hover {
-                background-color: aliceblue;
-                cursor: pointer;
-            }
-        }
-
-    }
-
-    .main-box {
-        width: 100%;
-
-        .box {
-            background-color: white;
-            height: 100%;
-            border-radius: 10px;
-
-            .btn-add {
-                display: flex;
-                justify-content: end;
-                padding: 20px;
-
-                .btn-add-new {
-                    display: flex;
-                    padding: 10px;
-                    background-color: #CDDFFC;
-                    border-radius: 10px;
-
-                    .icon-add {
-                        margin: 0px 10px;
-                        font-size: 15px;
-                    }
-
-                    p {
-                        text-align: center;
-                    }
-                }
-            }
-
-            .content {
-
-                padding: 20px;
-
-                .title {
-                    font-weight: bold;
-                    font-size: 20px;
-                }
-
-                .icon-up-de {
-                    display: flex;
-                    justify-content: space-evenly;
-                }
-
-                .update-delete {
-                    .icon-up-de {
-                        display: flex;
-                    }
-                }
-            }
-        }
-    }
-
-    .show-modal {
+    .show-modal-delete {
         display: none;
         position: absolute;
         z-index: 10;
@@ -149,37 +28,27 @@ body {
         background-color: rgba(0, 0, 0, 0.2);
 
         .panel {
-            width: 30%;
-            height: 40%;
             background-color: white;
             border-radius: 10px;
-            padding: 20px;
 
             .img-delete {
-                width: 35%;
                 margin: 0 auto;
             }
 
             h2 {
                 text-align: center;
-                margin-top: 20px;
             }
 
             p {
                 text-align: center;
-                margin-top: 20px;
             }
 
             .deleted {
-                width: 30%;
-                margin: 0 auto;
                 display: flex;
                 justify-content: space-between;
-                margin-top: 20px;
             }
 
             .del {
-                padding: 10px;
                 border-radius: 5px;
                 background-color: red;
                 color: white;
@@ -187,7 +56,6 @@ body {
             }
 
             .can {
-                padding: 10px;
                 border-radius: 5px;
                 background-color: gray;
                 color: white;
@@ -200,8 +68,40 @@ body {
 /* Laptop */
 @media screen and (min-width:1025px) {
     body {
-        .main-box {
-            padding: 50px;
+        .show-modal-delete {
+
+            .panel {
+                width: 30%;
+                height: 40%;
+                padding: 20px;
+
+                .img-delete {
+                    width: 35%;
+                }
+
+                h2 {
+                    margin-top: 20px;
+                }
+
+                p {
+                    margin-top: 20px;
+                }
+
+                .deleted {
+
+                    margin: 0 auto;
+                    width: 30%;
+                    margin-top: 20px;
+                }
+
+                .del {
+                    padding: 10px;
+                }
+
+                .can {
+                    padding: 10px;
+                }
+            }
         }
     }
 }
@@ -209,8 +109,40 @@ body {
 /* Tablet */
 @media screen and (min-width:741px) and (max-width:1024px) {
     body {
-        .main-box {
-            padding: 30px;
+        .show-modal-delete {
+
+            .panel {
+                width: 50%;
+                padding: 20px;
+
+                .img-delete {
+                    width: 45%;
+                }
+
+                h2 {
+                    margin-top: 20px;
+                }
+
+                p {
+                    margin-top: 20px;
+                }
+
+                .deleted {
+
+                    margin: 0 auto;
+                    width: 30%;
+                    margin-top: 20px;
+                    margin-bottom: 10px;
+                }
+
+                .del {
+                    padding: 10px;
+                }
+
+                .can {
+                    padding: 10px;
+                }
+            }
         }
     }
 }
@@ -218,11 +150,47 @@ body {
 /* Mobile */
 @media screen and (max-width:740px) {
     body {
-        .main-box {
-            padding: 20px;
+        .show-modal-delete {
+            .panel {
+                width: 80%;
+                padding: 10px;
+
+                .img-delete {
+                    width: 50%;
+                }
+
+                h2 {
+                    margin-top: 10px;
+                    font-size: 18px;
+                }
+
+                p {
+                    margin-top: 10px;
+                    font-size: 13px;
+                }
+
+                .deleted {
+                    width: 10%;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+
+                .del {
+                    padding: 7px 10px;
+                    font-size: 12px;
+                    margin-right: 20px;
+                    margin-left: 90px;
+                }
+
+                .can {
+                    padding: 7px 10px;
+                    font-size: 12px;
+                }
+            }
         }
-        .an {
-            display: none;
-        }
+    }
+
+    .an {
+        display: none;
     }
 }
