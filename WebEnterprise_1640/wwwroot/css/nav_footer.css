@@ -37,9 +37,10 @@ header {
             display: none;
         }
         .login-button {
-            border-radius: 5px;
             padding: 10px;
-            text-decoration: none !important;
+            border-radius: 5px;
+            background-color: black;
+            color: white;
         }
         .login-button:hover {
             cursor: pointer;
@@ -199,11 +200,12 @@ footer {
                 border-bottom: 1px solid rgb(194, 194, 194);
                 left: 0;
             }
-            .login-button {
+            .button {
                 position: absolute;
                 top: 120px;
-                right: 42%;
+                width: 100%;
                 text-align: center;
+                left: 0;
             }
             .icon-menu {
                 display: block;
