@@ -74,58 +74,60 @@
     </style>
 </head>
 <body>
-    <div>
-        <form action="/Admin/user/index">
-            <div class="Search">
-                <i class="fa fa-search"></i>
-                <input type="search" class="form-control form-input" id="search" name="search" value="@ViewBag.Search">
-            </div>
-        </form>
-    </div>
-    <div class="List">
-        <p class="mb-3">
-            <a asp-action="Register" class="btn btn-primary" id="createBtn"><i class="fa fa-plus-circle"></i><b>&nbsp; Add New Account</b></a>
-        </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th><b>Full Name</b></th>
-                    <th><b>Email</b></th>
-                    <th><b>Phone Number</b></th>
-                    <th>
-                        <b>Role</b>
-                        <button class="btn btn-text-dark btn-icon Filter" type="button">
-                            <i class="fa fa-filter"></i>
-                        </button>
-                    </th>
-                    <th>
-                        <b>Faculty</b>
-                        <button class="btn btn-text-dark btn-icon Filter" type="button">
-                            <i class="fa fa-filter"></i>
-                        </button>
-                    </th>
-                    <th colspan="2"><b>Action</b></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+    <div class="FontSize">
+        <div>
+            <form action="/Admin/user/index">
+                <div class="Search">
+                    <i class="fa fa-search"></i>
+                    <input type="search" class="form-control form-input" id="search" name="search" value="@ViewBag.Search">
+                </div>
+            </form>
+        </div>
+        <div class="List">
+            <p class="mb-3">
+                <a asp-action="Register" class="btn btn-primary" id="createBtn"><i class="fa fa-plus-circle"></i><b>&nbsp; Add New Account</b></a>
+            </p>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.PhoneNum)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Role)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Faculty.Name)</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" style="color: black"><i class="fa fa-pencil"></i></a>
-                        </td>
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@item.Id" style="color: black"><i class="fa fa-trash"></i></a>
-                        </td>
+                        <th><b>Full Name</b></th>
+                        <th><b>Email</b></th>
+                        <th><b>Phone Number</b></th>
+                        <th>
+                            <b>Role</b>
+                            <button class="btn btn-text-dark btn-icon Filter" type="button">
+                                <i class="fa fa-filter"></i>
+                            </button>
+                        </th>
+                        <th>
+                            <b>Faculty</b>
+                            <button class="btn btn-text-dark btn-icon Filter" type="button">
+                                <i class="fa fa-filter"></i>
+                            </button>
+                        </th>
+                        <th colspan="2"><b>Action</b></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PhoneNum)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Role)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Faculty.Name)</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" style="color: black"><i class="fa fa-pencil"></i></a>
+                            </td>
+                            <td>
+                                <a asp-action="Delete" asp-route-id="@item.Id" style="color: black"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 
