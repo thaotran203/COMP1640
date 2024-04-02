@@ -71,7 +71,11 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     PasswordHash = passHash,
                     FacultyId = registerVM.FacultyId
                 };
-
+                var checkEmail = _context.Users.Any(x => x.Email == user.Email);
+                if (checkEmail)
+                {
+                    ModelState.AddModelError("Email", "This email already exists!");
+                }
                 IdentityResult identityResult = null;
                 if (user.Role == "Coordinator")
                 {
@@ -86,8 +90,8 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 
                             await _userManager.AddToRoleAsync(user, registerVM.Role);
                             await _signInManager.SignInAsync(user, isPersistent: false);
-
-                            return RedirectToAction("Index", "Home", new { area = "" });
+                            TempData["success"] = "User created successfully!";
+                            return RedirectToAction("Index");
                         }
                         foreach (var error in identityResult.Errors)
                         {
@@ -98,7 +102,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     }
                     else
                     {
-                        //error
+                        TempData["error"] = "Coordinator with this faculty already exists!";
                         registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Admin" & x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
                         {
                             Text = i,
@@ -121,16 +125,9 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 
                         await _userManager.AddToRoleAsync(user, registerVM.Role);
                         await _signInManager.SignInAsync(user, isPersistent: false);
-
-                        return RedirectToAction("Index", "Home", new { area = "" });
+                        TempData["success"] = "User created successfully!";
+                        return RedirectToAction("Index");
                     }
-
-                    foreach (var error in identityResult.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-
-                    ModelState.AddModelError(string.Empty, "Invalid");
                 }
             }
             return RedirectToAction("Index");
@@ -160,6 +157,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 IdentityResult identityResult = await _userManager.DeleteAsync(userModel);
                 if (identityResult.Succeeded)
                 {
+                    TempData["success"] = "User deleted successfully!";
                     return RedirectToAction("Index");
                 }
                 else
