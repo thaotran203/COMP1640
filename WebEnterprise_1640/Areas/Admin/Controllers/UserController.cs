@@ -86,8 +86,8 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 
 							await _userManager.AddToRoleAsync(user, registerVM.Role);
 							await _signInManager.SignInAsync(user, isPersistent: false);
-
-							return RedirectToAction("Index", "Home", new { area = "" });
+							TempData["success"] = "Created successfully";
+							return RedirectToAction("Index");
 						}
 						foreach (var error in identityResult.Errors)
 						{
@@ -98,19 +98,19 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 					}
 					else
 					{
-						//error
-						registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Admin" & x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
-						{
-							Text = i,
-							Value = i
-						});
-						registerVM.FacultyList = _context.Faculties.Select(c => new SelectListItem
-						{
-							Text = c.Name,
-							Value = c.Id.ToString(),
-						});
-						return View(registerVM);
-					}
+						TempData["error"] = "A coordinator already exists within the faculty!";
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Admin" & x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                        {
+                            Text = i,
+                            Value = i
+                        });
+                        registerVM.FacultyList = _context.Faculties.Select(c => new SelectListItem
+                        {
+                            Text = c.Name,
+                            Value = c.Id.ToString(),
+                        });
+                        return View(registerVM);
+                    }
 
 				}
 				else //register user role is not coordinator
@@ -121,16 +121,10 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 
 						await _userManager.AddToRoleAsync(user, registerVM.Role);
 						await _signInManager.SignInAsync(user, isPersistent: false);
-
-						return RedirectToAction("Index", "Home", new { area = "" });
+						TempData["success"] = "Created successfully";
+						return RedirectToAction("Index");
 					}
-
-					foreach (var error in identityResult.Errors)
-					{
-						ModelState.AddModelError("", error.Description);
-					}
-
-					ModelState.AddModelError(string.Empty, "Invalid");
+					return View(registerVM);
 				}
 			}
 			return RedirectToAction("Index");
