@@ -48,7 +48,8 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             {
                 _context.Faculties.Add(facultyModel);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+				TempData["success"] = "Faculty created successfully";
+				return RedirectToAction("Index");
             }
             return View();
         }
@@ -75,7 +76,8 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             {
                 _context.Faculties.Update(facultyModel);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+				TempData["success"] = "Faculty updated successfully";
+				return RedirectToAction("Index");
             }
             return View();
         }
@@ -103,7 +105,8 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         {
             _context.Faculties.Remove(facultyModel);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+			TempData["success"] = "Faculty deleted successfully";
+			return RedirectToAction("Index");
         }
     }
 }
