@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,9 @@ using WebEnterprise_1640.Models;
 
 namespace WebEnterprise_1640.Areas.Admin.Controllers
 {
-    public class UserController : Controller
+	[Area("Admin")]
+	[Authorize(Roles = "Admin")]
+	public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<UserModel> _userManager;
