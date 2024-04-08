@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise_1640.Data;
@@ -90,6 +90,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
+app.MapAreaControllerRoute(
+    name: "User",
+    areaName: "User",
+    pattern: "Profile",
+    defaults: new { controller = "User", action = "Index" }); 
 //app.UseEndpoints(endpoints =>
 //{
 //       endpoints.MapControllerRoute(
