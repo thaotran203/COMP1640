@@ -79,13 +79,26 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+  );
+});
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapAreaControllerRoute(
+    name: "Coordinator",
+    areaName: "Coordinator",
+    pattern: "Magazine",
+    defaults: new { controller = "Magazine", action = "Index" });
 //app.UseEndpoints(endpoints =>
 //{
-//    endpoints.MapControllerRoute(
+//       endpoints.MapControllerRoute(
 //       name: "default",
 //       pattern: "{area=Unauthenticated}/{controller=Home}/{action=Index}/{id?}");
 //    endpoints.MapRazorPages();

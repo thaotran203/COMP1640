@@ -13,7 +13,8 @@ namespace WebEnterprise_1640.Models
         public string Name { get; set; }
 
         [Required]
-        public DateTime ClosureDate { get; set; }
+      
+        public DateTime ClosureDate { get; set; 
 
         [Required]
         [ForeignKey("Faculties")]
