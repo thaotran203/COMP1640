@@ -39,5 +39,33 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             return View();
 
         }
-    }
+
+		// GET: Admin/Faculty/Edit/5
+		public IActionResult Edit(int? id)
+		{
+			if (id == null || id == 0)
+			{
+				return NotFound();
+			}
+
+			FacultyModel? facultyModel = _context.Faculties.Where(f => f.Id == id).FirstOrDefault();
+			if (facultyModel == null)
+			{
+				return NotFound();
+			}
+			return View(facultyModel);
+		}
+		[HttpPost]
+		public IActionResult Edit(FacultyModel facultyModel)
+		{
+			if (ModelState.IsValid)
+			{
+				_context.Faculties.Update(facultyModel);
+				_context.SaveChanges();
+				TempData["success"] = "Updated successfully";
+				return RedirectToAction("Index");
+			}
+			return View();
+		}
+	}
 }
