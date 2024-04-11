@@ -33,7 +33,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             {
                 _context.Faculties.Add(facultyModel);
                 _context.SaveChanges();
-                TempData["success"] = "Created Faculty successfully";
+                TempData["success"] = "Faculty created successfully!";
                 return RedirectToAction("Index");
             }
             return View();
@@ -62,7 +62,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 			{
 				_context.Faculties.Update(facultyModel);
 				_context.SaveChanges();
-				TempData["success"] = "Updated successfully";
+				TempData["success"] = "Faculty updated successfully!";
 				return RedirectToAction("Index");
 			}
 			return View();
