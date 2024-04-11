@@ -74,6 +74,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 if (checkEmail)
                 {
                     ModelState.AddModelError("Email", "User with this email already exists!");
+                    return View (registerVM);
                 }
                 IdentityResult identityResult = null;
                 if (user.Role == "Coordinator")
