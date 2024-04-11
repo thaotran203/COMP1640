@@ -13,10 +13,18 @@ namespace WebEnterprise_1640.Models
         public string Name { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
         public DateTime FinalClosureDate { get; set; }
 
         [NotMapped]
         public List<MagazineModel> Magazines { get; set; }
+    }
+
+    public class SemesterModelView
+    {
+
+        public int Id { get; set; }
+        public string FinalClosureDate { get; set; }
+
+
     }
 }
