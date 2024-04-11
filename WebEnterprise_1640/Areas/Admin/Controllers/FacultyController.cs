@@ -17,7 +17,15 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         // GET: Admin/Faculty
         public IActionResult Index()
         {
+            Dictionary<int, int> userCounts = new Dictionary<int, int>();
+            //Count User
             List<FacultyModel> faculties = _context.Faculties.ToList();
+            foreach (var faculty in faculties)
+            {
+                var accountCount = _context.Users.Where(x => x.Role != "Admin" & x.Role != "Manager").Where(u => u.FacultyId == faculty.Id).Count();
+                userCounts.Add(faculty.Id, accountCount);
+            }
+            ViewBag.UserList = userCounts;
             return View(faculties);
         }
 
