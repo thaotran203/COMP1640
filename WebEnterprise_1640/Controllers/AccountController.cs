@@ -22,13 +22,6 @@ namespace WebEnterprise_1640.Controllers
         }
         public IActionResult Login(string url)
         {
-            //ClaimsPrincipal claimUser = HttpContext.User;
-
-            //if (claimUser.Identity.IsAuthenticated)
-            //{
-            //    return RedirectToAction("Index", url);
-            //}
-            // AAA
             return View();
         }
 
@@ -81,7 +74,7 @@ namespace WebEnterprise_1640.Controllers
                         }
                     }
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>() { new Claim(ClaimTypes.Name, ""), new Claim(ClaimTypes.Role, newRole) },
+                     new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>() { new Claim(ClaimTypes.Name, ""), new Claim(ClaimTypes.Role, newRole) },
                     CookieAuthenticationDefaults.AuthenticationScheme)), new AuthenticationProperties() { AllowRefresh = true, });
                     Response.Cookies.Append("userInfo", newRole);
                     HttpContext.Session.SetString("USER", JsonSerializer.Serialize(user));
