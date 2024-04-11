@@ -18,6 +18,7 @@ namespace WebEnterprise_1640.Models
         [Required]
         [DataType(DataType.Date)]
         public DateTime ClosureDate { get; set; }
+        public DateTime FinalDeadline { get; set; }
 
         [Required]
         [ForeignKey("Faculties")]
