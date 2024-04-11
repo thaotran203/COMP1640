@@ -67,5 +67,31 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 			}
 			return View();
 		}
-	}
+
+        // GET: Admin/Faculty/Delete/5
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == null)
+            {
+                return NotFound();
+            }
+
+            FacultyModel? facultyModel = _context.Faculties.Where(f => f.Id == id).FirstOrDefault();
+            if (facultyModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(facultyModel);
+        }
+        [HttpPost]
+        public IActionResult Delete(FacultyModel facultyModel)
+        {
+            _context.Faculties.Remove(facultyModel);
+            _context.SaveChanges();
+            TempData["success"] = "Faculty deleted successfully!";
+            return RedirectToAction("Index");
+
+        }
+    }
 }
