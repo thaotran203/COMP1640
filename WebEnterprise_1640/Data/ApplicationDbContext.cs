@@ -24,8 +24,6 @@ namespace WebEnterprise_1640.Data
         {
             base.OnModelCreating(builder);
 
-
-
             builder.Entity<UserModel>()
                 .HasMany(e => e.Articles)
                 .WithOne(e => e.User)
@@ -33,11 +31,10 @@ namespace WebEnterprise_1640.Data
                 .IsRequired(false);
 
             builder.Entity<UserModel>()
-               .HasMany(a => a.Comments)
-               .WithOne(u => u.User)
+                .HasMany(a => a.Comments)
+                .WithOne(u => u.User)
                 .HasForeignKey(a => a.UserId)
                 .IsRequired(false);
-
 
 
             foreach (var entityType in builder.Model.GetEntityTypes())
