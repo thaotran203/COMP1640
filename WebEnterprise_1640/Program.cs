@@ -18,7 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
-builder.Services.AddIdentity<UserModel, RoleModel>()
+builder.Services.AddIdentity<UserModel, IdentityRole>()
               .AddDefaultUI()
               .AddEntityFrameworkStores<ApplicationDbContext>()
               .AddDefaultTokenProviders();
