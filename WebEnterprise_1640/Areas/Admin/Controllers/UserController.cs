@@ -24,9 +24,17 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         }
 
         // GET: Admin/User
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search = "")
         {
-            List<UserModel> users = await _context.Users.Include(u => u.Faculty).Where(u => u.Role != "Admin").ToListAsync();
+            //ViewBag
+            ViewBag.Search = search;
+            var usersQuery = _context.Users.Include(u => u.Faculty).Where(u => u.Role != "Admin");
+            //Search
+            if (!string.IsNullOrEmpty(search))
+            {
+                usersQuery = usersQuery.Where(f => f.FullName.Contains(search) || f.Email.Contains(search));
+            }
+            var users = await usersQuery.ToListAsync();
             return View(users);
         }
 

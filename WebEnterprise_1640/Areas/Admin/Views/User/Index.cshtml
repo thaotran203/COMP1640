@@ -1,0 +1,127 @@
+﻿@model IEnumerable<WebEnterprise_1640.Models.UserModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+    <link href="~/css/user.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        th {
+            text-align: center;
+            border: none;
+            vertical-align: middle;
+        }
+
+        #createBtn {
+            background: #cddefd;
+            color: black;
+            border-width: 0;
+            float: right;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .Search {
+            position: relative;
+            width: 50%;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+            .Search .fa-search {
+                position: absolute;
+                top: 13px;
+                left: 20px;
+            }
+
+        .form-input {
+            box-sizing: border-box;
+            border-radius: 50px;
+            background-repeat: no-repeat;
+        }
+
+            .form-input:focus {
+                border: 1px solid #ccc;
+            }
+
+        .List {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .Filter {
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="FontSize">
+        <div>
+            <form action="/Admin/user/index">
+                <div class="Search">
+                    <i class="fa fa-search"></i>
+                    <input type="search" class="form-control form-input" id="search" name="search" value="@ViewBag.Search">
+                </div>
+            </form>
+        </div>
+        <div class="List">
+            <p class="mb-3">
+                <a asp-action="Register" class="btn btn-primary" id="createBtn"><i class="fa fa-plus-circle"></i><b>&nbsp; Add New Account</b></a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><b>Full Name</b></th>
+                        <th><b>Email</b></th>
+                        <th><b>Phone Number</b></th>
+                        <th><b>Role</b></th>
+                        <th><b>Faculty</b></th>
+                        <th colspan="2"><b>Action</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PhoneNum)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Role)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Faculty.Name)</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" style="color: black"><i class="fa fa-pencil"></i></a>
+                            </td>
+                            <td>
+                                <a asp-action="Delete" asp-route-id="@item.Id" style="color: black"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".dropdown-bs-toggle").dropdown();
+        })
+    </script>
+}
+
