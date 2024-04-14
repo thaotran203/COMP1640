@@ -17,8 +17,8 @@ body {
     margin-bottom: 60px;
     background-color: #F1F1F1;
 }
-.card-body{
-    max-width:400px;
+.card-body {
+    max-width: 800px;
 }
 .profile-container {
     display: flex;
