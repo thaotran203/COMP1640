@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Web.Helpers;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
+using WebEnterprise_1640.Models.ViewModels;
 
 namespace WebEnterprise_1640.Areas.Admin.Controllers
 {
