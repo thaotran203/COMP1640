@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebEnterprise_1640")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a66a0723682e717510142464bd30d33b6235a33")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebEnterprise_1640")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebEnterprise_1640")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
