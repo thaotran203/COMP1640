@@ -12,7 +12,48 @@
 }
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/magazine.css">
+<link rel="stylesheet" href="~/css/navbar_footer.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/magazine.css">
+<body>
+    @{
+        var userData = ViewBag.User;
+        UserModel? user = null;
+        if (userData != null)
+        {
+            user = (UserModel)userData;
+        }
+    }
+    <header>
+        <div class="nav-bar">
+            <div class="nav-1">
+                <p>BEE MAGAZINE
+                <p>
+            </div>
+            <div class="home an" id="home">
+                <div class="home-cover">
+                    <a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
+                </div>
+            </div>
+            @if (user != null)
+            {
+                <div class="button an" id="login">
+                    <p>Welcome, @user.UserName</p>
+                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                </div>
+            }
+            else
+            {
+                <div class="button an" id="login">
+                    <a href="/Account/Login" class="login-button">Log in</a>
+                </div>
+            }
+            <div onclick="showmenu()" class="icon-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+        <div class="show-menu none">
+        </div>
+    </header>
 <div>
     <div class="containera mt-4">
         <div class="row">
@@ -72,6 +113,65 @@
             }
         </div>
     </div>
+        <footer>
+            <div class="colum">
+                <div class="colum-1">
+                    <h2>COMP1640</h2>
+                </div>
+                <div class="colum-2">
+                    <h3>About us</h3>
+                    <div class="contact">
+                        <p>Popular</p>
+                        <p>Trending</p>
+                        <p>Contact</p>
+                        <p>Support/Help</p>
+                        <p>Request Topics</p>
+                    </div>
+                </div>
+                <div class="colum-3">
+                    <h3>Follow us</h3>
+                    <div class="social">
+                        <div class="facebook">
+                            <div class="icon">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </div>
+                            <p>Facebook</p>
+                        </div>
+                        <div class="facebook">
+                            <div class="icon">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <p>Instagram</p>
+                        </div>
+                        <div class="facebook">
+                            <div class="icon">
+                                <i class="fa-brands fa-twitter"></i>
+                            </div>
+                            <p>Twitter</p>
+                        </div>
+                        <div class="facebook">
+                            <div class="icon">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </div>
+                            <p>LinkedIn</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="copy-right">
+                <div class="year">
+                    2024 COMP1640. All right reserved.
+                </div>
+                <div class="policy">
+                    <u>Privacy Policy</u>
+                    <u>Term of Service</u>
+                    <u>Cookies Settings</u>
+                </div>
+            </div>
+        </footer>
+        <script src="./menu.js"></script>
 </div>
+</body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/magazine.js"></script>

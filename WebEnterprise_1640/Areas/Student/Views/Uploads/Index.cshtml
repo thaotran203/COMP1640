@@ -1,6 +1,4 @@
 ﻿@using WebEnterprise_1640.Models
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model WebEnterprise_1640.Models.search;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +10,7 @@
     <link rel="stylesheet" href="~/css/navbar_footer.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
           integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />   
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     @{
@@ -57,18 +55,18 @@
     <div class="body-content">
 
         <form style="display:contents" asp-controller="Uploads" asp-action="Index" class="form-horizontal row-border" method="post" enctype="multipart/form-data">
-        <div class="search">
+            <div class="search">
                 <div class="containera mt-4">
                     <div class="row">
                         <div class="col text-center position-relative">
                             <div class="search-wrapper">
-                                <input asp-for="searchKey" type="text" id="magazineSearch" >
+                                <input asp-for="searchKey" type="text" id="magazineSearch">
                                 <button type="submit" style="display:contents"><i class="fa-solid fa-magnifying-glass search-icon"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
-        </div>
+            </div>
         </form>
         <div class="magazine-title">
             <div class="lastest">
@@ -77,8 +75,8 @@
         </div>
         <div class="magazine-1">
             @* view 1 *@
-               @foreach (var item in ViewBag.Manazines)
-                {
+            @foreach (var item in ViewBag.Manazines)
+            {
                 <a style="display:contents ; color:unset" href="@Url.Action("Index","GetbyId", new {id = @item.Id})">
 
                     <div class="magazine-content">
@@ -106,7 +104,7 @@
                                     {
                                         if (item.SemesterId == day.Id)
                                         {
-                                           
+
                                             <span>@day.FinalClosureDate</span>
                                         }
 
@@ -115,8 +113,8 @@
                             </div>
                         </div>
                     </div>
-                    </a>
-                }
+                </a>
+            }
             @* end *@
 
         </div>
@@ -126,7 +124,7 @@
             </div>
         </div>
         <div class="magazine-1">
-               @foreach (var item2 in ViewBag.Manazine2)
+            @foreach (var item2 in ViewBag.Manazine2)
             {
                 <a style="display:contents ; color:unset" href="@Url.Action("Index","GetbyId", new {id = @item2.Id})">
 
@@ -155,7 +153,7 @@
                                     {
                                         if (item2.SemesterId == day.Id)
                                         {
-                                           
+
                                             <span>@day.FinalClosureDate</span>
                                         }
 
@@ -168,9 +166,9 @@
                 </a>
 
             }
-           
 
-           
+
+
         </div>
     </div>
     <footer>
@@ -230,7 +228,7 @@
             </div>
         </div>
     </footer>
-     </body>
+</body>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

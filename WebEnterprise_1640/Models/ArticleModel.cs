@@ -38,19 +38,4 @@ namespace WebEnterprise_1640.Models
         [NotMapped]
         public List<DocumentModel> Documents { get; set; }
     }
-
-    public class ArticleViewModel : ArticleModel
-    {
-        public string TimeStart { get; set; }
-
-        public string TimeEnd { get; set; }
-
-        public string TimeSubmit { get; set; }
-
-        public List<DocumentModel> File { get; set; }
-    }
-    public class search
-    {
-        public string searchKey { get; set; }
-    }
 }

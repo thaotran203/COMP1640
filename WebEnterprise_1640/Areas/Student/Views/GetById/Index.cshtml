@@ -58,48 +58,48 @@
         <div class="show-menu none">
         </div>
     </header>
-        <div class="body-content">
-            <div class="article">
-                <div class="article-1">
-                    <div class="arti-1">
-                        Aritcle title:
-                    </div>
-                    <div class="arti-1">
-                        Aritcle description:
-                    </div>
+    <div class="body-content">
+        <div class="article">
+            <div class="article-1">
+                <div class="arti-1">
+                    Aritcle title:
                 </div>
-                <div class="article-2">
-                    <div class="arti-2">
-                        @ViewBag.Magazines.Name
-                    </div>
-                    <div class="arti-2">
-                        @ViewBag.Magazines.Description
-
-                    </div>
+                <div class="arti-1">
+                    Aritcle description:
                 </div>
             </div>
-            <div class="article">
-                <div class="article-1">
-                    <div class="arti-1">
-                        Date submitted:
-                    </div>
-                    <div class="arti-1">
-                        Final deadline:
-                    </div>
+            <div class="article-2">
+                <div class="arti-2">
+                    @ViewBag.Magazines.Name
                 </div>
-                <div class="article-2">
-                    <div class="arti-2">
-                        
-                        @ViewBag.TimeStart
-                    </div>
-                    <div class="arti-2">
-                        @ViewBag.TimeEnd
-                    </div>
+                <div class="arti-2">
+                    @ViewBag.Magazines.Description
+
                 </div>
             </div>
         </div>
-        <section class="form-container">
-            <div class="submit-files">
+        <div class="article">
+            <div class="article-1">
+                <div class="arti-1">
+                    Date submitted:
+                </div>
+                <div class="arti-1">
+                    Final deadline:
+                </div>
+            </div>
+            <div class="article-2">
+                <div class="arti-2">
+
+                    @ViewBag.TimeStart
+                </div>
+                <div class="arti-2">
+                    @ViewBag.TimeEnd
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="form-container">
+        <div class="submit-files">
             @if (TempData["ErrorMessage"] != null)
             {
                 <div style="margin-bottom:1rem">
@@ -107,7 +107,7 @@
                 </div>
             }
             <form asp-controller="GetById" asp-action="Create" class="form-horizontal row-border" method="post" enctype="multipart/form-data">
-                    <input asp-for="MagazineId" type="hidden" name="MagazineId" class="form-control" id="translate_title" value="@ViewBag.Magazines.Id" placeholder="Tech Terrain: Navigating the Digital Landscape">
+                <input asp-for="MagazineId" type="hidden" name="MagazineId" class="form-control" id="translate_title" value="@ViewBag.Magazines.Id" placeholder="Tech Terrain: Navigating the Digital Landscape">
                 <h3 class="title">Title: </h3>
                 <textarea rows="1" asp-for="Name" name="Name" class="input-title"></textarea>
                 <h3 class="description">Description: </h3>
@@ -135,8 +135,8 @@
                     <p>Late Submission Deadline</p>
                 }
             </form>
-            </div>
-        </section>
+        </div>
+    </section>
     <footer>
         <div class="colum">
             <div class="colum-1">

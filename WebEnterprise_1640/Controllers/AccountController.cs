@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text.Json;
 using WebEnterprise_1640.Data;
-using WebEnterprise_1640.Models;
+using WebEnterprise_1640.Models.ViewModel;
 
 namespace WebEnterprise_1640.Controllers
 {
@@ -20,7 +20,7 @@ namespace WebEnterprise_1640.Controllers
         {
             _context = context;
         }
-        public IActionResult Login(string url)
+        public IActionResult Login()
         {
             return View();
         }
@@ -63,6 +63,7 @@ namespace WebEnterprise_1640.Controllers
                         if (role.RoleId == "3")
                         {
                             newRole = "Coordinator";
+                            return RedirectToAction("Index", "Magazine", new { area = "Coordinator" });
                         }
                         if (role.RoleId == "4")
                         {
@@ -78,11 +79,12 @@ namespace WebEnterprise_1640.Controllers
                     CookieAuthenticationDefaults.AuthenticationScheme)), new AuthenticationProperties() { AllowRefresh = true, });
                     Response.Cookies.Append("userInfo", newRole);
                     HttpContext.Session.SetString("USER", JsonSerializer.Serialize(user));
-                    return RedirectToAction("Index", "Home");
+                    return Redirect("/Home/Index");
                 }
             }
             return View();
         }
+
 
         [HttpGet]
         [Route("[controller]/[action]")]

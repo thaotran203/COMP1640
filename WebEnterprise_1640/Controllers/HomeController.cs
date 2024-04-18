@@ -13,9 +13,15 @@ namespace WebEnterprise_1640.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string url)
         {
-            return View();
+            if(url != null && url.Length > 0 )
+            {
+                return Redirect(url);
+            } else
+            {
+                return RedirectToAction("MainPage", "Home");
+            }
         }
 
         public IActionResult Privacy()

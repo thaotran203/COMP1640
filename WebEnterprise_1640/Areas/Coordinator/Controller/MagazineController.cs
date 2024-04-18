@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
+using System.Text.Json;
 
 namespace WebEnterprise_1640.MagazineController
 {
@@ -25,18 +21,7 @@ namespace WebEnterprise_1640.MagazineController
 
         public async Task<IActionResult> Index()
         {
-            var magazines = await _dbContext.Magazines.ToListAsync();
-            var semesters = await _dbContext.Semesters.ToListAsync();
-
-            foreach (var magazine in magazines)
-            {
-                var semester = semesters.FirstOrDefault(s => s.Id == magazine.SemesterId);
-                if (semester != null)
-                {
-                    magazine.FinalDeadline = semester.FinalClosureDate;
-                }
-            }
-
+            var magazines = await _dbContext.Magazines.Include(m => m.Semester).ToListAsync();
             return View("Index", magazines);
         }
 

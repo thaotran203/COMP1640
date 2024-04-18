@@ -87,7 +87,6 @@ app.UseEndpoints(endpoints =>
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
   );
 });
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -98,9 +97,9 @@ app.MapAreaControllerRoute(
     defaults: new { controller = "Magazine", action = "Index" });
 //app.UseEndpoints(endpoints =>
 //{
-//       endpoints.MapControllerRoute(
-//       name: "default",
-//       pattern: "{area=Unauthenticated}/{controller=Home}/{action=Index}/{id?}");
+//    endpoints.MapControllerRoute(
+//    name: "default",
+//    pattern: "{area=Unauthenticated}/{controller=Home}/{action=Index}/{id?}");
 //    endpoints.MapRazorPages();
 //});
 
