@@ -15,6 +15,8 @@ namespace WebEnterprise_1640.ArticlesControllers
         }
 
         public async Task<IActionResult> Index(int? magazineId, int page = 1, DateTime? searchDate = null, string searchQuery = "")
+
+
         {
             if (magazineId == null)
             {
@@ -44,6 +46,7 @@ namespace WebEnterprise_1640.ArticlesControllers
                 ViewBag.SearchDate = null;
             }
 
+
             var totalArticles = await articlesQuery.CountAsync();
             var totalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
 
@@ -53,9 +56,7 @@ namespace WebEnterprise_1640.ArticlesControllers
 
             ViewBag.PageIndex = page;
             ViewBag.TotalPages = totalPages;
-            ViewBag.SearchQuery = searchQuery;
-            ViewBag.MagazineId = magazineId;
-
+            
             return View(articles);
         }
 
