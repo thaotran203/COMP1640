@@ -1,0 +1,388 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background-color: #f2edf3;
+    font-family: sans-serif;
+    .none
+
+{
+    display: none !important;
+}
+
+.show-modal {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    .panel
+
+{
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    .edit-title
+
+{
+    font-weight: bold;
+    color: #4644a0;
+    text-align: center;
+}
+
+h3 {
+    font-weight: bold;
+}
+
+.title-content {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.submit-file {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .add-file
+
+{
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 5px 10px;
+}
+
+}
+
+.file-content {
+    border: 1px solid black;
+    border-radius: 10px;
+    .file-1
+
+{
+    padding: 5px 0px;
+    .file-inf
+
+{
+    display: flex;
+    .icon-file
+
+{
+}
+
+}
+
+.icon-dele {
+    color: red;
+    position: absolute;
+}
+
+}
+}
+
+.deleted {
+    margin-top: 20px;
+    display: flex;
+    justify-content: end;
+
+
+}
+
+.del {
+    background-color: #4644a0;
+    color: white;
+    border: none;
+    text-decoration: none !important;
+}
+
+.can {
+    background-color: #a2a1a2;
+    color: white;
+    border: none;
+    text-decoration: none !important;
+}
+
+}
+}
+}
+
+/* Laptop */
+@media screen and (min-width:1025px) {
+    body {
+        .show-modal
+
+{
+    height: 120%;
+    .panel
+
+{
+    top: 50px;
+    right: 150px;
+    width: 1500px;
+    height: 80vh;
+    padding: 50px 50px 30px 50px;
+    .edit-title
+
+{
+    font-size: 25px;
+}
+
+h3 {
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+.title-content {
+    padding: 15px;
+    margin-bottom: 40px;
+}
+
+.submit-file {
+    margin-bottom: 10px;
+    .add-file
+
+{
+}
+
+}
+
+.file-content {
+    padding: 15px 15px 10px 15px;
+    margin-bottom: 20px;
+    .file-1
+
+{
+    margin-bottom: 10px;
+    .file-inf
+
+{
+    padding: 0px 5px;
+    .icon-file
+
+{
+    padding: 0px 5px;
+}
+
+}
+
+.icon-dele {
+    right: 100px;
+}
+
+}
+}
+
+.deleted {
+    margin-top: 30px;
+}
+
+.del {
+    padding: 10px 15px;
+    border-radius: 50px;
+    margin-right: 30px;
+    font-size: 15px;
+}
+
+.can {
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 15px;
+}
+
+}
+}
+}
+}
+
+/* Tablet */
+@media screen and (min-width:741px) and (max-width:1024px) {
+    body {
+        .show-modal
+
+{
+    height: 100%;
+    .panel
+
+{
+    top: 150px;
+    right: 80px;
+    width: 800px;
+    padding: 30px 30px 10px 30px;
+    .edit-title
+
+{
+    font-size: 23px;
+}
+
+h3 {
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.title-content {
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.submit-file {
+    margin-bottom: 15px;
+    .add-file
+
+{
+    font-size: 13px;
+}
+
+}
+
+.file-content {
+    padding: 10px 10px 5px 10px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    .file-1
+
+{
+    margin-bottom: 10px;
+    .file-inf
+
+{
+    padding: 0px 3px;
+    .icon-file
+
+{
+    padding: 0px 3px;
+}
+
+}
+
+.icon-dele {
+    right: 50px;
+}
+
+}
+}
+
+.deleted {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.del {
+    padding: 10px 15px;
+    border-radius: 50px;
+    margin-right: 30px;
+    font-size: 13px;
+}
+
+.can {
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 50px;
+}
+
+}
+}
+}
+}
+
+/* Mobile */
+@media screen and (max-width:740px) {
+    body {
+        .show-modal
+
+{
+    height: 100%;
+    .panel
+
+{
+    top: 100px;
+    right: 40px;
+    width: 330px;
+    padding: 20px 20px 10px 20px;
+    .edit-title
+
+{
+    font-size: 20px;
+}
+
+h3 {
+    font-size: 11px;
+    margin-bottom: 10px;
+}
+
+.title-content {
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 10px;
+}
+
+.submit-file {
+    margin-bottom: 10px;
+    .add-file
+
+{
+    font-size: 10px;
+}
+
+}
+
+.file-content {
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 10px;
+    .file-1
+
+{
+    .file-inf
+
+{
+    padding: 0px 3px;
+    font-size: 7px;
+    .icon-file
+
+{
+    padding: 0px 3px;
+}
+
+}
+
+.icon-dele {
+    font-size: 10px;
+    right: 30px;
+}
+
+}
+}
+
+.deleted {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.del {
+    padding: 7px 10px;
+    border-radius: 50px;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.can {
+    padding: 7px 10px;
+    border-radius: 50px;
+    font-size: 12px;
+}
+
+}
+}
+}
+}

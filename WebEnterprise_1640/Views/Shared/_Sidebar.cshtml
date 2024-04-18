@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - COMP1640</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
+
+</head>
+<body>
+    @RenderBody()
+        <div class="body-admin">
+            <div class="left-panel">
+                <button class="manage">
+                    <div class="account">
+                        <div class="icon-1">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <p>Manage Faculty</p>
+                    </div>
+                </button>
+                <button class="manage">
+                    <div class="account">
+                        <div class="icon-2">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <p>Manage Account</p>
+                    </div>
+                </button>
+                <button class="icon-arrow" onclick="arrow()">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <i class="fa-solid fa-arrow-right none"></i>
+                </button>
+
+            </div>
+            <div class="main-box">
+                <div class="box"></div>
+            </div>
+        </div>
+
+    <script src="~/js/sidebar.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
