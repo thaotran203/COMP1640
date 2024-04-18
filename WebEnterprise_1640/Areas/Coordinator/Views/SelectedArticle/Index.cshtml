@@ -18,6 +18,14 @@
             </form>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form id="dateSearchForm" asp-controller="SelectedArticles" asp-action="Index" method="get" class="form-inline rounded-pill bg-light p-2">
+                <div class="form-group">
+                    <input type="date" id="searchDate" name="searchDate" class="form-control form-control-sm" onchange="submitForms();" />
+                </div>
+            </form>
+        </div>
 
         <div class="col-md-6 text-md-right">
             <nav aria-label="Page navigation">
@@ -39,7 +47,6 @@
             </nav>
         </div>
     </div>
-   
     <table class="table" style="width: 100%;">
         <tbody>
             @foreach (var article in Model)
@@ -69,6 +76,15 @@
 				return decodeURIComponent(results[2].replace(/\+/g, " "));
 			}
 
+
+			function setDateInputFromUrlParam() {
+				var searchDate = getParameterByName('searchDate');
+				if (searchDate) {
+					document.getElementById('searchDate').value = searchDate;
+				}
+			}
+
+			setDateInputFromUrlParam();
 			document.getElementById("searchQuery").addEventListener("keypress", function (event) {
 				if (event.keyCode === 13) {
 					event.preventDefault();
@@ -78,8 +94,10 @@
 
 		function submitForms() {
 		var textSearchForm = document.getElementById("textSearchForm");
-
+		var dateSearchForm = document.getElementById("dateSearchForm");
 		var textFormData = new FormData(textSearchForm);
+		var dateFormData = new FormData(dateSearchForm);
+
 
 		var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
 
@@ -89,6 +107,12 @@
 				url += '&searchQuery=' + pair[1];
 			}
 		}
+		for (var pair of dateFormData.entries()) {
+			if (pair[0] === 'searchDate' && pair[1] !== '') {
+				url += '&searchDate=' + pair[1];
+			}
+		}
+
 
 		window.location.href = url;
 		}
