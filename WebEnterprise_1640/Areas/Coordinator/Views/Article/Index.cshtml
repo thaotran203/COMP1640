@@ -46,8 +46,8 @@
 			@foreach (var article in Model)
 			{
 				<tr>
-					<td>@article.User.FullName</td>
-					<td>@article.Name</td>
+					<td><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
+					<td><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
 					<td class="table-button">
 						<button onclick="handleSelect" class="action-button">
 							<i class="fa-regular fa-star"></i>
@@ -96,9 +96,8 @@ function submitForms() {
     var textFormData = new FormData(textSearchForm);
     var dateFormData = new FormData(dateSearchForm);
 
+
 var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
-
-
     for (var pair of textFormData.entries()) {
         if (pair[0] === 'searchQuery' && pair[1] !== '') {
             url += '&searchQuery=' + pair[1];

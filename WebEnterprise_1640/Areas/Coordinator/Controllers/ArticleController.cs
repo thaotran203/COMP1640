@@ -46,6 +46,7 @@ namespace WebEnterprise_1640.ArticlesControllers
             ViewBag.PageIndex = page;
             ViewBag.TotalPages = totalPages;
             ViewBag.SearchQuery = searchQuery;
+
             ViewBag.MagazineId = magazineId;
 
             return View("Index", articles);
