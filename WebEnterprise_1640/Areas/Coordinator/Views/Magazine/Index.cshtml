@@ -1,12 +1,19 @@
-﻿@model IEnumerable<ArticleModel>
+﻿@model IEnumerable<WebEnterprise_1640.Models.MagazineModel>
 @using WebEnterprise_1640.Models
+
 @{
-    ViewData["Title"] = "Article";
+    ViewData["Title"] = "Magazines";
+}
+
+@{
+    var currentDateTime = DateTime.Now;
+    var latestMagazines = Model.Where(m => m.Semester.FinalClosureDate > currentDateTime);
+    var closedMagazines = Model.Where(m => m.Semester.FinalClosureDate <= currentDateTime);
 }
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/navbar_footer.css" asp-append-version="true">
-<link rel="stylesheet" href="~/css/CMP59.css">
+<link rel="stylesheet" href="~/css/magazine.css">
 <body>
     @{
         var userData = ViewBag.User;
@@ -27,7 +34,7 @@
                     <a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
                 </div>
             </div>
-            @if (user != null)
+            @if (user  != null)
             {
                 <div class="button an" id="login">
                     <p>Welcome, @user.UserName</p>
@@ -47,68 +54,64 @@
         <div class="show-menu none">
         </div>
     </header>
-<div class="container mt-4">
-    <div class="">
-        @foreach (var article in Model)
-        {
-            <div class="mx-auto mb-4 ">
-                <div class="card magazine-card">
-                    <div class="card-body">
-                        <p><b>Article title:</b></p>
-                        @article.Name
-                    </div>
-                    <div class="card-body">
-                        <p><b>Article Description:</b></p>
-                        @article.Description
-                    </div>
-                    <div class="card-body">
-                        <p><b>Student Name:</b></p>
-                        @article.User.FullName
-                    </div>
-                    <div class="card-body">
-                        <p><b>Date submitted:</b></p>
-                        @article.SubmitDate.ToString("MMMM-dd-yyyy h:mm tt")
-                    </div>
-                </div>
-                <div class="card-body card magazine-card">
-                    <div class="card-body">
-                        <b><a>File submission:</a></b>
-                        @foreach (var document in article.Documents)
-                        {
-                            <a href="~/media/@document.File" class="small" download><i class="fa-regular fa-file"></i>@document.File</a>
-                            <br />
-                        }
-                    </div>
-                    <div class="card-body">
-                        <b><a>Image File:</a></b>
-                        @foreach (var document in article.Documents)
-                        {
-                            <a href="~/media/@document.Image" class="small" download><i class="fa-solid fa-file-image"></i>@document.Image</a>
-                            <br />
-                        }
-                    </div>
-                    <div class="comment-card mt-4">
-                        @foreach (var comment in article.Comments)
-                        {
-                            <div class="comment">
-                                <p><b>@comment.User.FullName:</b><br>@comment.Content</p>
-                            </div>
-                        }
-                    </div>
-
-                    <form asp-action="AddComment" asp-controller="Article" method="post">
-                        <div class="form-group">
-                            <input type="hidden" name="articleId" value="@article.Id" />
-                            <label for="comment"><b>Add Comment:</b></label>
-                            <div style="display: flex; align-items: flex-end ;">
-                                <textarea class="form-control" id="comment" name="comment" style="height: 20px;"></textarea>
-                                <button type="submit" class="btn btn-primary" style="margin-left: 5px ;width: 40px; height: 40px;"><i class="fa-solid fa-arrow-pointer"></i></button>
-                            </div>
-                        </div>
-                    </form>
+<div>
+    <div class="containera mt-4">
+        <div class="row">
+            <div class="col text-center position-relative">
+                <div class="search-wrapper">
+                    <input type="text" id="magazineSearch" onkeyup="searchMagazines()">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 </div>
             </div>
-        }
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <p class="latest-magazines">Latest Magazines<a href="/magazines"></a></p>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            @foreach (var magazine in latestMagazines)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card magazine-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title magazine-name">
+                                    <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
+                            </h5>
+                            <p class="card-text">Description: @magazine.Description </p>
+                            <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                            <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <p class="closed-magazines">Magazines have been closed<a href="/magazines"></a></p>
+    </div>
+
+    <div class="container mt-4 flex-row">
+        <div class="row">
+            @foreach (var magazine in closedMagazines)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card magazine-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title magazine-name">
+                                    <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
+                            </h5>
+                            <p class="card-text">Description: @magazine.Description </p>
+                            <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                            <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
         <footer>
             <div class="colum">
@@ -167,6 +170,8 @@
                 </div>
             </div>
         </footer>
+        <script src="./menu.js"></script>
 </div>
 </body>
-<script src="./menu.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/magazine.js"></script>

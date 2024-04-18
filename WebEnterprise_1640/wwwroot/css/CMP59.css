@@ -25,14 +25,19 @@ body {
     line-height: 1.5;
     margin: 0 auto;
     margin-bottom: 10px;
-    max-width: 600px;
     border-radius: 5px;
-    height: auto; /* Sử dụng 'auto' để tự động điều chỉnh chiều cao */
+    max-width: 1000px;
 }
 
-.card-container {
-    max-height: 300px; /* Chiều cao tối đa của mỗi card nhỏ */
-    overflow: auto; /* Thêm thanh cuộn nếu chiều cao vượt quá giới hạn */
+.comment-card {
+    background-color: #F1F1F1;
+    padding: 10px;
+    display: block;
+    line-height: 1.5;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
 }
 
     .magazine-card .card-body {
@@ -51,3 +56,17 @@ body {
             display: table-cell;
             padding-right: 20px;
         }
+.comment-input {
+    display: flex;
+    align-items: center;
+}
+
+textarea {
+    flex: 1;
+    margin-right: 20px; /* Khoảng cách giữa textarea và nút button */
+}
+
+.btn {
+    min-width: auto;
+}
+

@@ -94,7 +94,6 @@ app.MapAreaControllerRoute(
     areaName: "Coordinator",
     pattern: "Article",
     defaults: new { controller = "Articles", action = "Index" });
-
 //app.UseEndpoints(endpoints =>
 //{
 //       endpoints.MapControllerRoute(

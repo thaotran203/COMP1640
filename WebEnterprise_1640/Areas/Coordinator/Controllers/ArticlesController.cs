@@ -31,9 +31,9 @@ namespace WebEnterprise_1640.Controllers
             }
 
             var article = _dbContext.Articles
-                .Include(a => a.User)
-                .Include(a => a.Magazine)
-                .FirstOrDefault(a => a.Id == id);
+    .Include(a => a.User)
+    .Include(a => a.Magazine)
+    .FirstOrDefault(a => a.Id == id);
 
             if (article == null)
             {
@@ -41,11 +41,10 @@ namespace WebEnterprise_1640.Controllers
             }
 
             article.Documents = _dbContext.Documents.Where(d => d.ArticleId == article.Id).ToList();
+            article.Comments = _dbContext.Comments.Where(c => c.ArticleId == article.Id).ToList();
 
             return View("Article", new List<ArticleModel> { article });
         }
-
-
 
         public IActionResult Privacy()
         {
