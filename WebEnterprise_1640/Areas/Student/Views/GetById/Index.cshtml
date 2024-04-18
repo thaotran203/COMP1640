@@ -41,6 +41,7 @@
             </div>
             @if (user != null)
             {
+                <p>Welcome, @user.UserName</p>
                 <div class="button an" id="login">
                     <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
                 </div>

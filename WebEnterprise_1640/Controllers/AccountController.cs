@@ -50,6 +50,7 @@ namespace WebEnterprise_1640.Controllers
                 {
                     var role = _context.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
                     var newRole = "";
+                    HttpContext.Session.SetString("USER", JsonSerializer.Serialize(user));
                     if (role != null)
                     {
                         if (role.RoleId == "1")
@@ -78,7 +79,6 @@ namespace WebEnterprise_1640.Controllers
                      new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>() { new Claim(ClaimTypes.Name, ""), new Claim(ClaimTypes.Role, newRole) },
                     CookieAuthenticationDefaults.AuthenticationScheme)), new AuthenticationProperties() { AllowRefresh = true, });
                     Response.Cookies.Append("userInfo", newRole);
-                    HttpContext.Session.SetString("USER", JsonSerializer.Serialize(user));
                     return Redirect("/Home/Index");
                 }
             }

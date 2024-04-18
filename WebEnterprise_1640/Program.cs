@@ -95,6 +95,11 @@ app.MapAreaControllerRoute(
     areaName: "Coordinator",
     pattern: "Magazine",
     defaults: new { controller = "Magazine", action = "Index" });
+app.MapAreaControllerRoute(
+    name: "Coordinator",
+    areaName: "Coordinator",
+    pattern: "Article",
+    defaults: new { controller = "Articles", action = "Index" });
 //app.UseEndpoints(endpoints =>
 //{
 //    endpoints.MapControllerRoute(

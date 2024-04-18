@@ -14,7 +14,10 @@ body {
     margin-bottom: 60px;
     background-color: #F1F1F1;
 }
-
+.custom-link {
+    color: black !important;
+    text-decoration: none !important;
+}
 .latest-magazines,
 .closed-magazines {
     background-color: #CDDFFC;

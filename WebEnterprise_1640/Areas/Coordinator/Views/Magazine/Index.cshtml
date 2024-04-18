@@ -34,10 +34,10 @@
                     <a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
                 </div>
             </div>
-            @if (user != null)
+            @if (user  != null)
             {
+                <p>Welcome, @user.UserName</p>
                 <div class="button an" id="login">
-                    <p>Welcome, @user.UserName</p>
                     <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
                 </div>
             }
@@ -78,7 +78,7 @@
                     <div class="card magazine-card h-100">
                         <div class="card-body">
                             <h5 class="card-title magazine-name">
-                                <span class="magazine-link" data-magazine-id="@magazine.Id">@magazine.Name</span>
+                                    <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
                             </h5>
                             <p class="card-text">Description: @magazine.Description </p>
                             <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
@@ -102,7 +102,7 @@
                     <div class="card magazine-card h-100">
                         <div class="card-body">
                             <h5 class="card-title magazine-name">
-                                <span class="magazine-link" data-magazine-id="@magazine.Id">@magazine.Name</span>
+                                    <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
                             </h5>
                             <p class="card-text">Description: @magazine.Description </p>
                             <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
@@ -170,8 +170,10 @@
                 </div>
             </div>
         </footer>
-        <script src="./menu.js"></script>
-</div>
+    </div>
+
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/magazine.js"></script>
+<script src="./menu.js"></script>
