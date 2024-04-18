@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using WebEnterprise_1640.Data;
+using WebEnterprise_1640.Models;
 
 namespace WebEnterprise_1640.ArticlesControllers
 {
@@ -16,6 +18,32 @@ namespace WebEnterprise_1640.ArticlesControllers
 
         public async Task<IActionResult> Index(int? magazineId, int page = 1, DateTime? searchDate = null, string searchQuery = "")
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "coordinator")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
             if (magazineId == null)
             {
                 return NotFound();
