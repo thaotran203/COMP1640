@@ -28,14 +28,13 @@
             </nav>
         </div>
     </div>
-
     <table class="table" style="width: 100%;">
         <tbody>
             @foreach (var article in Model)
             {
                 <tr>
-                    <td >@article.User.FullName</td>
-                    <td >@article.Name</td>
+                    <td><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
+                    <td><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
 					<td class="table-button">
 						<button onclick="handleSelect('@article.Id')" class="action-button">
 							<i class="fa-solid fa-star"></i>
