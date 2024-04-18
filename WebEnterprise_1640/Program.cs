@@ -9,14 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
+builder.Services.AddSession();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(connectionString));
 
 //builder.Services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
 
 builder.Services.AddIdentity<UserModel, RoleModel>()
 			  .AddDefaultUI()
@@ -28,7 +27,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddAuthentication(
+    CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option => {
+        option.LoginPath = "/Account/Login";
 
+    });
 builder.Services.AddAuthorization(options =>
 {
 	options.AddPolicy("RequireManager", policy => policy.RequireRole(Role.Admin, Role.Admin));
@@ -62,18 +66,15 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-
-
-	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -87,20 +88,25 @@ app.UseEndpoints(endpoints =>
 });
 
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapAreaControllerRoute(
-	name: "Coordinator",
-	areaName: "Coordinator",
-	pattern: "Article",
-	defaults: new { controller = "Article", action = "Index" });
+    name: "Coordinator",
+    areaName: "Coordinator",
+    pattern: "Magazine",
+    defaults: new { controller = "Magazine", action = "Index" });
 
+app.MapAreaControllerRoute(
+    name: "Coordinator",
+    areaName: "Coordinator",
+    pattern: "Article",
+    defaults: new { controller = "Articles", action = "Index" });
 //app.UseEndpoints(endpoints =>
 //{
-//       endpoints.MapControllerRoute(
-//       name: "default",
-//       pattern: "{area=Unauthenticated}/{controller=Home}/{action=Index}/{id?}");
+//    endpoints.MapControllerRoute(
+//    name: "default",
+//    pattern: "{area=Unauthenticated}/{controller=Home}/{action=Index}/{id?}");
 //    endpoints.MapRazorPages();
 //});
 
