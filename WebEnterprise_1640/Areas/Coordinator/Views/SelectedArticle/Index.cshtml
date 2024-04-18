@@ -1,14 +1,14 @@
+﻿@model IEnumerable<WebEnterprise_1640.Models.ArticleModel>
 ﻿@using WebEnterprise_1640.Models
-@model IEnumerable<WebEnterprise_1640.Models.ArticleModel>
 <link rel="stylesheet" href="~/css/article.css">
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/navbar_footer.css" asp-append-version="true">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 @{
     ViewData["Title"] = "Selected Articles Page";
 }
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 <header>
 	@{
@@ -60,6 +60,7 @@
             </form>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-6">
             <form id="dateSearchForm" asp-controller="SelectedArticles" asp-action="Index" method="get" class="form-inline rounded-pill bg-light p-2">
@@ -68,7 +69,6 @@
                 </div>
             </form>
         </div>
-
         <div class="col-md-6 text-md-right">
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-end mb-0">
@@ -89,6 +89,7 @@
             </nav>
         </div>
     </div>
+
     <table class="table" style="width: 100%;">
         <tbody>
             @foreach (var article in Model)
@@ -164,7 +165,6 @@
 		</div>
 	</div>
 </footer>
-<script src="./menu.js"></script>
 <script>
     			function getParameterByName(name, url) {
 				if (!url) url = window.location.href;
@@ -176,7 +176,6 @@
 				return decodeURIComponent(results[2].replace(/\+/g, " "));
 			}
 
-
 			function setDateInputFromUrlParam() {
 				var searchDate = getParameterByName('searchDate');
 				if (searchDate) {
@@ -185,6 +184,7 @@
 			}
 
 			setDateInputFromUrlParam();
+
 			document.getElementById("searchQuery").addEventListener("keypress", function (event) {
 				if (event.keyCode === 13) {
 					event.preventDefault();
@@ -195,9 +195,9 @@
 		function submitForms() {
 		var textSearchForm = document.getElementById("textSearchForm");
 		var dateSearchForm = document.getElementById("dateSearchForm");
+
 		var textFormData = new FormData(textSearchForm);
 		var dateFormData = new FormData(dateSearchForm);
-
 
 		var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
 
@@ -207,12 +207,12 @@
 				url += '&searchQuery=' + pair[1];
 			}
 		}
+
 		for (var pair of dateFormData.entries()) {
 			if (pair[0] === 'searchDate' && pair[1] !== '') {
 				url += '&searchDate=' + pair[1];
 			}
 		}
-
 
 		window.location.href = url;
 		}
@@ -221,4 +221,26 @@
 			updateStatus(articleId, 'submitted');
 		}
 
+        function updateStatus(articleId, status) {
+			fetch('@Url.Action("UpdateStatus", "Article")' + '?articleId=' + articleId + '&status=' + status, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					articleId: articleId,
+					status: status
+				})
+			})
+			.then(response => {
+				if (response.ok) {
+					window.location.reload();
+				} else {
+					console.error('Failed to update status');
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		}
 </script>

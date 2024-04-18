@@ -1,14 +1,14 @@
+﻿@model IEnumerable<WebEnterprise_1640.Models.ArticleModel>
 ﻿@using WebEnterprise_1640.Models
- @model IEnumerable<WebEnterprise_1640.Models.ArticleModel>
 <link rel="stylesheet" href="~/css/article.css">
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/navbar_footer.css" asp-append-version="true">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     @{
 	ViewData["Title"] = "Articles Page";
 }
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <header>
 	@{
 		var userData = ViewBag.User;
@@ -59,6 +59,7 @@
 			</form>
 		</div>
 	</div>
+
 	<div class="row">
 		<div class="col-md-6">
 			<form id="dateSearchForm" asp-controller="Articles" asp-action="Index" method="get" class="form-inline rounded-pill bg-light p-2">
@@ -96,11 +97,18 @@
 					<td><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
 					<td><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
 					<td class="table-button">
-						<button onclick="handleSelect" class="action-button">
+						<button onclick="handleSelect('@article.Id')" class="action-button">
 							<i class="fa-regular fa-star"></i>
 						</button>
-						<button onclick="handleDeny" class="action-button">
-							<i class="fa-regular fa-square-minus"></i>
+						<button id="denyButton_@article.Id" onclick="handleDeny('@article.Id')" class="action-button" data-status="@article.Status">
+							@if (article.Status == "denied")
+							{
+								<i class="fa-solid fa-square-minus"></i>
+							}
+							else
+							{
+								<i class="fa-regular fa-square-minus"></i>
+							}
 						</button>
 					</td>
 					<td class="table-date">@article.SubmitDate.ToString("dd MMMM")</td>
@@ -166,42 +174,41 @@
 		</div>
 	</div>
 </footer>
-<script src="./menu.js"></script>
 <script>
-		function getParameterByName(name, url) {
-			if (!url) url = window.location.href;
-			name = name.replace(/[\[\]]/g, "\\$&");
-			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-				results = regex.exec(url);
-			if (!results) return null;
-			if (!results[2]) return '';
-			return decodeURIComponent(results[2].replace(/\+/g, " "));
-		}
-
-		function setDateInputFromUrlParam() {
-			var searchDate = getParameterByName('searchDate');
-			if (searchDate) {
-				document.getElementById('searchDate').value = searchDate;
+			function getParameterByName(name, url) {
+				if (!url) url = window.location.href;
+				name = name.replace(/[\[\]]/g, "\\$&");
+				var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+					results = regex.exec(url);
+				if (!results) return null;
+				if (!results[2]) return '';
+				return decodeURIComponent(results[2].replace(/\+/g, " "));
 			}
-		}
 
-		setDateInputFromUrlParam();
-
-		document.getElementById("searchQuery").addEventListener("keypress", function (event) {
-			if (event.keyCode === 13) {
-				event.preventDefault();
-				submitForms();
+			function setDateInputFromUrlParam() {
+				var searchDate = getParameterByName('searchDate');
+				if (searchDate) {
+					document.getElementById('searchDate').value = searchDate;
+				}
 			}
-		});
 
-	function submitForms() {
+			setDateInputFromUrlParam();
+
+			document.getElementById("searchQuery").addEventListener("keypress", function (event) {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					submitForms();
+				}
+			});
+
+		function submitForms() {
 		var textSearchForm = document.getElementById("textSearchForm");
 		var dateSearchForm = document.getElementById("dateSearchForm");
 
 		var textFormData = new FormData(textSearchForm);
 		var dateFormData = new FormData(dateSearchForm);
 
-	var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
+		var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
 
 
 		for (var pair of textFormData.entries()) {
@@ -217,5 +224,96 @@
 		}
 
 		window.location.href = url;
+		}
+
+
+		function handleSelect(articleId) {
+			updateStatus(articleId, 'selected');
+		}
+
+	function handleDeny(articleId) {
+		const denyButton = document.getElementById('denyButton_' + articleId);
+		const currentStatus = denyButton.dataset.status;
+
+		let newStatus;
+		if (currentStatus === 'denied') {
+			newStatus = 'submitted';
+		} else {
+			newStatus = 'denied';
+		}
+
+		if (currentStatus === 'submitted') {
+			sendEmail();
+		}
+
+		fetch('@Url.Action("UpdateStatus", "Article")' + '?articleId=' + articleId + '&status=' + newStatus, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				articleId: articleId,
+				status: newStatus
+			})
+		})
+		.then(response => {
+			if (response.ok) {
+				if (newStatus === 'denied') {
+					denyButton.innerHTML = "<i class='fa-solid fa-square-minus'></i>";
+				} else {
+					denyButton.innerHTML = "<i class='fa-regular fa-square-minus'></i>";
+				}
+				denyButton.dataset.status = newStatus;
+			} else {
+				console.error('Failed to update status');
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
 	}
+		function sendEmail() {
+			var emailBody = "The status of an article has been changed to 'denied'. Please take action.";
+
+			fetch('/api/Email/SendEmail', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(emailBody)
+			})
+			.then(response => {
+				if (response.ok) {
+					console.log('Email sent successfully!');
+				} else {
+					console.error('Failed to send email.');
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		}
+
+		function updateStatus(articleId, status) {
+			fetch('@Url.Action("UpdateStatus", "Article")' + '?articleId=' + articleId + '&status=' + status, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					articleId: articleId,
+					status: status
+				})
+			})
+			.then(response => {
+				if (response.ok) {
+					window.location.reload();
+				} else {
+					console.error('Failed to update status');
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		}
 </script>

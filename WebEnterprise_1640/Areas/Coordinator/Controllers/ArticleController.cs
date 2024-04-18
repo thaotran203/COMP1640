@@ -17,9 +17,7 @@ namespace WebEnterprise_1640.ArticlesControllers
             _logger = logger;
             _context = context;
         }
-
         public async Task<IActionResult> Index(int? magazineId, int page = 1, DateTime? searchDate = null, string searchQuery = "")
-
         {
             var userJson = HttpContext.Session.GetString("USER");
             UserModel user = null;
@@ -55,7 +53,7 @@ namespace WebEnterprise_1640.ArticlesControllers
             const int pageSize = 4;
 
             var articlesQuery = _context.Articles
-                .Where(a => a.MagazineId == magazineId)
+                .Where(a => a.MagazineId == magazineId && a.Status != "selected")
                 .Include(a => a.User)
                 .Include(a => a.Magazine)
                 .OrderByDescending(a => a.SubmitDate);
@@ -89,6 +87,22 @@ namespace WebEnterprise_1640.ArticlesControllers
 
             return View("Index", articles);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int articleId, string status)
+        {
+            var article = await _context.Articles.FindAsync(articleId);
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            article.Status = status;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
 
     }
 }
