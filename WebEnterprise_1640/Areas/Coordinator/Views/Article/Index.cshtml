@@ -20,6 +20,13 @@
 	</div>
 
 	<div class="row">
+		<div class="col-md-6">
+			<form id="dateSearchForm" asp-controller="Articles" asp-action="Index" method="get" class="form-inline rounded-pill bg-light p-2">
+				<div class="form-group">
+					<input type="date" id="searchDate" name="searchDate" class="form-control form-control-sm" onchange="submitForms();" />
+				</div>
+			</form>
+		</div>
 		<div class="col-md-6 text-md-right">
 			<nav aria-label="Page navigation">
 				<ul class="pagination justify-content-end mb-0">
@@ -96,8 +103,9 @@ function submitForms() {
     var textFormData = new FormData(textSearchForm);
     var dateFormData = new FormData(dateSearchForm);
 
-
 var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
+
+
     for (var pair of textFormData.entries()) {
         if (pair[0] === 'searchQuery' && pair[1] !== '') {
             url += '&searchQuery=' + pair[1];

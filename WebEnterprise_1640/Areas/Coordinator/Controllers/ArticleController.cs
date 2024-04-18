@@ -15,8 +15,9 @@ namespace WebEnterprise_1640.ArticlesControllers
             _logger = logger;
             _context = context;
         }
+       
+        public async Task<IActionResult> Index(int? magazineId, int page = 1, DateTime? searchDate = null, string searchQuery = "")
 
-        public async Task<IActionResult> Index(int? magazineId, int page = 1, string searchQuery = "")
         {
             if (magazineId == null)
             {
@@ -36,6 +37,16 @@ namespace WebEnterprise_1640.ArticlesControllers
                 articlesQuery = (IOrderedQueryable<Models.ArticleModel>)articlesQuery.Where(a => a.User.FullName.Contains(searchQuery) || a.Name.Contains(searchQuery));
             }
 
+            if (searchDate != null)
+            {
+                articlesQuery = (IOrderedQueryable<Models.ArticleModel>)articlesQuery.Where(a => a.SubmitDate.Date == searchDate.Value.Date);
+                ViewBag.SearchDate = searchDate.Value.ToString("MM/dd/yyyy");
+            }
+            else
+            {
+                ViewBag.SearchDate = null;
+            }
+
             var totalArticles = await articlesQuery.CountAsync();
             var totalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
 
@@ -46,7 +57,6 @@ namespace WebEnterprise_1640.ArticlesControllers
             ViewBag.PageIndex = page;
             ViewBag.TotalPages = totalPages;
             ViewBag.SearchQuery = searchQuery;
-
             ViewBag.MagazineId = magazineId;
 
             return View("Index", articles);
