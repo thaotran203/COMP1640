@@ -55,7 +55,6 @@ namespace WebEnterprise_1640.ArticlesControllers
             ViewBag.TotalPages = totalPages;
             ViewBag.SearchQuery = searchQuery;
             ViewBag.MagazineId = magazineId;
-
             return View(articles);
         }
 
