@@ -8,6 +8,17 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <div class="container">
+    <div class="row justify-content-center mb-3">
+        <div class="col-md-6">
+            <form id="textSearchForm" action="@Url.Action("Index", "SelectedArticle")" method="get" class="form-inline rounded-pill bg-light p-2 position-relative">
+                <div class="form-group mx-sm-3 mb-2 position-relative">
+                    <input type="text" id="searchQuery" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control form-control-sm rounded-pill pl-4" style="max-width: 80%; padding-left: 29px;" />
+                    <i class="fa-solid fa-magnifying-glass position-absolute" style="left: 10px; width: 15px; height: 15px; top: 50%; transform: translateY(-50%);"></i>
+                </div>
+            </form>
+        </div>
+    </div>
+
         <div class="col-md-6 text-md-right">
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-end mb-0">
@@ -28,6 +39,7 @@
             </nav>
         </div>
     </div>
+   
     <table class="table" style="width: 100%;">
         <tbody>
             @foreach (var article in Model)
@@ -45,7 +57,39 @@
             }
         </tbody>
     </table>
+</div>
 <script>
+    			function getParameterByName(name, url) {
+				if (!url) url = window.location.href;
+				name = name.replace(/[\[\]]/g, "\\$&");
+				var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+					results = regex.exec(url);
+				if (!results) return null;
+				if (!results[2]) return '';
+				return decodeURIComponent(results[2].replace(/\+/g, " "));
+			}
+
+			document.getElementById("searchQuery").addEventListener("keypress", function (event) {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					submitForms();
+				}
+			});
+
+		function submitForms() {
+		var textSearchForm = document.getElementById("textSearchForm");
+
+		var textFormData = new FormData(textSearchForm);
+
+		var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
+
+
+		for (var pair of textFormData.entries()) {
+			if (pair[0] === 'searchQuery' && pair[1] !== '') {
+				url += '&searchQuery=' + pair[1];
+			}
+		}
+
 		window.location.href = url;
 		}
 

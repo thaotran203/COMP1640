@@ -14,7 +14,9 @@ namespace WebEnterprise_1640.ArticlesControllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int? magazineId, int page = 1)
+        public async Task<IActionResult> Index(int? magazineId, int page = 1, DateTime? searchDate = null, string searchQuery = "")
+
+
         {
             if (magazineId == null)
             {
@@ -29,6 +31,22 @@ namespace WebEnterprise_1640.ArticlesControllers
                 .Include(a => a.Magazine)
                 .OrderByDescending(a => a.SubmitDate);
 
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                articlesQuery = (IOrderedQueryable<Models.ArticleModel>)articlesQuery.Where(a => a.User.FullName.Contains(searchQuery) || a.Name.Contains(searchQuery));
+            }
+
+            if (searchDate != null)
+            {
+                articlesQuery = (IOrderedQueryable<Models.ArticleModel>)articlesQuery.Where(a => a.SubmitDate.Date == searchDate.Value.Date);
+                ViewBag.SearchDate = searchDate.Value.ToString("MM/dd/yyyy");
+            }
+            else
+            {
+                ViewBag.SearchDate = null;
+            }
+
+
             var totalArticles = await articlesQuery.CountAsync();
             var totalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
 
@@ -38,8 +56,7 @@ namespace WebEnterprise_1640.ArticlesControllers
 
             ViewBag.PageIndex = page;
             ViewBag.TotalPages = totalPages;
-            ViewBag.MagazineId = magazineId;
-
+            
             return View(articles);
         }
 
