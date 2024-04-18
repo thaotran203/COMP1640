@@ -1,0 +1,218 @@
+﻿@model WebEnterprise_1640.Models.HomeViewModel
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View All Magazines</title>
+    <link rel="stylesheet" href="~/css/navbar_footer.css">
+    <link rel="stylesheet" href="~/css/guest_view.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header>
+        <div class="nav-bar">
+            <div class="nav-1">
+                <p>BEE MAGAZINE
+                <p>
+            </div>
+            <div class="home an" id="home">
+                <div class="home-cover">
+                    <a href="/Home/Index" class="home-button" style="text-decoration:none;color:red">Home</a>
+                    @if(Model.UserRole != null && Model.UserRole.ToString().ToLower() == "student")
+                    {
+                        <a href="/Uploads/Index" class="home-button" style="text-decoration:none;margin-left:2rem">Uploads</a>
+                    }
+                </div>
+            </div>
+            @if(Model.User != null)
+            {
+                <div class="button an" id="login">
+                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                </div>
+            } else
+            {
+                <div class="button an" id="login">
+                    <a href="/Account/Login" class="login-button">Log in</a>
+                </div>
+            }
+            <div onclick="showmenu()" class="icon-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+        <div class="show-menu none">
+        </div>
+    </header>
+    <form method="get" action="Index">
+        <div class="search-container">
+            <button type="submit" style="background-color:transparent;border:0;padding:0" class="icon-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <input style="margin-left: 11rem;" type="text" name="search" class="input" value="@Model.Search">
+            
+        </div>
+    </form>
+    <div class="container-drop">
+        <div class="drop-down">
+            <div class="major">
+                @if(Model.CurFacility != null)
+                {
+                    @Model.CurFacility.Name
+                } else
+                {
+                    <div>Sort By Major</div>
+                }
+            </div>
+            <div class="icon-drop">
+                <i class="fa-solid fa-caret-down"></i>
+            </div>
+            <ul class="drop">
+                @if(Model.Faculties != null && Model.Faculties.Count > 0)
+                {
+                    foreach(var facility in Model.Faculties)
+                    {
+                        <li><a href="/Home/Index?facilityIdSort=@facility.Id">@facility.Name</a></li>
+                    }
+                }
+            </ul>
+        </div>
+
+    </div>
+    @if(Model.Magazines != null && Model.Magazines.Count > 0)
+    {
+        int i = 1;
+        foreach(var magazine in Model.Magazines)
+        {
+            if(i == 4)
+            {
+                i = 1;
+            }
+            <div class="magazine-name">
+                <h1>
+                    @magazine.Name
+                </h1>
+                <h3>
+                    @magazine.Description
+                </h3>
+            </div>
+            <div class="magazine-container">
+                <div class="slideshow-container-@i" id="show-@i">
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                    @if (magazine.Articles != null && magazine.Articles.Count > 0)
+                    {
+                        int j = 1;
+                        foreach (var article in magazine.Articles)
+                        {
+                            @if (article.Documents == null || article.Documents.Count == 0)
+                            {
+                                continue;
+                            }
+                            <a href="/Details/Index?articleId=@article.Id">
+                                <div class="slide fade" style="display: block;">
+                                    @if (article.Documents[0].Image != null && article.Documents[0].Image.Length > 0)
+                                    {
+                                        <img src="~/media/@article.Documents[0].Image" class="img-magazine">
+                                    } else
+                                    {
+                                        <img src="https://img.meta.com.vn/Data/image/2022/01/13/anh-dep-thien-nhien-3.jpg" class="img-magazine">
+                                    }
+                                    <div style="font-size: 12px; margin-top: 5px"> @article.SubmitDate.ToString("dd/MM/yyyy HH:mm")</div>
+                                    <div class="title-magazine">@article.Name</div>
+                                    <div class="description-magazine">@article.Description.</div>
+                                    <div class="read-more" style="display: flex; justify-content: center; align-item: center;">
+                                        Read more
+                                        <i class="fa-solid fa-caret-right" style="margin-left: 10px"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    } else
+                    {
+                        <a href="#">
+                            <div class="slide fade" style="display: block;">
+                                <img src="https://img.meta.com.vn/Data/image/2022/01/13/anh-dep-thien-nhien-3.jpg" class="img-magazine">
+                                <div style="font-size: 12px; margin-top: 5px"> Empty</div>
+                                <div class="title-magazine">Empty</div>
+                                <div class="description-magazine">Empty</div>
+                                <div class="read-more" style="display: flex; justify-content: center; align-item: center;">
+                                    Read more
+                                    <i class="fa-solid fa-caret-right" style="margin-left: 10px"></i>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+            i++;
+        }
+    }
+    
+
+
+
+    <footer>
+        <div class="colum">
+            <div class="colum-1">
+                <h2>COMP1640</h2>
+            </div>
+            <div class="colum-2">
+                <h3>About us</h3>
+                <div class="contact">
+                    <p>Popular</p>
+                    <p>Trending</p>
+                    <p>Contact</p>
+                    <p>Support/Help</p>
+                    <p>Request Topics</p>
+                </div>
+            </div>
+            <div class="colum-3">
+                <h3>Follow us</h3>
+                <div class="social">
+                    <div class="facebook">
+                        <div class="icon">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </div>
+                        <p>Facebook</p>
+                    </div>
+                    <div class="facebook">
+                        <div class="icon">
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                        <p>Instagram</p>
+                    </div>
+                    <div class="facebook">
+                        <div class="icon">
+                            <i class="fa-brands fa-twitter"></i>
+                        </div>
+                        <p>Twitter</p>
+                    </div>
+                    <div class="facebook">
+                        <div class="icon">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </div>
+                        <p>LinkedIn</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="copy-right">
+            <div class="year">
+                2024 COMP1640. All right reserved.
+            </div>
+            <div class="policy">
+                <u>Privacy Policy</u>
+                <u>Term of Service</u>
+                <u>Cookies Settings</u>
+            </div>
+        </div>
+    </footer>
+    <script src="~/js/guest_view.js"></script>
+</body>
+
+</html>

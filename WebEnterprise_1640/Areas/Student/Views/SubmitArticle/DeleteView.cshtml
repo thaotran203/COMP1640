@@ -1,0 +1,41 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model WebEnterprise_1640.Models.DocumentModel;
+
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@*href="@Url.Action("Edit","ArticleModel", new {id = @ViewBag.Articles.Id})"*@;
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./Student Magazine Submitted.css" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700;900&display=swap" />
+    <link rel="stylesheet" href="~/css/delete.css" asp-append-version="true">
+</head>
+<body>
+
+    <div class="show-modal-delete">
+        <div class="panel">
+            <div class="img-delete">
+                <img src="https://freepngtransparent.com/wp-content/uploads/2023/03/X-Png-136.png" alt="">
+            </div>
+            <h2>Are you sure?</h2>
+            <p>You will not be able to recover anymore !</p>
+            <div class="deleted" onclick="closemodal_()">
+                <a class="del" style="color:white" href="@Url.Action("DeleteFile","SubmitArticle", new {id = @ViewBag.File.Id, type = @ViewBag.Type, articleId = @ViewBag.ArticleId})">Xóa</a>
+                <button onclick="goBack()" class="can">Cancel</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>
