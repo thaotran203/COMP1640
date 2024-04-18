@@ -15,8 +15,9 @@ namespace WebEnterprise_1640.ArticlesControllers
             _logger = logger;
             _context = context;
         }
-
+       
         public async Task<IActionResult> Index(int? magazineId, int page = 1, DateTime? searchDate = null, string searchQuery = "")
+
         {
             if (magazineId == null)
             {
