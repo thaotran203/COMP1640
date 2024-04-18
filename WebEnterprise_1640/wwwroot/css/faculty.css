@@ -1,0 +1,27 @@
+﻿@media only screen and (max-width: 740px) {
+    .modal-content {
+        width: 250px;
+        margin-left: auto;
+        margin-right: auto
+    }
+
+    .pb-3 {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 75%;
+    }
+
+        .pb-3 .Width {
+            width: 300px;
+        }
+
+    #createBtn {
+        font-size: 8px;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    #createBtn {
+        font-size: 10px;
+    }
+}

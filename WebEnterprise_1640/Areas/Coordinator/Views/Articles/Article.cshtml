@@ -1,0 +1,72 @@
+@model IEnumerable<ArticleModel>
+@using WebEnterprise_1640.Models
+@{
+    ViewData["Title"] = "Article";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/CMP59.css">
+<div class="container mt-4">
+    <div class="">
+        @foreach (var article in Model)
+        {
+            <div class="mx-auto mb-4 ">
+                <div class="card magazine-card">
+                    <div class="card-body">
+                        <p><b>Article title:</b></p>
+                        @article.Name
+                    </div>
+                    <div class="card-body">
+                        <p><b>Article Description:</b></p>
+                        @article.Description
+                    </div>
+                    <div class="card-body">
+                        <p><b>Student Name:</b></p>
+                        @article.User.FullName
+                    </div>
+                    <div class="card-body">
+                        <p><b>Date submitted:</b></p>
+                        @article.SubmitDate.ToString("MMMM-dd-yyyy h:mm tt")
+                    </div>
+                </div>
+                <div class="card-body card magazine-card">
+                    <div class="card-body">
+                        <b><a>File submission:</a></b>
+                        @foreach (var document in article.Documents)
+                        {
+                            <a href="~/media/@document.File" class="small" download><i class="fa-regular fa-file"></i>@document.File</a>
+                            <br />
+                        }
+                    </div>
+                    <div class="card-body">
+                        <b><a>Image File:</a></b>
+                        @foreach (var document in article.Documents)
+                        {
+                            <a href="~/media/@document.Image" class="small" download><i class="fa-solid fa-file-image"></i>@document.Image</a>
+                            <br />
+                        }
+                    </div>
+                    <div class="comment-card mt-4">
+                        @foreach (var comment in article.Comments)
+                        {
+                            <div class="comment">
+                                <p><b>@comment.User.FullName:</b><br>@comment.Content</p>
+                            </div>
+                        }
+                    </div>
+
+                    <form asp-action="AddComment" asp-controller="Article" method="post">
+                        <div class="form-group">
+                            <input type="hidden" name="articleId" value="@article.Id" />
+                            <label for="comment"><b>Add Comment:</b></label>
+                            <div style="display: flex; align-items: flex-end ;">
+                                <textarea class="form-control" id="comment" name="comment" style="height: 20px;"></textarea>
+                                <button type="submit" class="btn btn-primary" style="margin-left: 5px ;width: 40px; height: 40px;"><i class="fa-solid fa-arrow-pointer"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>
