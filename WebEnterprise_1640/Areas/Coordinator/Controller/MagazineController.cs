@@ -21,6 +21,31 @@ namespace WebEnterprise_1640.MagazineController
 
         public async Task<IActionResult> Index()
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _dbContext.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _dbContext.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "coordinator")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
             var magazines = await _dbContext.Magazines.Include(m => m.Semester).ToListAsync();
             return View("Index", magazines);
         }

@@ -27,6 +27,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/COMP1640/COMP1640/WebEnterprise_1640/Areas/Coordinator/Views/Articles/Article.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ29vcmRpbmF0b3JcVmlld3NcQXJ0aWNsZXNcQXJ0aWNsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/COMP1640/COMP1640/WebEnterprise_1640/Areas/Coordinator/Views/Magazine/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ29vcmRpbmF0b3JcVmlld3NcTWFnYXppbmVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

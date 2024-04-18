@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebEnterprise_1640.Models.MagazineModel>
+@model IEnumerable<WebEnterprise_1640.Models.MagazineModel>
 @using WebEnterprise_1640.Models
 
 @{
@@ -16,13 +16,13 @@
 <link rel="stylesheet" href="~/css/magazine.css">
 <body>
     @{
-    var userData = ViewBag.User;
-    UserModel? user = null;
-    if (userData != null)
-    {
-        user = (UserModel)userData;
+        var userData = ViewBag.User;
+        UserModel? user = null;
+        if (userData != null)
+        {
+            user = (UserModel)userData;
+        }
     }
-}
     <header>
         <div class="nav-bar">
             <div class="nav-1">
@@ -36,8 +36,8 @@
             </div>
             @if (user  != null)
             {
+                <p>Welcome, @user.UserName</p>
                 <div class="button an" id="login">
-                    <p>Welcome, @user.UserName</p>
                     <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
                 </div>
             }
@@ -170,8 +170,10 @@
                 </div>
             </div>
         </footer>
-        <script src="./menu.js"></script>
-</div>
+    </div>
+
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/magazine.js"></script>
+<script src="./menu.js"></script>
