@@ -22,7 +22,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             List<FacultyModel> faculties = _context.Faculties.ToList();
             foreach (var faculty in faculties)
             {
-                var accountCount = _context.Users.Where(x => x.Role != "Admin" & x.Role != "Manager").Where(u => u.FacultyId == faculty.Id).Count();
+                var accountCount = _context.Users.Where(u => u.FacultyId == faculty.Id).Count();
                 userCounts.Add(faculty.Id, accountCount);
             }
             ViewBag.UserList = userCounts;
@@ -34,7 +34,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public IActionResult Create(FacultyModel facultyModel)
         {
@@ -52,30 +52,30 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         // GET: Admin/Faculty/Edit/5
         public IActionResult Edit(int? id)
         {
-          if (id == null || id == 0)
-          {
-            return NotFound();
-          }
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
 
-          FacultyModel? facultyModel = _context.Faculties.Where(f => f.Id == id).FirstOrDefault();
-          if (facultyModel == null)
-          {
-            return NotFound();
-          }
-          return View(facultyModel);
+            FacultyModel? facultyModel = _context.Faculties.Where(f => f.Id == id).FirstOrDefault();
+            if (facultyModel == null)
+            {
+                return NotFound();
+            }
+            return View(facultyModel);
         }
 
         [HttpPost]
         public IActionResult Edit(FacultyModel facultyModel)
         {
-          if (ModelState.IsValid)
-          {
-            _context.Faculties.Update(facultyModel);
-            _context.SaveChanges();
-            TempData["success"] = "Update faculty successfully!";
-            return RedirectToAction("Index");
-          }
-          return View();
+            if (ModelState.IsValid)
+            {
+                _context.Faculties.Update(facultyModel);
+                _context.SaveChanges();
+                TempData["success"] = "Update faculty successfully!";
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
         // GET: Admin/Faculty/Delete/5

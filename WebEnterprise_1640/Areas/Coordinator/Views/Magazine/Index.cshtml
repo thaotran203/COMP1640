@@ -54,65 +54,65 @@
         <div class="show-menu none">
         </div>
     </header>
-<div>
-    <div class="containera mt-4">
-        <div class="row">
-            <div class="col text-center position-relative">
-                <div class="search-wrapper">
-                    <input type="text" id="magazineSearch" onkeyup="searchMagazines()">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <div>
+        <div class="containera mt-4">
+            <div class="row">
+                <div class="col text-center position-relative">
+                    <div class="search-wrapper">
+                        <input type="text" id="magazineSearch" onkeyup="searchMagazines()">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="mt-4">
-        <p class="latest-magazines">Latest Magazines<a href="/magazines"></a></p>
-    </div>
+        <div class="mt-4">
+            <p class="latest-magazines">Latest Magazines<a href="/magazines"></a></p>
+        </div>
 
-    <div class="container mt-4">
-        <div class="row">
-            @foreach (var magazine in latestMagazines)
-            {
-                <div class="col-md-6 mb-4">
-                    <div class="card magazine-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title magazine-name">
-                                    <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
-                            </h5>
-                            <p class="card-text">Description: @magazine.Description </p>
-                            <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
-                            <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+        <div class="container mt-4">
+            <div class="row">
+                @foreach (var magazine in latestMagazines)
+                {
+                    <div class="col-md-6 mb-4">
+                        <div class="card magazine-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title magazine-name">
+                                        <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
+                                </h5>
+                                <p class="card-text">Description: @magazine.Description </p>
+                                <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                                <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
-    </div>
 
-    <div class="text-center mt-4">
-        <p class="closed-magazines">Magazines have been closed<a href="/magazines"></a></p>
-    </div>
+        <div class="text-center mt-4">
+            <p class="closed-magazines">Magazines have been closed<a href="/magazines"></a></p>
+        </div>
 
-    <div class="container mt-4 flex-row">
-        <div class="row">
-            @foreach (var magazine in closedMagazines)
-            {
-                <div class="col-md-6 mb-4">
-                    <div class="card magazine-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title magazine-name">
-                                    <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
-                            </h5>
-                            <p class="card-text">Description: @magazine.Description </p>
-                            <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
-                            <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+        <div class="container mt-4 flex-row">
+            <div class="row">
+                @foreach (var magazine in closedMagazines)
+                {
+                    <div class="col-md-6 mb-4">
+                        <div class="card magazine-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title magazine-name">
+                                        <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
+                                </h5>
+                                <p class="card-text">Description: @magazine.Description </p>
+                                <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                                <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
-    </div>
         <footer>
             <div class="colum">
                 <div class="colum-1">
@@ -171,8 +171,6 @@
             </div>
         </footer>
     </div>
-
-
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/magazine.js"></script>

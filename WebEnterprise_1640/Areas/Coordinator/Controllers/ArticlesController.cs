@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
 
@@ -25,6 +21,33 @@ namespace WebEnterprise_1640.Controllers
 
         public IActionResult Index(int? id)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _dbContext.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _dbContext.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "coordinator")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
+
             if (id == null)
             {
                 return NotFound();
