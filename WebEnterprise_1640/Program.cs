@@ -94,6 +94,12 @@ app.MapControllerRoute(
 app.MapAreaControllerRoute(
     name: "Coordinator",
     areaName: "Coordinator",
+    pattern: "SelectedArticle",
+    defaults: new { controller = "SelectedArticle", action = "Index" });
+
+app.MapAreaControllerRoute(
+    name: "Coordinator",
+    areaName: "Coordinator",
     pattern: "Magazine",
     defaults: new { controller = "Magazine", action = "Index" });
 
