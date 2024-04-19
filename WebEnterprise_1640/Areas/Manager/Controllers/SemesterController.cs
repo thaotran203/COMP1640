@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
@@ -6,6 +7,8 @@ using WebEnterprise_1640.Models;
 namespace WebEnterprise_1640.Areas.Manager.Controllers
 {
     [Area("Manager")]
+    [Authorize(Roles = "Manager")]
+
     public class SemesterController : Controller
     {
         private readonly ApplicationDbContext _context;
