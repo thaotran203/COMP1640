@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\WebEnterprise_1640.props" />
-</Project>
