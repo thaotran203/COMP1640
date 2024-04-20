@@ -1,0 +1,319 @@
+﻿@model IEnumerable<WebEnterprise_1640.Models.ArticleModel>
+﻿@using WebEnterprise_1640.Models
+<link rel="stylesheet" href="~/css/article.css">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/navbar_footer.css" asp-append-version="true">
+
+    @{
+	ViewData["Title"] = "Articles Page";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<header>
+	@{
+		var userData = ViewBag.User;
+		UserModel? user = null;
+		if (userData != null)
+		{
+			user = (UserModel)userData;
+		}
+	}
+	<div class="nav-bar">
+		<div class="nav-1">
+			<p>BEE MAGAZINE
+			<p>
+		</div>
+		<div class="home an" id="home">
+			<div class="home-cover">
+				<a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
+			</div>
+		</div>
+		 @if (user != null)
+            {
+                <p>Welcome, @user.UserName</p>
+                <div class="button an" id="login">
+                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                </div>
+            }
+            else
+            {
+                <div class="button an" id="login">
+                    <a href="/Account/Login" class="login-button">Log in</a>
+                </div>
+            }
+		<div onclick="showmenu()" class="icon-menu">
+			<i class="fa-solid fa-bars"></i>
+		</div>
+	</div>
+	<div class="show-menu none">
+	</div>
+</header>
+<div class="container" style="height: 100vh;">
+	<div class="row justify-content-center mb-3">
+		<div class="col-md-6">
+			<form id="textSearchForm" action="@Url.Action("Index", "Article")" method="get" class="form-inline rounded-pill bg-light p-2 position-relative">
+				<div class="form-group mx-sm-3 mb-2 position-relative">
+					<input type="text" id="searchQuery" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control form-control-sm rounded-pill pl-4" style="max-width: 80%; padding-left: 29px;" />
+					<i class="fa-solid fa-magnifying-glass position-absolute" style="left: 10px; width: 15px; height: 15px; top: 50%; transform: translateY(-50%);"></i>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<form id="dateSearchForm" asp-controller="Articles" asp-action="Index" method="get" class="form-inline rounded-pill bg-light p-2">
+				<div class="form-group">
+					<input type="date" id="searchDate" name="searchDate" class="form-control form-control-sm" onchange="submitForms();" />
+				</div>
+			</form>
+		</div>
+		<div class="col-md-6 text-md-right">
+			<nav aria-label="Page navigation">
+				<ul class="pagination justify-content-end mb-0">
+					@if (Model.Any())
+					{
+						<li class="page-item @(ViewBag.PageIndex == 1 ? "disabled" : "")">
+							<a class="page-link" href="@(Url.Action("Index", "Article", new { magazineId = ViewBag.MagazineId, page = ViewBag.PageIndex - 1, searchQuery = ViewBag.SearchQuery, searchDate = ViewBag.SearchDate }))">
+								<i class="fa-solid fa-chevron-left"></i>
+							</a>
+						</li>
+						<li class="page-item @(ViewBag.PageIndex == ViewBag.TotalPages ? "disabled" : "")">
+							<a class="page-link" href="@(Url.Action("Index", "Article", new { magazineId = ViewBag.MagazineId, page = ViewBag.PageIndex + 1, searchQuery = ViewBag.SearchQuery, searchDate = ViewBag.SearchDate }))">
+								<i class="fa-solid fa-chevron-right"></i>
+							</a>
+						</li>
+					}
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+	<table class="table" style="width: 100%;">
+		<tbody>
+			@foreach (var article in Model)
+			{
+				<tr>
+					<td><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
+					<td><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
+					<td class="table-button">
+						<button onclick="handleSelect('@article.Id')" class="action-button">
+							<i class="fa-regular fa-star"></i>
+						</button>
+						<button id="denyButton_@article.Id" onclick="handleDeny('@article.Id')" class="action-button" data-status="@article.Status">
+							@if (article.Status == "denied")
+							{
+								<i class="fa-solid fa-square-minus"></i>
+							}
+							else
+							{
+								<i class="fa-regular fa-square-minus"></i>
+							}
+						</button>
+					</td>
+					<td class="table-date">@article.SubmitDate.ToString("dd MMMM")</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+<footer>
+	<div class="colum">
+		<div class="colum-1">
+			<h2>COMP1640</h2>
+		</div>
+		<div class="colum-2">
+			<h3>About us</h3>
+			<div class="contact">
+				<p>Popular</p>
+				<p>Trending</p>
+				<p>Contact</p>
+				<p>Support/Help</p>
+				<p>Request Topics</p>
+			</div>
+		</div>
+		<div class="colum-3">
+			<h3>Follow us</h3>
+			<div class="social">
+				<div class="facebook">
+					<div class="icon">
+						<i class="fa-brands fa-facebook-f"></i>
+					</div>
+					<p>Facebook</p>
+				</div>
+				<div class="facebook">
+					<div class="icon">
+						<i class="fa-brands fa-instagram"></i>
+					</div>
+					<p>Instagram</p>
+				</div>
+				<div class="facebook">
+					<div class="icon">
+						<i class="fa-brands fa-twitter"></i>
+					</div>
+					<p>Twitter</p>
+				</div>
+				<div class="facebook">
+					<div class="icon">
+						<i class="fa-brands fa-linkedin"></i>
+					</div>
+					<p>LinkedIn</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class="copy-right">
+		<div class="year">
+			2024 COMP1640. All right reserved.
+		</div>
+		<div class="policy">
+			<u>Privacy Policy</u>
+			<u>Term of Service</u>
+			<u>Cookies Settings</u>
+		</div>
+	</div>
+</footer>
+<script>
+			function getParameterByName(name, url) {
+				if (!url) url = window.location.href;
+				name = name.replace(/[\[\]]/g, "\\$&");
+				var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+					results = regex.exec(url);
+				if (!results) return null;
+				if (!results[2]) return '';
+				return decodeURIComponent(results[2].replace(/\+/g, " "));
+			}
+
+			function setDateInputFromUrlParam() {
+				var searchDate = getParameterByName('searchDate');
+				if (searchDate) {
+					document.getElementById('searchDate').value = searchDate;
+				}
+			}
+
+			setDateInputFromUrlParam();
+
+			document.getElementById("searchQuery").addEventListener("keypress", function (event) {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					submitForms();
+				}
+			});
+
+		function submitForms() {
+		var textSearchForm = document.getElementById("textSearchForm");
+		var dateSearchForm = document.getElementById("dateSearchForm");
+
+		var textFormData = new FormData(textSearchForm);
+		var dateFormData = new FormData(dateSearchForm);
+
+		var url = textSearchForm.getAttribute('action') + '?magazineId=' + getParameterByName('magazineId');
+
+
+		for (var pair of textFormData.entries()) {
+			if (pair[0] === 'searchQuery' && pair[1] !== '') {
+				url += '&searchQuery=' + pair[1];
+			}
+		}
+
+		for (var pair of dateFormData.entries()) {
+			if (pair[0] === 'searchDate' && pair[1] !== '') {
+				url += '&searchDate=' + pair[1];
+			}
+		}
+
+		window.location.href = url;
+		}
+
+
+		function handleSelect(articleId) {
+			updateStatus(articleId, 'selected');
+		}
+
+	function handleDeny(articleId) {
+		const denyButton = document.getElementById('denyButton_' + articleId);
+		const currentStatus = denyButton.dataset.status;
+
+		let newStatus;
+		if (currentStatus === 'denied') {
+			newStatus = 'submitted';
+		} else {
+			newStatus = 'denied';
+		}
+
+		if (currentStatus === 'submitted') {
+			sendEmail();
+		}
+
+		fetch('@Url.Action("UpdateStatus", "Article")' + '?articleId=' + articleId + '&status=' + newStatus, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				articleId: articleId,
+				status: newStatus
+			})
+		})
+		.then(response => {
+			if (response.ok) {
+				if (newStatus === 'denied') {
+					denyButton.innerHTML = "<i class='fa-solid fa-square-minus'></i>";
+				} else {
+					denyButton.innerHTML = "<i class='fa-regular fa-square-minus'></i>";
+				}
+				denyButton.dataset.status = newStatus;
+			} else {
+				console.error('Failed to update status');
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+	}
+		function sendEmail() {
+			var emailBody = "The status of an article has been changed to 'denied'. Please take action.";
+
+			fetch('/api/Email/SendEmail', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(emailBody)
+			})
+			.then(response => {
+				if (response.ok) {
+					console.log('Email sent successfully!');
+				} else {
+					console.error('Failed to send email.');
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		}
+
+		function updateStatus(articleId, status) {
+			fetch('@Url.Action("UpdateStatus", "Article")' + '?articleId=' + articleId + '&status=' + status, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					articleId: articleId,
+					status: status
+				})
+			})
+			.then(response => {
+				if (response.ok) {
+					window.location.reload();
+				} else {
+					console.error('Failed to update status');
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		}
+</script>

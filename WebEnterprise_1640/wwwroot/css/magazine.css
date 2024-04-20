@@ -1,0 +1,110 @@
+﻿html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #F1F1F1;
+}
+.custom-link {
+    color: black !important;
+    text-decoration: none !important;
+}
+.latest-magazines,
+.closed-magazines {
+    background-color: #CDDFFC;
+    color: #000;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 24px;
+    line-height: 1.5;
+    font-weight: bold;
+    margin: 0 auto;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+    max-width: 1000px;
+}
+
+@media only screen and (max-width: 600px) {
+    .latest-magazines,
+    .closed-magazines {
+        width: 350px;
+    }
+
+    .search-wrapper {
+        position: relative;
+        width: 100px;
+    }
+}
+
+@media screen and (min-width:741px) and (max-width:1024px) {
+    .latest-magazines,
+    .closed-magazines {
+        width: 966px;
+    }
+}
+
+.search-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 300px;
+}
+
+#magazineSearch {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 40px 10px 20px;
+    outline: none;
+    width: 100%;
+    max-width: 600px;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+    .search-icon::before {
+        content: "\1F50D";
+        font-size: 15px;
+    }
+
+.magazine-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.container {
+    color: #000;
+    padding: 10px;
+    display: block;
+    line-height: 1.5;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    max-width: 1040px;
+}
+
+.containera {
+    color: #000;
+    padding: 10px;
+    display: block;
+    line-height: 1.5;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    max-width: 1040px;
+}
