@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,6 +20,7 @@ namespace WebEnterprise_1640.Models
         [ForeignKey("Faculties")]
 
         public int FacultyId { get; set; }
+        [ValidateNever]
         public FacultyModel Faculty { get; set; }
 
 
