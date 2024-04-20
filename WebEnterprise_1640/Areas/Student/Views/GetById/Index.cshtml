@@ -1,0 +1,244 @@
+﻿@using WebEnterprise_1640.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@*@using static WebEnterprise_1640.Models.ArticleModel;*@
+@model WebEnterprise_1640.Models.ArticleModel;
+
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Terrain</title>
+    <link rel="stylesheet" href="~/css/createrArticle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar_footer.css" asp-append-version="true">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    @{
+        var userData = ViewBag.User;
+        UserModel? user = null;
+        if (userData != null)
+        {
+            user = (UserModel)userData;
+        }
+    }
+    <header>
+        <div class="nav-bar">
+            <div class="nav-1">
+                <p>BEE MAGAZINE
+                <p>
+            </div>
+            <div class="home an" id="home">
+                <div class="home-cover">
+                    <a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
+                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none;margin-left:2rem">Uploads</a>
+                </div>
+            </div>
+            @if (user != null)
+            {
+                <p>Welcome, @user.UserName</p>
+                <div class="button an" id="login">
+                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                </div>
+            }
+            else
+            {
+                <div class="button an" id="login">
+                    <a href="/Account/Login" class="login-button">Log in</a>
+                </div>
+            }
+            <div onclick="showmenu()" class="icon-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+        <div class="show-menu none">
+        </div>
+    </header>
+    <div class="body-content">
+        <div class="article">
+            <div class="article-1">
+                <div class="arti-1">
+                    Aritcle title:
+                </div>
+                <div class="arti-1">
+                    Aritcle description:
+                </div>
+            </div>
+            <div class="article-2">
+                <div class="arti-2">
+                    @ViewBag.Magazines.Name
+                </div>
+                <div class="arti-2">
+                    @ViewBag.Magazines.Description
+
+                </div>
+            </div>
+        </div>
+        <div class="article">
+            <div class="article-1">
+                <div class="arti-1">
+                    Date submitted:
+                </div>
+                <div class="arti-1">
+                    Final deadline:
+                </div>
+            </div>
+            <div class="article-2">
+                <div class="arti-2">
+
+                    @ViewBag.TimeStart
+                </div>
+                <div class="arti-2">
+                    @ViewBag.TimeEnd
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="form-container">
+        <div class="submit-files">
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div style="margin-bottom:1rem">
+                    <p style="color:red;font-weight:bold;font-size:18px">@TempData["ErrorMessage"]</p>
+                </div>
+            }
+            <form asp-controller="GetById" asp-action="Create" class="form-horizontal row-border" method="post" enctype="multipart/form-data">
+                <input asp-for="MagazineId" type="hidden" name="MagazineId" class="form-control" id="translate_title" value="@ViewBag.Magazines.Id" placeholder="Tech Terrain: Navigating the Digital Landscape">
+                <h3 class="title">Title: </h3>
+                <textarea rows="1" asp-for="Name" name="Name" class="input-title"></textarea>
+                <h3 class="description">Description: </h3>
+                <div class="descipt">
+                    <textarea asp-for="Description" name="Description" rows="7" class="input-title"></textarea>
+                </div>
+                <h3>Submit your file: </h3>
+                <div class="file-upload">
+                    <input id="inputfiledoc" onchange="validateFile(event)" name="file" type="file">
+                </div>
+                <h3>Submit image: </h3>
+                <div class="file-upload">
+                    <input id="inputfileimg" onchange="validateImg(event)" name="file" type="file">
+                </div>
+                <div class="term">
+                    <input type="checkbox" id="chekcboxid" onclick="checkbox()">
+                    <label for="vehicle1"> I agree to the term and conditions </label><br>
+                </div>
+                @if (ViewBag.Deadline < 0)
+                {
+                    <button type="submit" class="submit-boton" style="color:gray" id="submitBtn" disabled>Submit</button>
+                }
+                @if (ViewBag.Deadline > 0)
+                {
+                    <p>Late Submission Deadline</p>
+                }
+            </form>
+        </div>
+    </section>
+    <footer>
+        <div class="colum">
+            <div class="colum-1">
+                <h2>COMP1640</h2>
+            </div>
+            <div class="colum-2">
+                <h3>About us</h3>
+                <div class="contact">
+                    <p>Popular</p>
+                    <p>Trending</p>
+                    <p>Contact</p>
+                    <p>Support/Help</p>
+                    <p>Request Topics</p>
+                </div>
+            </div>
+            <div class="colum-3">
+                <h3>Follow us</h3>
+                <div class="social">
+                    <div class="facebook">
+                        <div class="icon">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </div>
+                        <p>Facebook</p>
+                    </div>
+                    <div class="facebook">
+                        <div class="icon">
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                        <p>Instagram</p>
+                    </div>
+                    <div class="facebook">
+                        <div class="icon">
+                            <i class="fa-brands fa-twitter"></i>
+                        </div>
+                        <p>Twitter</p>
+                    </div>
+                    <div class="facebook">
+                        <div class="icon">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </div>
+                        <p>LinkedIn</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="copy-right">
+            <div class="year">
+                2024 COMP1640. All right reserved.
+            </div>
+            <div class="policy">
+                <u>Privacy Policy</u>
+                <u>Term of Service</u>
+                <u>Cookies Settings</u>
+            </div>
+        </div>
+    </footer>
+    <script src="./menu.js"></script>
+
+</body>
+<script>
+    document.getElementById('chekcboxid').addEventListener('change', function () {
+        var button = document.getElementById('submitBtn');
+        if (this.checked) {
+            button.style.color = 'white';
+            button.disabled = false;
+        } else {
+            button.style.color = 'gray';
+            button.disabled = true;
+        }
+    });
+    function checkbox() {
+        var a = document.getElementById("btnSubmit").style.display;
+        if (a == "none") {
+            document.getElementById("btnSubmit").style.display = "flex";
+        }
+        else {
+            document.getElementById("btnSubmit").style.display = "none";
+        }
+
+    }
+    function validateImg(event) {
+        console.log(event.target.files[0].type)
+        // id = "inputFile" onchange = "validateFile(event)"
+        var file = event.target.files[0].type;
+        if (file == "image/png" || file == "image/jpeg") {
+            return
+        }
+        else {
+            document.getElementById("inputfileimg").value = null;
+            alert("Chỉ Được Chọn File Hình Có Đuôi png,jpeg");
+        }
+    }
+    function validateFile(event) {
+        console.log(event)
+        var file = event.target.files[0].type;
+        if (file != "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+            document.getElementById("inputfiledoc").value = null;
+            alert("Chỉ Được Chọn File Doc");
+        }
+    }
+</script>
+</html>
+

@@ -7,32 +7,23 @@ namespace WebEnterprise_1640.Models
 {
     public class UserModel : IdentityUser<string>
     {
-        [Required]
-        public string? FullName { get; set; }
-
-        [Required]
+        public string FullName { get; set; }
         public string? Address { get; set; }
-
-        [Required]
+        public string PhoneNumber { get; set; }
         public string? PersonalImage { get; set; }
 
         [Required]
         [ForeignKey("Faculties")]
-
         public int FacultyId { get; set; }
         [ValidateNever]
         public FacultyModel Faculty { get; set; }
 
-
+        [ValidateNever]
         [NotMapped]
-        //public List<ArticleModel> Articles { get; set; } = new List<ArticleModel>();
-
         public List<ArticleModel> Articles { get; set; }
 
+        [ValidateNever]
         [NotMapped]
-        //public List<CommentModel> Comments { get; set; } = new List<CommentModel>();
-
         public List<CommentModel> Comments { get; set; }
-
     }
 }

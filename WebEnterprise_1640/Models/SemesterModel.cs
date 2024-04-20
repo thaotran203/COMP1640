@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebEnterprise_1640.Models
@@ -17,6 +18,7 @@ namespace WebEnterprise_1640.Models
         public DateTime FinalClosureDate { get; set; }
 
         [NotMapped]
+        [ValidateNever]
         public List<MagazineModel> Magazines { get; set; }
     }
 }

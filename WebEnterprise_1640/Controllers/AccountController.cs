@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text.Json;
 using WebEnterprise_1640.Data;
-using WebEnterprise_1640.Models;
+using WebEnterprise_1640.Models.ViewModel;
 
 namespace WebEnterprise_1640.Controllers
 {
@@ -20,7 +16,7 @@ namespace WebEnterprise_1640.Controllers
         {
             _context = context;
         }
-        public IActionResult Login(string url)
+        public IActionResult Login()
         {
             return View();
         }
@@ -50,6 +46,7 @@ namespace WebEnterprise_1640.Controllers
                 {
                     var role = _context.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
                     var newRole = "";
+                    HttpContext.Session.SetString("USER", JsonSerializer.Serialize(user));
                     if (role != null)
                     {
                         if (role.RoleId == "1")
@@ -63,6 +60,7 @@ namespace WebEnterprise_1640.Controllers
                         if (role.RoleId == "3")
                         {
                             newRole = "Coordinator";
+                            return RedirectToAction("Index", "Magazine", new { area = "Coordinator" });
                         }
                         if (role.RoleId == "4")
                         {
@@ -77,12 +75,12 @@ namespace WebEnterprise_1640.Controllers
                      new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>() { new Claim(ClaimTypes.Name, ""), new Claim(ClaimTypes.Role, newRole) },
                     CookieAuthenticationDefaults.AuthenticationScheme)), new AuthenticationProperties() { AllowRefresh = true, });
                     Response.Cookies.Append("userInfo", newRole);
-                    HttpContext.Session.SetString("USER", JsonSerializer.Serialize(user));
-                    return RedirectToAction("Index", "Home");
+                    return Redirect("/Home/Index");
                 }
             }
             return View();
         }
+
 
         [HttpGet]
         [Route("[controller]/[action]")]
