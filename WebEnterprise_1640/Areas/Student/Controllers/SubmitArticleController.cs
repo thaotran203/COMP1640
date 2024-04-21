@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
@@ -44,6 +45,7 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
             {
                 return Redirect("/Account/Login");
             }
+            input.Comments = _context.Comments.Where(c => c.ArticleId == input.Id).Include(c => c.User).ToList();
             var file = _context.Documents.Where(x => x.ArticleId == input.Id).ToList();
             ViewBag.Articles = input;
             // Ngày hiện tại
@@ -76,7 +78,7 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
 
             ViewBag.File = file;
             ViewBag.User = user;
-            return View();
+            return View(input);
         }
 
         [Route("[controller]/[action]")]
@@ -245,6 +247,58 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
             ViewBag.Type = type;
             ViewBag.ArticleId = articleId;
             return View();
+        }
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> AddComment(int articleId, string comment)
+        {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "student")
+            {
+                return Redirect("/Account/Login");
+            }
+            var article = _context.Articles.FirstOrDefault(a => a.Id == articleId);
+            if (article == null)
+            {
+                TempData["ErrorMessage"] = "Not Found Article!";
+                return RedirectToAction("Index", "Uploads");
+            }
+            if (comment == null || comment.Length == 0)
+            {
+                return RedirectToAction("Index", "GetById", new { id = article.MagazineId });
+            }
+            var newComment = new CommentModel()
+            {
+                ArticleId = articleId,
+                UserId = user.Id,
+                Content = comment,
+            };
+            var nComment = _context.Comments.Add(newComment);
+            await _context.SaveChangesAsync();
+            if (nComment == null || nComment.Entity == null)
+            {
+                TempData["ErrorMessage"] = "Database Connection Error!";
+                return RedirectToAction("Index", "GetById", new { id = article.MagazineId });
+            }
+            return RedirectToAction("Index", "GetById", new { id = article.MagazineId });
         }
     }
 }

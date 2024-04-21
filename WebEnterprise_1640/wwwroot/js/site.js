@@ -16,14 +16,20 @@ document.getElementById("btnUpfile").addEventListener("click", function () {
 
 function loadNameFile(event) {
     var file = event.target.files[0].type;
-    var file = event.target.files[0].type;
-    if (file == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-        document.getElementById("viewFileName").innerHTML = event.target.files[0].name
-        document.getElementById("divupfile").style.display = "revert-layer"
-    }
-    else {
+    //if (file == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+    //    document.getElementById("viewFileName").innerHTML = event.target.files[0].name
+    //    document.getElementById("divupfile").style.display = "revert-layer"
+    //}
+    //else {
+    //    document.getElementById("inputFile").value = null;
+    //    alert("Chỉ Được Chọn File Doc");
+    //}
+    if (file !== "application/pdf") {
         document.getElementById("inputFile").value = null;
-        alert("Chỉ Được Chọn File Doc");
+        alert("Chỉ Được Chọn File PDF");
+    } else {
+        document.getElementById("viewFileName").innerHTML = event.target.files[0].name;
+        document.getElementById("divupfile").style.display = "revert-layer";
     }
 
 }

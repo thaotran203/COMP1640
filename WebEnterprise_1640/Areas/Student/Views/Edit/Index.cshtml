@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="~/css//create.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/edit.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/delete.css" asp-append-version="true">
-    <link rel="stylesheet" href="~/css/navbar_footer.css">
+    <link rel="stylesheet" href="~/css/nav_footer.css">
 </head>
 <body>
     @{
@@ -31,14 +31,17 @@
             </div>
             <div class="home an" id="home">
                 <div class="home-cover">
-                    <a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
-                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none;margin-left:2rem">Uploads</a>
+                    <a href="/Home/Index" class="home-button" style="text-decoration:none" >Home</a>
+                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none; margin-left:2rem; color: dodgerblue">Uploads</a>
                 </div>
             </div>
             @if (user != null)
             {
-                <div class="button an" id="login">
-                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                <div class="user-1">
+                    <div class="welcome" style="color: dodgerblue; font-weight: bold; ">Welcome, @user.UserName</div>
+                    <div class="button an" id="login">
+                        <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                    </div>
                 </div>
             }
             else
@@ -246,52 +249,57 @@
                 Remove Submission
             </a>
         </div>
-        <h2>Feedback, comment</h2>
-        <div class="feedback">
-            <div class="person">
-                <div class="avatar">
-                    <div class="img">
-                        <img src="https://png.pngtree.com/element_our/png/20181022/man-avatar-icon-professional-man-character-business-man-avatar-carton-symbol-png_206531.jpg"
-                             alt="">
+        @if (Model.Comments != null && Model.Comments.Count() > 0)
+        {
+            <h2>Feedback, comment</h2>
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="feedback">
+                    <div class="person">
+                        <div class="avatar">
+                            <div class="img">
+                                <img src="https://png.pngtree.com/element_our/png/20181022/man-avatar-icon-professional-man-character-business-man-avatar-carton-symbol-png_206531.jpg"
+                                     alt="">
+                            </div>
+                        </div>
+                        <div class="name">
+                            @comment.User.FullName
+                        </div>
                     </div>
-                </div>
-                <div class="name">
-                    Ed Sheeran
-                </div>
+                    <div class="feedback-content">
+                        @* <h4>Good point:</h4> *@
+                        <li>
+                            @comment.Content
+                        </li>
+                    </div>
+                    @*                 <div class="time-comment">
+            <div class="icon-time-comment">
+            <i class="fa-solid fa-calendar-days"></i>
             </div>
-            <div class="feedback-content">
-                <h4>Good point:</h4>
-                <li>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laboru
-                </li>
-                <h4>Need to improve:</h4>
-                <li>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat.
-                </li>
+            <div class="time-comment-content">
+            1 hour ago
             </div>
-            <div class="time-comment">
-                <div class="icon-time-comment">
-                    <i class="fa-solid fa-calendar-days"></i>
+            </div> *@
                 </div>
-                <div class="time-comment-content">
-                    1 hour ago
-                </div>
-            </div>
-        </div>
-        <h2>Add a comment</h2>
+            }
+        }
+@*         <h2>Add a comment</h2>
         <div class="add">
             <input type="text" class="add-comment"><br>
             <div class="icon-add">
                 <i class="fa-regular fa-paper-plane"></i>
             </div>
-        </div>
-
+        </div> *@
+        <form asp-controller="SubmitArticle" asp-action="AddComment" method="post">
+            <div class="form-group">
+                <input type="hidden" name="articleId" value="@Model.Id" />
+                <label for="comment"><b>Add Comment:</b></label>
+                <div style="display: flex; align-items: flex-end ;">
+                    <textarea class="form-control" id="comment" name="comment" style="height: 20px;"></textarea>
+                    <button type="submit" class="btn btn-primary" style="margin-left: 5px ;width: 40px; height: 40px;"><i class="fa-solid fa-arrow-pointer"></i></button>
+                </div>
+            </div>
+        </form>
     </div>
 
 

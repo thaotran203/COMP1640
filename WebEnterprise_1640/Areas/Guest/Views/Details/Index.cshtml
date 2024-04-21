@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/navbar_footer.css">
+    <link rel="stylesheet" href="~/css/nav_footer.css">
     <link rel="stylesheet" href="~/css/guest_article.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
           integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
@@ -31,14 +31,14 @@
             </div>
             <div class="home an" id="home">
                 <div class="home-cover">
-                    <a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
-                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none;margin-left:2rem">Uploads</a>
+                    <a href="/Home/Index" class="home-button" style="text-decoration: none; border-color: white">Home</a>
+                    <a href="/Uploads/Index" class="home-button" style="text-decoration: none; margin-left:2rem; border-color: white;">Uploads</a>
                 </div>
             </div>
             @if (user != null)
             {
                 <div class="button an" id="login">
-                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button" style="text-decoration: none">Log out</a>
                 </div>
             }
             else
@@ -93,12 +93,27 @@
         <p>
             @Model.Description
         </p>
-@*         <div class="title">
-            Conclusion
-        </div> *@
+
+    @if (Model.Documents != null && Model.Documents.Count > 0)
+    {
+            if (Model.Documents[0] != null && Model.Documents[0].File != null && Model.Documents[0].File.Length > 0)
+            {
+                <div style="display: flex; justify-content: center">
+                    <embed src="~/media/@Model.Documents[0].File" type="application/pdf" width="70%" height="1000px" />
+                </div>
+            } else
+            {
+                if (Model.Documents.Count > 1 && Model.Documents[1] != null && Model.Documents[1].File != null && Model.Documents[1].File.Length > 0)
+                {
+                    <div style="display: flex; justify-content: center">
+                        <embed src="~/media/@Model.Documents[1].File" type="application/pdf" width="70%" height="1000px" />
+                    </div>
+                }
+            }
+    }
         <hr>
     </div>
-
+    
     <footer>
         <div class="colum">
             <div class="colum-1">
