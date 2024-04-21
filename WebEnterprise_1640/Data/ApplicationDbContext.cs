@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise_1640.Models;
 
 namespace WebEnterprise_1640.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<UserModel, RoleModel, string>
+    public class ApplicationDbContext : IdentityDbContext<UserModel, IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

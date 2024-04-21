@@ -1,0 +1,67 @@
+﻿@media only screen and (max-width: 740px) {
+    .modal-content {
+        width: 350px;
+        margin-left: auto;
+        margin-right: auto
+    }
+
+    .pb-3 {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 75%;
+    }
+
+        .pb-3 .Width {
+            width: 400px;
+        }
+
+        .pb-3 .FontSize {
+            font-size: 7px;
+        }
+
+    .Filter {
+        font-size: 10px;
+    }
+
+    #createBtn {
+        font-size: 8px;
+    }
+
+    .form-input {
+        margin: 0;
+        height: 35px;
+        text-indent: 30px;
+        font-size: 8px;
+        padding: 5px 5px 5px 9px;
+    }
+
+    .Search {
+        position: relative;
+        width: 50%;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        font-size: 10px;
+    }
+
+        .Search .fa-search {
+            position: absolute;
+            top: 13px;
+            left: 20px;
+            font-size: 10px
+        }
+}
+
+@media only screen and (min-width: 1025px) {
+    #createBtn {
+        font-size: 10px;
+    }
+
+    .form-input {
+        font-size: 15px;
+        box-sizing: border-box;
+        text-indent: 33px;
+        margin: 15px auto;
+        padding: 8px 8px 8px 12px;
+    }
+}
