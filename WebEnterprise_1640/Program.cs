@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise_1640.Data;
@@ -97,6 +97,11 @@ app.MapAreaControllerRoute(
     pattern: "SelectedArticle",
     defaults: new { controller = "SelectedArticle", action = "Index" });
 
+app.MapAreaControllerRoute(
+    name: "User",
+    areaName: "User",
+    pattern: "Profile",
+    defaults: new { controller = "User", action = "Index" }); 
 app.MapAreaControllerRoute(
     name: "Coordinator",
     areaName: "Coordinator",
