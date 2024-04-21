@@ -1,4 +1,5 @@
 ﻿@model WebEnterprise_1640.Models.UserModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "User Profile";
 }
@@ -63,7 +64,7 @@
                                     <h6 class="mb-0">Email</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" value="@Model.Email" asp-for="@Model.Email"/>
+                                    <input type="text" class="form-control" value="@Model.Email" asp-for="@Model.Email" />
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -71,7 +72,7 @@
                                     <h6 class="mb-0">Phone</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" value="@Model.PhoneNumber" asp-for="@Model.PhoneNumber"/>
+                                    <input type="text" class="form-control" value="@Model.PhoneNumber" asp-for="@Model.PhoneNumber" />
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -79,7 +80,7 @@
                                     <h6 class="mb-0">Address</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" value="@Model.Address" asp-for="@Model.Address"/>
+                                    <input type="text" class="form-control" value="@Model.Address" asp-for="@Model.Address" />
                                 </div>
                             </div>
                             <div class="row">
@@ -95,32 +96,46 @@
                 <div class="row mt-3 pb-5">
                     <div class="col-sm-12">
                         <div class="card">
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @TempData["ErrorMessage"]
+                                </div>
+                            }
+                            @if (TempData["SuccessMessage"] != null)
+                            {
+                                <div class="alert alert-success" role="alert">
+                                    @TempData["SuccessMessage"]
+                                </div>
+                            }
                             <div class="card-body ">
                                 <h5 class="d-flex align-items-center mb-3">Change Password</h5>
-                                <form id="changePasswordForm" method="post" asp-controller="Profile" asp-action="ChangePassword">
-                                    <div class="form-group">
-                                        <label for="currentPassword">Current Password</label>
-                                        <input type="password" class="form-control" name="currentPassword" required>
+                                <form method="post" asp-controller="Profile" asp-action="ChangePassword">
+                                    <input type="hidden" name="userId" value="@Model.Id" />
+                                    <h6><p>Current Password</p></h6>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="password" name="curPassword" class="form-control">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="newPassword">New Password</label>
-                                        <input type="password" class="form-control" name="newPassword" required>
+                                    <div style="margin-bottom: 10px;"></div>
+                                    <h6><p>New Password</p></h6>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="password" name="newPassword" class="form-control">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="confirmPassword">Confirm Password</label>
-                                        <input type="password" class="form-control" name="confirmPassword" required>
+                                    <div style="margin-bottom: 10px;"></div>
+                                    <h6><p>Confirm Password</p></h6>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="password" name="confirmPassword" class="form-control">
                                     </div>
-                                    <div class="row pb-2 mt-3">
+                                    <div class="row pb-2">
                                         <div class="col-sm-3"></div>
                                         <div class="col-sm-9 text-secondary">
-                                            <input type="button" class="btn btn-primary px-4" value="Save Changes">
-                                            <input type="button" class="btn btn-primary px-4" value="Cancle">
+                                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                                            <a href="#" class="btn btn-primary px-4">Cancel</a>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
