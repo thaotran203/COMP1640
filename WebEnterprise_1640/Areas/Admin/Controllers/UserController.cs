@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net.Mail;
+using System.Net;
 using System.Web.Helpers;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
@@ -40,7 +42,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             }
             RegisterVM registerVM = new RegisterVM()
             {
-                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
@@ -74,7 +76,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 if (checkEmail)
                 {
                     ModelState.AddModelError("Email", "User with this email already exists!");
-                    registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                    registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
                     {
                         Text = i,
                         Value = i
@@ -112,7 +114,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     else
                     {
                         TempData["error"] = "A coordinator already exists within the faculty!";
-                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
                         {
                             Text = i,
                             Value = i
@@ -153,7 +155,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             var userRoles = await _userManager.GetRolesAsync(userModel);
             RegisterVM registerVM = new RegisterVM()
             {
-                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
@@ -200,7 +202,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     if (checkEmail)
                     {
                         ModelState.AddModelError("Email", "User with this email already exists! ");
-                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
                         {
                             Text = i,
                             Value = i
@@ -217,11 +219,13 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 var userRoles = await _userManager.GetRolesAsync(userModel);
                 if (userRoles.Any())
                 {
-                    await _userManager.RemoveFromRolesAsync(userModel, userRoles.ToArray()); // Remove existing roles
+                    //Remove existing roles
+                    await _userManager.RemoveFromRolesAsync(userModel, userRoles.ToArray()); 
                 }
                 if (!string.IsNullOrEmpty(registerVM.Role))
                 {
-                    await _userManager.AddToRoleAsync(userModel, registerVM.Role); // Add new role
+                    //Add new role
+                    await _userManager.AddToRoleAsync(userModel, registerVM.Role);
                 }
                 if (userModel.FacultyId != registerVM.FacultyId)
                 {
