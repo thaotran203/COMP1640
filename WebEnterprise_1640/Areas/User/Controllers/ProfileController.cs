@@ -100,6 +100,42 @@ namespace WebEnterprise_1640.Controllers
 
             return BadRequest("No image uploaded");
         }
-
+        [HttpPost]
+        public IActionResult ChangePassword(string userId, string curPassword, string newPassword, string confirmPassword)
+        {
+            if (string.IsNullOrEmpty(curPassword) || string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(confirmPassword))
+            {
+                TempData["ErrorMessage"] = "Please fill all fields";
+                return RedirectToAction("Test", "Profile", new { id = userId });
+            }
+            if (!newPassword.Equals(confirmPassword))
+            {
+                TempData["ErrorMessage"] = "New password must be the same with confirm password";
+                return RedirectToAction("Test", "Profile", new { id = userId });
+            }
+            var user = _dbContext.Users
+                               .Include(u => u.Faculty)
+                               .FirstOrDefault(a => a.Id == userId);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Not Found User";
+                return RedirectToAction("Test", "Profile", new { id = userId });
+            }
+            if (user.PasswordHash != curPassword)
+            {
+                TempData["ErrorMessage"] = "Current password is incorrect";
+                return RedirectToAction("Test", "Profile", new { id = userId });
+            }
+            user.PasswordHash = newPassword;
+            var nUser = _dbContext.Update(user);
+            _dbContext.SaveChanges();
+            if (nUser.Entity == null)
+            {
+                TempData["ErrorMessage"] = "Database connection got error!";
+                return RedirectToAction("Test", "Profile", new { id = userId });
+            }
+            TempData["SuccessMessage"] = "Change password successful";
+            return RedirectToAction("Test", "Profile", new { id = userId });
+        }
     }
 }
