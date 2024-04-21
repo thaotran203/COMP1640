@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Web.Helpers;
@@ -9,6 +10,7 @@ using WebEnterprise_1640.Models.ViewModel;
 namespace WebEnterprise_1640.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,6 +26,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         {
             return View();
         }
+
         // GET: Admin/User/Register
         public async Task<IActionResult> Register()
         {
@@ -70,7 +73,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 var checkEmail = _context.Users.Any(x => x.Email == user.Email);
                 if (checkEmail)
                 {
-                    ModelState.AddModelError("Email", "User with this email already exists! ");
+                    ModelState.AddModelError("Email", "User with this email already exists!");
                     registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
                     {
                         Text = i,
@@ -96,7 +99,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                         {
 
                             await _userManager.AddToRoleAsync(user, registerVM.Role);
-                            TempData["success"] = "User created successfully";
+                            TempData["success"] = "User created successfully!";
                             return RedirectToAction("Index");
                         }
                         foreach (var error in identityResult.Errors)
@@ -130,8 +133,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     {
 
                         await _userManager.AddToRoleAsync(user, registerVM.Role);
-                        //await _signInManager.SignInAsync(user, isPersistent: false);
-                        TempData["success"] = "User created successfully";
+                        TempData["success"] = "User created successfully!";
                         return RedirectToAction("Index");
                     }
                 }
