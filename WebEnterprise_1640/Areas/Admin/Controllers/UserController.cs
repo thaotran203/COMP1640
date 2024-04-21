@@ -142,6 +142,111 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 
         }
 
+        // GET: Admin/User/Edit/5
+        public async Task<IActionResult> Edit(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            UserModel? userModel = await _userManager.FindByIdAsync(id);
+            var userRoles = await _userManager.GetRolesAsync(userModel);
+            RegisterVM registerVM = new RegisterVM()
+            {
+                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                {
+                    Text = i,
+                    Value = i
+                }),
+                FacultyList = _context.Faculties.Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                }),
+                FullName = userModel.FullName,
+                PhoneNumber = userModel.PhoneNumber,
+                Email = userModel.Email,
+                Password = userModel.PasswordHash,
+                FacultyId = userModel.FacultyId,
+                Role = userRoles.FirstOrDefault(),
+            };
+            return View(registerVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(RegisterVM registerVM, string? id)
+        {
+            if (ModelState.IsValid)
+            {
+                UserModel userModel = await _userManager.FindByIdAsync(id);
+                if (userModel == null)
+                {
+                    return NotFound();
+                }
+                if (userModel.UserName != registerVM.Email)
+                {
+                    userModel.UserName = registerVM.Email;
+                }
+                if (userModel.FullName != registerVM.FullName)
+                {
+                    userModel.FullName = registerVM.FullName;
+                }
+                if (userModel.PhoneNumber != registerVM.PhoneNumber)
+                {
+                    userModel.PhoneNumber = registerVM.PhoneNumber;
+                }
+                if (userModel.Email != registerVM.Email)
+                {
+                    var checkEmail = _context.Users.Any(x => x.Email == registerVM.Email);
+                    if (checkEmail)
+                    {
+                        ModelState.AddModelError("Email", "User with this email already exists! ");
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                        {
+                            Text = i,
+                            Value = i
+                        });
+                        registerVM.FacultyList = _context.Faculties.Select(c => new SelectListItem
+                        {
+                            Text = c.Name,
+                            Value = c.Id.ToString(),
+                        });
+                        return View(registerVM);
+                    }
+                    userModel.Email = registerVM.Email;
+                }
+                var userRoles = await _userManager.GetRolesAsync(userModel);
+                if (userRoles.Any())
+                {
+                    await _userManager.RemoveFromRolesAsync(userModel, userRoles.ToArray()); // Remove existing roles
+                }
+                if (!string.IsNullOrEmpty(registerVM.Role))
+                {
+                    await _userManager.AddToRoleAsync(userModel, registerVM.Role); // Add new role
+                }
+                if (userModel.FacultyId != registerVM.FacultyId)
+                {
+                    userModel.FacultyId = registerVM.FacultyId;
+                }
+                IdentityResult identityResult = await _userManager.UpdateAsync(userModel);
+                if (identityResult.Succeeded)
+                {
+                    TempData["success"] = "User updated successfully!";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    foreach (var error in identityResult.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    ModelState.AddModelError(string.Empty, "Invalid");
+                }
+
+            }
+
+            return RedirectToAction("Index");
+        }
+
         // GET: Admin/User/Delete/5
         public async Task<IActionResult> Delete(string? id)
         {
