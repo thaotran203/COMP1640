@@ -28,19 +28,19 @@
 				<a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
 			</div>
 		</div>
-		 @if (user != null)
-            {
-                <p>Welcome, @user.UserName</p>
-                <div class="button an" id="login">
-                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
-                </div>
-            }
-            else
-            {
-                <div class="button an" id="login">
-                    <a href="/Account/Login" class="login-button">Log in</a>
-                </div>
-            }
+		@if (user != null)
+		{
+			<p>Welcome, @user.UserName</p>
+			<div class="button an" id="login">
+				<a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+			</div>
+		}
+		else
+		{
+			<div class="button an" id="login">
+				<a href="/Account/Login" class="login-button">Log in</a>
+			</div>
+		}
 		<div onclick="showmenu()" class="icon-menu">
 			<i class="fa-solid fa-bars"></i>
 		</div>
@@ -51,7 +51,7 @@
 <div class="container" style="height: 100vh;">
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-6">
-			<form id="textSearchForm" action="@Url.Action("Index", "Article")" method="get" class="form-inline rounded-pill bg-light p-2 position-relative">
+			<form id="textSearchForm" action="@Url.Action("Index", "Article")" method="get" class="form-inline rounded-pill p-2 position-relative">
 				<div class="form-group mx-sm-3 mb-2 position-relative">
 					<input type="text" id="searchQuery" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control form-control-sm rounded-pill pl-4" style="max-width: 80%; padding-left: 29px;" />
 					<i class="fa-solid fa-magnifying-glass position-absolute" style="left: 10px; width: 15px; height: 15px; top: 50%; transform: translateY(-50%);"></i>
@@ -62,7 +62,7 @@
 
 	<div class="row">
 		<div class="col-md-6">
-			<form id="dateSearchForm" asp-controller="Articles" asp-action="Index" method="get" class="form-inline rounded-pill bg-light p-2">
+			<form id="dateSearchForm" asp-controller="Articles" asp-action="Index" method="get" class="form-inline rounded-pill p-2">
 				<div class="form-group">
 					<input type="date" id="searchDate" name="searchDate" class="form-control form-control-sm" onchange="submitForms();" />
 				</div>
@@ -94,8 +94,8 @@
 			@foreach (var article in Model)
 			{
 				<tr>
-					<td><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
-					<td><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
+					<td class="student-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
+					<td class="article-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
 					<td class="table-button">
 						<button onclick="handleSelect('@article.Id')" class="action-button">
 							<i class="fa-regular fa-star"></i>
@@ -272,27 +272,27 @@
 			console.error('Error:', error);
 		});
 	}
-		function sendEmail() {
-			var emailBody = "The status of an article has been changed to 'denied'. Please take action.";
+		function sendEmail(userEmail) {
+		var emailBody = "The status of your article has been changed to 'denied'. Please take action.";
 
-			fetch('/api/Email/SendEmail', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(emailBody)
-			})
-			.then(response => {
-				if (response.ok) {
-					console.log('Email sent successfully!');
-				} else {
-					console.error('Failed to send email.');
-				}
-			})
-			.catch(error => {
-				console.error('Error:', error);
-			});
-		}
+		fetch('/api/Email/SendEmail', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(userEmail)
+		})
+		.then(response => {
+			if (response.ok) {
+				console.log('Email sent successfully!');
+			} else {
+				console.error('Failed to send email.');
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+	}
 
 		function updateStatus(articleId, status) {
 			fetch('@Url.Action("UpdateStatus", "Article")' + '?articleId=' + articleId + '&status=' + status, {
