@@ -2,6 +2,7 @@
 using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
+using WebEnterprise_1640.Utility;
 
 namespace WebEnterprise_1640.Areas.Guest.Controllers
 {
@@ -42,6 +43,7 @@ namespace WebEnterprise_1640.Areas.Guest.Controllers
                     }
                 }
             }
+            GUIUtils.CheckNotification(_context);
             var magazines = _context.Magazines.ToList();
             FacultyModel? curFacility = null;
             if (magazines != null && magazines.Count > 0)
@@ -61,7 +63,7 @@ namespace WebEnterprise_1640.Areas.Guest.Controllers
                 }
                 foreach (var magazine in magazines)
                 {
-                    magazine.Articles = _context.Articles.Where(a => a.MagazineId == magazine.Id && a.Status.ToLower() == "approved").ToList();
+                    magazine.Articles = _context.Articles.Where(a => a.MagazineId == magazine.Id && a.Status.ToLower() == "approved".ToLower()).ToList();
                     if (magazine.Articles != null && magazine.Articles.Count > 0)
                     {
                         foreach (var article in magazine.Articles)

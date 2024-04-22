@@ -5,9 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebEnterprise_1640</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/navbar_footer.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/nav_footer.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
           integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -28,14 +27,17 @@
             </div>
             <div class="home an" id="home">
                 <div class="home-cover">
-                    <a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
-                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none;margin-left:2rem;color:red">Uploads</a>
+                    <a href="/Home/Index" class="home-button" style="text-decoration:none" >Home</a>
+                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none; margin-left:2rem; color: dodgerblue" >Uploads</a>
                 </div>
             </div>
             @if (user != null)
             {
-                <div class="button an" id="login">
-                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                <div class="user-1">
+                    <div class="welcome" style="color: dodgerblue; font-weight: bold; ">Welcome, @user.UserName</div>
+                    <div class="button an" id="login">
+                        <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                    </div>
                 </div>
             }
             else
