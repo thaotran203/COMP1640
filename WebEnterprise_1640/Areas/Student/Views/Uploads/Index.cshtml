@@ -28,13 +28,13 @@
             <div class="home an" id="home">
                 <div class="home-cover">
                     <a href="/Home/Index" class="home-button" style="text-decoration:none" >Home</a>
-                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none; margin-left:2rem; color: dodgerblue" >Uploads</a>
+                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none; margin-left:2rem; color: dodgerblue; font-weight: bold" >Uploads</a>
                 </div>
             </div>
             @if (user != null)
             {
                 <div class="user-1">
-                    <div class="welcome" style="color: dodgerblue; font-weight: bold; ">Welcome, @user.UserName</div>
+                    <a href="/Profile/Test/@user.Id" class="welcome" style="color: dodgerblue; font-weight: bold; ">Welcome, @user.UserName</a>
                     <div class="button an" id="login">
                         <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
                     </div>
@@ -82,11 +82,13 @@
                 <a style="display:contents ; color:unset" href="@Url.Action("Index","GetbyId", new {id = @item.Id})">
 
                     <div class="magazine-content">
-                        <div class="title">
-                            @item.Name
-                        </div>
-                        <div class="content">
-                            @item.Description
+                        <div>
+                            <div class="title">
+                                @item.Name
+                            </div>
+                            <div class="content" style="text-align: justify">
+                                @item.Description
+                            </div>
                         </div>
                         <div class="time">
                             <div class="deadline">
