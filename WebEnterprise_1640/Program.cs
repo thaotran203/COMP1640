@@ -119,6 +119,11 @@ app.MapAreaControllerRoute(
     pattern: "Article",
     defaults: new { controller = "Articles", action = "Index" });
 app.MapAreaControllerRoute(
+    name: "Manager",
+    areaName: "Manager",
+    pattern: "Dashboard",
+    defaults: new { controller = "Dashboard", action = "Index" });
+app.MapAreaControllerRoute(
     name: "Coordinator",
     areaName: "Coordinator",
     pattern: "Dashboard",
