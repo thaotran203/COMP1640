@@ -127,14 +127,14 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                             {
                                 //Send the email and password to the user via email using EmailSender
                                 await _userManager.AddToRoleAsync(user, registerVM.Role);
-                                TempData["success"] = "User created successfully!";
+                                TempData["success"] = "User's account has been successfully created!";
                                 SendEmailCreate(user.FullName, user.UserName, registerVM.Password);
                                 return RedirectToAction("Index");
                             }
                             catch (Exception ex)
                             {
                                 //Log or handle the exception accordingly
-                                ModelState.AddModelError(string.Empty, "Failed to send the new password via email.");
+                                ModelState.AddModelError(string.Empty, "Failed to send the account information via email.");
                             }
                         }
                         foreach (var error in identityResult.Errors)
@@ -170,14 +170,14 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                         {
                             //Send the email and password to the user via email using EmailSender
                             await _userManager.AddToRoleAsync(user, registerVM.Role);
-                            TempData["success"] = "User created successfully!";
+                            TempData["success"] = "User's account has been successfully created!";
                             SendEmailCreate(user.FullName, user.UserName, registerVM.Password);
                             return RedirectToAction("Index");
                         }
                         catch (Exception ex)
                         {
                             //Log or handle the exception accordingly
-                            ModelState.AddModelError(string.Empty, "Failed to send the new password via email.");
+                            ModelState.AddModelError(string.Empty, "Failed to send the account infomation via email.");
                         }
                     }
                 }
@@ -275,7 +275,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     var checkEmail = _context.Users.Any(x => x.Email == registerVM.Email);
                     if (checkEmail)
                     {
-                        ModelState.AddModelError("Email", "User with this email already exists! ");
+                        ModelState.AddModelError("Email", "User with this email already exists!");
                         registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
                         {
                             Text = i,
@@ -314,14 +314,14 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     {
                         //Send the email and password to the user via email using EmailSender
                         await _userManager.AddToRoleAsync(userModel, registerVM.Role);
-                        TempData["success"] = "User updated successfully!";
+                        TempData["success"] = "User's account has been successfully updated!";
                         SendEmailEdit(userModel.UserName, userModel.FullName, userModel.PhoneNumber, faculty.Name, registerVM.Role);
                         return RedirectToAction("Index");
                     }
                     catch (Exception ex)
                     {
                         //Log or handle the exception accordingly
-                        ModelState.AddModelError(string.Empty, "Failed to send the new password via email.");
+                        ModelState.AddModelError(string.Empty, "Failed to send the updated account information via email.");
                     }
                 }
                 else
@@ -394,7 +394,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 IdentityResult identityResult = await _userManager.DeleteAsync(userModel);
                 if (identityResult.Succeeded)
                 {
-                    TempData["success"] = "User deleted successfully!";
+                    TempData["success"] = "User's account has been successfully deleted!";
                     return RedirectToAction("Index");
                 }
                 else
@@ -433,7 +433,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 try
                 {
                     //Send the new password to the user via email using EmailSender
-                    TempData["success"] = "The password reseted successfully!";
+                    TempData["success"] = "User's password has been successfully reseted!";
                     SendEmail(user.FullName, user.UserName, newPassword);
                     SavePasswordToFile(user.UserName, newPassword);
                     return RedirectToAction("Index");
@@ -448,7 +448,6 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             {
                 foreach (var error in result.Errors)
                 {
-                    TempData["error"] = "The password reset failed!";
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
