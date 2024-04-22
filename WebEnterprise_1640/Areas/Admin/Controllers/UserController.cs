@@ -200,7 +200,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                                 <body>
                                     <p>Dear {fullname},</p>
                                     <p>Help about accessing the portal is available on the login page.</p>
-                                    <p>Here is your account for your Magazine</p>
+                                    <p>Here is your account for the Bee Magazine</p>
                                     <p>Your email is <b>{userEmail}</b>.</p>
                                     <p>Your password is <b>{password}</b>.</p>
                                     <p>For more information about registration, please contact your college.</p>
