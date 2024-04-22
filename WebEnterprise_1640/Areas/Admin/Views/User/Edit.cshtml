@@ -27,17 +27,18 @@
                             <div class="col-2">
                                 <label asp-for="FullName"></label>
                             </div>
-                            <div class="col-4">
+                            <div class="col-10">
                                 <input asp-for="FullName" class="form-control" autocomplete="username" aria-required="true" />
                                 <span asp-validation-for="FullName" class="text-danger"></span>
                             </div>
+                        </div>
+                        <div class="form-group row mb-4">
                             <div class="col-2">
-                                <label asp-for="FacultyId"></label>
+                                <label asp-for="Email"></label>
                             </div>
-                            <div class="col-4">
-                                <select asp-for="FacultyId" asp-items="@Model.FacultyList" class="form-select">
-                                    <option selected disabled>--Select Faculty--</option>
-                                </select>
+                            <div class="col-10">
+                                <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group row mb-4">
@@ -49,25 +50,18 @@
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                             <div class="col-2">
-                                <label asp-for="Role"></label>
+                                <label asp-for="FacultyId"></label>
                             </div>
                             <div class="col-4">
-                                <select asp-for="Role" asp-items="@Model.RoleList" class="form-select">
-                                    <option selected disabled>--Select Role--</option>
+                                <select asp-for="FacultyId" asp-items="@Model.FacultyList" class="form-select">
+                                    <option selected disabled>--Select Faculty--</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group row mb-4">
-                            <div class="col-2">
-                                <label asp-for="Email"></label>
-                            </div>
-                            <div class="col-10">
-                                <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
+                            <div>
+                                <input asp-for="Role" asp-items="@Model.RoleList" type="hidden">
                             </div>
                             <div>
-                                <input asp-for="Password" class="form-control" autocomplete="off" aria-required="true" type="hidden" />
-                                <span asp-validation-for="Password" class="text-danger"></span>
+                                <input asp-for="Password" class="form-control" type="hidden" />
                             </div>
                         </div>
 

@@ -216,17 +216,6 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     }
                     userModel.Email = registerVM.Email;
                 }
-                var userRoles = await _userManager.GetRolesAsync(userModel);
-                if (userRoles.Any())
-                {
-                    //Remove existing roles
-                    await _userManager.RemoveFromRolesAsync(userModel, userRoles.ToArray()); 
-                }
-                if (!string.IsNullOrEmpty(registerVM.Role))
-                {
-                    //Add new role
-                    await _userManager.AddToRoleAsync(userModel, registerVM.Role);
-                }
                 if (userModel.FacultyId != registerVM.FacultyId)
                 {
                     userModel.FacultyId = registerVM.FacultyId;
