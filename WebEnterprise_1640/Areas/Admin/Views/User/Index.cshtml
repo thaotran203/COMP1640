@@ -1,0 +1,187 @@
+﻿@model IEnumerable<WebEnterprise_1640.Models.UserModel>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<UserModel> UserManager
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+	<link href="~/css/user.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        th {
+            text-align: center;
+            border: none;
+            vertical-align: middle;
+        }
+
+        #createBtn {
+            background: #cddefd;
+            color: black;
+            border-width: 0;
+            float: right;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .Search {
+            position: relative;
+            width: 50%;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+            .Search .fa-search {
+                position: absolute;
+                top: 13px;
+                left: 20px;
+            }
+
+        .form-input {
+            box-sizing: border-box;
+            border-radius: 50px;
+            background-repeat: no-repeat;
+        }
+
+            .form-input:focus {
+                border: 1px solid #ccc;
+            }
+
+        .List {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .Filter{
+            padding: 0;
+        }
+        .DropDownMenu{
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="FontSize">
+        <div>
+            <form action="/Admin/user/index">
+                <div class="Search">
+                    <i class="fa fa-search"></i>
+                    <input type="search" class="form-control form-input" id="search" name="search" value="@ViewBag.Search">
+                </div>
+            </form>
+        </div>
+        <div class="List">
+            <p class="mb-3">
+                <a asp-action="Register" class="btn btn-primary" id="createBtn"><i class="fa fa-plus-circle"></i><b>&nbsp; Add New Account</b></a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><b>Full Name</b></th>
+                        <th><b>Email</b></th>
+                        <th><b>Phone Number</b></th>
+                        <th>
+                            <form action="/Admin/user/index">
+                                <div class="dropdown d-flex align-items-center justify-content-center">
+                                    <b>Role</b>&nbsp;
+                                    <button class="btn btn-text-dark btn-icon Filter dropdown-bs-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-filter"></i>
+                                    </button>
+                                    <ul class="dropdown-menu form-control DropDownMenu" aria-labelledby="dropdownMenuButton">
+                                        <div class="form-check">
+                                            @foreach (var role in ViewBag.AllRoles)
+                                            {
+                                                <li>
+                                                    <input type="checkbox" name="roles" value="@role" @(ViewBag.Roles != null && ViewBag.Roles.Contains(role) ? "checked" : "")>
+                                                    <label>@role</label>
+                                                </li>
+                                            }
+                                        </div>
+                                        <div class="d-flex justify-content-evenly border-top pt-2">
+                                             <a asp-controller="User" asp-action="Index" class="btn text-muted">Reset</a>
+                                             <button type="submit" class="btn btn-primary" style="background-color:#4644a0; border-radius: 15px;">OK</button>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </form>
+                        </th>
+                        <th>
+                            <form action="/Admin/user/index">
+                                <div class="dropdown d-flex align-items-center justify-content-center">
+                                    <b>Faculty</b>&nbsp;
+                                    <button class="btn btn-text-dark btn-icon Filter dropdown-bs-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-filter"></i>
+                                    </button>
+                                    <ul class="dropdown-menu form-control" aria-labelledby="dropdownMenuButton" style="border-radius: 20px;">
+                                        <div class="form-check">
+                                            @foreach (var faculty in ViewBag.AllFaculties)
+                                            {
+                                                <li>
+                                                    <input type="checkbox" name="facultyIds" value="@faculty.Id" @(ViewBag.FacultyIds != null && ViewBag.FacultyIds.Contains(faculty.Id) ? "checked" : "")>
+                                                    <label>@faculty.Name</label>
+                                                </li>
+                                            }
+                                        </div>
+                                        <div class="d-flex justify-content-evenly border-top pt-2">
+                                            <a asp-controller="User" asp-action="Index" class="btn text-muted">Reset</a>
+                                            <button type="submit" class="btn btn-primary" style="background-color:#4644a0; border-radius: 15px;">OK</button>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </form>
+                        </th>
+                        <th colspan="3"><b>Action</b></th
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                            <td>
+                                @foreach (var role in await UserManager.GetRolesAsync(item))
+                                {
+                                    <span>@role</span>
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Faculty.Name)</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" style="color: black"><i class="fa fa-pencil"></i></a>
+                            </td>
+                            <td>
+                                <a asp-action="Delete" asp-route-id="@item.Id" style="color: black"><i class="fa fa-trash"></i></a>
+                            </td>
+                            <td>
+                                <a asp-action="ResetPassword" asp-route-userId="@item.Id" style="color: black"><i class="fa fa-lock"></i></a>
+                            </td>
+                                
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".dropdown-bs-toggle").dropdown();
+        })
+    </script>
+}
+
