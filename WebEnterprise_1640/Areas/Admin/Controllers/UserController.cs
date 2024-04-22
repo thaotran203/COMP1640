@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net.Mail;
+using System.Net;
 using System.Web.Helpers;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
@@ -40,7 +42,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             }
             RegisterVM registerVM = new RegisterVM()
             {
-                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
@@ -74,7 +76,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 if (checkEmail)
                 {
                     ModelState.AddModelError("Email", "User with this email already exists!");
-                    registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                    registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
                     {
                         Text = i,
                         Value = i
@@ -112,7 +114,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     else
                     {
                         TempData["error"] = "A coordinator already exists within the faculty!";
-                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager").Select(x => x.Name).Select(i => new SelectListItem
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
                         {
                             Text = i,
                             Value = i
@@ -140,6 +142,102 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
 
+        }
+
+        // GET: Admin/User/Edit/5
+        public async Task<IActionResult> Edit(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            UserModel? userModel = await _userManager.FindByIdAsync(id);
+            var userRoles = await _userManager.GetRolesAsync(userModel);
+            RegisterVM registerVM = new RegisterVM()
+            {
+                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                {
+                    Text = i,
+                    Value = i
+                }),
+                FacultyList = _context.Faculties.Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                }),
+                FullName = userModel.FullName,
+                PhoneNumber = userModel.PhoneNumber,
+                Email = userModel.Email,
+                Password = userModel.PasswordHash,
+                FacultyId = userModel.FacultyId,
+                Role = userRoles.FirstOrDefault(),
+            };
+            return View(registerVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(RegisterVM registerVM, string? id)
+        {
+            if (ModelState.IsValid)
+            {
+                UserModel userModel = await _userManager.FindByIdAsync(id);
+                if (userModel == null)
+                {
+                    return NotFound();
+                }
+                if (userModel.UserName != registerVM.Email)
+                {
+                    userModel.UserName = registerVM.Email;
+                }
+                if (userModel.FullName != registerVM.FullName)
+                {
+                    userModel.FullName = registerVM.FullName;
+                }
+                if (userModel.PhoneNumber != registerVM.PhoneNumber)
+                {
+                    userModel.PhoneNumber = registerVM.PhoneNumber;
+                }
+                if (userModel.Email != registerVM.Email)
+                {
+                    var checkEmail = _context.Users.Any(x => x.Email == registerVM.Email);
+                    if (checkEmail)
+                    {
+                        ModelState.AddModelError("Email", "User with this email already exists! ");
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                        {
+                            Text = i,
+                            Value = i
+                        });
+                        registerVM.FacultyList = _context.Faculties.Select(c => new SelectListItem
+                        {
+                            Text = c.Name,
+                            Value = c.Id.ToString(),
+                        });
+                        return View(registerVM);
+                    }
+                    userModel.Email = registerVM.Email;
+                }
+                if (userModel.FacultyId != registerVM.FacultyId)
+                {
+                    userModel.FacultyId = registerVM.FacultyId;
+                }
+                IdentityResult identityResult = await _userManager.UpdateAsync(userModel);
+                if (identityResult.Succeeded)
+                {
+                    TempData["success"] = "User updated successfully!";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    foreach (var error in identityResult.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    ModelState.AddModelError(string.Empty, "Invalid");
+                }
+
+            }
+
+            return RedirectToAction("Index");
         }
 
         // GET: Admin/User/Delete/5
