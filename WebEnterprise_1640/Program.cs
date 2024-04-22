@@ -109,10 +109,15 @@ app.MapAreaControllerRoute(
     pattern: "Magazine",
     defaults: new { controller = "Magazine", action = "Index" });
 app.MapAreaControllerRoute(
-    name: "User",
-    areaName: "User",
-    pattern: "Profile/Test/{id?}",
-    defaults: new { controller = "Profile", action = "Test" });
+    name: "Coordinator",
+    areaName: "Coordinator",
+    pattern: "MagazineSelected",
+    defaults: new { controller = "MagazineSelected", action = "Index" });
+app.MapAreaControllerRoute(
+	  name: "User",
+	  areaName: "User",
+	  pattern: "Profile/Test/{id?}",
+	  defaults: new { controller = "Profile", action = "Test" });
 app.MapAreaControllerRoute(
     name: "Coordinator",
     areaName: "Coordinator",
