@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Bar Chart Example</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="~/css/coordashboard.css">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+	<div class="chart-container" style="display: flex; justify-content: center; flex-wrap: wrap;">
+		<div class="count-box" style="width: calc(100% - 20px); max-width: 400px; height: 200px; background-color: rgb(242, 237, 243); padding: 10px; border-radius: 8px; margin: 10px;">
+			<h2>Number of Students</h2>
+			<div class="count-container">
+				<p class="count">@ViewBag.StudentCount</p>
+				<i class="fa-solid fa-users" style="font-size: 30px; color: #1abc9c;"></i>
+			</div>
+		</div>
+		<div class="count-box" style="width: calc(100% - 20px); max-width: 400px; height: 200px; background-color: rgb(242, 237, 243); padding: 10px; border-radius: 8px; margin: 10px;">
+			<h2>Number of Comments</h2>
+			<div class="count-container">
+				<p class="count">@ViewBag.CommentCount</p>
+				<i class="fa-solid fa-comment" style="font-size: 30px; color: #3498db;"></i>
+			</div>
+		</div>
+		<div class="count-box" style="width: calc(100% - 20px); max-width: 400px; height: 200px; background-color: rgb(242, 237, 243); padding: 10px; border-radius: 8px; margin: 10px;">
+			<h2 style="font-size: 24px; font-weight: bold;">Number of approved articles</h2>
+			<div class="count-container">
+				<p class="count">@ViewBag.ArticlesWithSelectedStatusCount</p>
+				<i class="fa-solid fa-book" style="font-size: 30px; color: #2ecc71;"></i>
+			</div>
+		</div>
+	</div>
+	<div class="chart-container" style="display: flex; justify-content: center; flex-wrap: wrap;">
+		<div class="chart-wrapper" style="flex: 1; width: calc(100% - 20px); max-width: 600px; margin: 10px;">
+			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+				<h1 style="font-size: 20px;">Student submission of each faculty</h1>
+				<div style="display: flex; align-items: center;">
+					<label for="selectedYear" style="margin-right: 5px;">Year</label>
+					<div class="select-container">
+						<form id="yearForm" asp-action="Index" asp-controller="Dashboard" method="get">
+							<div class="select-wrapper">
+								<select id="selectedYear" name="selectedYear" onchange="submitForm()">
+									@for (var year = DateTime.Now.Year; year >= 2010; year--)
+									{
+										<option value="@year" @(ViewBag.SelectedYear == year ? "selected" : "")>@year</option>
+									}
+								</select>
+								<span class="arrow-down"><i class="fas fa-chevron-down"></i></span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<canvas id="myChart" style="width: 100%; height: 400px;"></canvas>
+			</div>
+		</div>
+
+
+		<div class="chart-wrapper" style="flex: 1; width: calc(100% - 20px); max-width: 600px; margin: 10px;">
+			<h1 style="font-size: 20px; margin-bottom: 10px;">Percentage of submission for each faculty</h1>
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<canvas id="articleStatusChart" style="width: 100%; height: 400px;"></canvas>
+			</div>
+		</div>
+	</div>
+	<script>
+		 function submitForm() {
+			 document.getElementById("yearForm").submit();
+		 }
+
+		 var ctx = document.getElementById('myChart').getContext('2d');
+		 var myChart = new Chart(ctx, {
+			 type: 'bar',
+			 data: {
+				 labels: @Html.Raw(Json.Serialize(ViewBag.Labels)),
+				 datasets: [{
+					 label: 'Submissions',
+					 data: @Html.Raw(Json.Serialize(ViewBag.Data)),
+					 backgroundColor: 'rgb(100, 189, 239)',
+					 borderColor: 'rgb(100, 189, 239)',
+				 }]
+			 },
+			 options: {
+				 scales: {
+					 y: {
+						 beginAtZero: true
+					 }
+				 }
+			 }
+		 });
+
+		var articleStatusCtx = document.getElementById('articleStatusChart').getContext('2d');
+		 var articleStatusChart = new Chart(articleStatusCtx, {
+			 type: 'doughnut',
+			 data: {
+				 labels: ['Selected', 'Denied'],
+				 datasets: [{
+					 backgroundColor: ['#ff6384', '#ffce56'],
+					 data: [@ViewBag.SelectedPercentage, @ViewBag.DeniedPercentage]
+				 }]
+			 },
+			 options: {
+				 responsive: true,
+				 maintainAspectRatio: false
+			 }
+		 });
+	</script>
+</body>
+</html>
