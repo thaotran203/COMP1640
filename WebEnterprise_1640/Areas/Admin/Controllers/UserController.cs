@@ -50,7 +50,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public async Task<IActionResult> Index(string search = "", List<string> roles = null)
+        public async Task<IActionResult> Index(string search = "", List<string> roles = null, List<int> facultyIds = null)
         {
             //Get all users first
             var users = await _userManager.Users.ToListAsync();
@@ -75,6 +75,13 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             }
             ViewBag.AllRoles = (await _roleManager.Roles.Where(r => r.Name != "Admin").ToListAsync()).Select(r => r.Name).ToList();
             ViewBag.Roles = roles;
+            // Filter facultyId
+            if (facultyIds != null && facultyIds.Count > 0)
+            {
+                users = users.Where(u => facultyIds.Contains(u.FacultyId)).ToList();
+            }
+            ViewBag.AllFaculties = await _context.Faculties.ToListAsync();
+            ViewBag.FacultyIds = facultyIds;
 
             return View(users);
 
