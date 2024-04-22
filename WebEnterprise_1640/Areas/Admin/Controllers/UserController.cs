@@ -142,5 +142,43 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 
         }
 
+        // GET: Admin/User/Delete/5
+        public async Task<IActionResult> Delete(string? id)
+        {
+            if (id == null || id == null)
+            {
+                return NotFound();
+            }
+            UserModel? userModel = await _userManager.FindByIdAsync(id);
+            return View(userModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(UserModel userModel, string? id)
+        {
+            userModel = await _userManager.FindByIdAsync(id);
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                IdentityResult identityResult = await _userManager.DeleteAsync(userModel);
+                if (identityResult.Succeeded)
+                {
+                    TempData["success"] = "User deleted successfully!";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    foreach (var error in identityResult.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    ModelState.AddModelError(string.Empty, "Invalid");
+                }
+            }
+            return RedirectToAction("Index");
+
+        }
     }
 }
