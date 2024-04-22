@@ -21,9 +21,6 @@ html {
     white-space: nowrap;
 }
 
-.table-button {
-    overflow: visible;
-}
 
 html {
     position: relative;
@@ -57,7 +54,7 @@ html {
     min-width: 30px;
 }
 
-    .action-button:focus {  
+    .action-button:focus {
         outline: none;
     }
 
@@ -83,8 +80,8 @@ body {
 }
 
 .article-name {
-    max-width: 40vw;
-    min-width: 40vw;
+    max-width: 50vw;
+    min-width: 50vw;
 }
 
 .student-name {
@@ -133,6 +130,4 @@ body {
         max-width: 25vw;
         min-width: 25vw;
     }
-
 }
-
