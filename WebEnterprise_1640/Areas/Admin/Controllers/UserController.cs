@@ -26,7 +26,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public async Task<IActionResult> Index(string search = "")
+        public async Task<IActionResult> Index(string search = "", List<string> roles = null)
         {
             //Get all users first
             var users = await _userManager.Users.ToListAsync();
@@ -38,7 +38,22 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 users = users.Where(u => u.FullName.Contains(search) || u.Email.Contains(search)).ToList();
             }
             ViewBag.Search = search;
+            // Filter role
+            if (roles != null && roles.Count > 0)
+            {
+                var usersInRoles = new List<UserModel>();
+                foreach (var role in roles)
+                {
+                    var usersInCurrentRole = await _userManager.GetUsersInRoleAsync(role);
+                    usersInRoles.AddRange(usersInCurrentRole);
+                }
+                users = users.Where(u => usersInRoles.Select(x => x.Id).Contains(u.Id)).ToList();
+            }
+            ViewBag.AllRoles = (await _roleManager.Roles.Where(r => r.Name != "Admin").ToListAsync()).Select(r => r.Name).ToList();
+            ViewBag.Roles = roles;
+
             return View(users);
+
         }
 
         // GET: Admin/User/Register
