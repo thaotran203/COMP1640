@@ -15,6 +15,30 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
+        private const string LowercaseCharacters = "abcdefghijklmnopqrstuvwxyz";
+        private const string UppercaseCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const string DigitCharacters = "0123456789";
+        private const string SpecialCharacters = "!@#$%^&*()-_=+";
+
+        public static string GenerateRandomPassword(int length = 12)
+        {
+            var allCharacters = LowercaseCharacters + UppercaseCharacters + DigitCharacters + SpecialCharacters;
+            var passwordChars = new char[length];
+            var random = new Random();
+            //Ensure at least one character from each character set
+            passwordChars[0] = LowercaseCharacters[random.Next(LowercaseCharacters.Length)];
+            passwordChars[1] = UppercaseCharacters[random.Next(UppercaseCharacters.Length)];
+            passwordChars[2] = DigitCharacters[random.Next(DigitCharacters.Length)];
+            passwordChars[3] = SpecialCharacters[random.Next(SpecialCharacters.Length)];
+            //Fill the rest of the password with random characters
+            for (int i = 4; i < length; i++)
+            {
+                passwordChars[i] = allCharacters[random.Next(allCharacters.Length)];
+            }
+            // Shuffle the characters to make the password more random
+            return new string(passwordChars);
+        }
+
         private readonly ApplicationDbContext _context;
         private readonly UserManager<UserModel> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -99,10 +123,19 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                         identityResult = await _userManager.CreateAsync(user);
                         if (identityResult.Succeeded)
                         {
-
-                            await _userManager.AddToRoleAsync(user, registerVM.Role);
-                            TempData["success"] = "User created successfully!";
-                            return RedirectToAction("Index");
+                            try
+                            {
+                                //Send the email and password to the user via email using EmailSender
+                                await _userManager.AddToRoleAsync(user, registerVM.Role);
+                                TempData["success"] = "User created successfully!";
+                                SendEmailCreate(user.FullName, user.UserName, registerVM.Password);
+                                return RedirectToAction("Index");
+                            }
+                            catch (Exception ex)
+                            {
+                                //Log or handle the exception accordingly
+                                ModelState.AddModelError(string.Empty, "Failed to send the new password via email.");
+                            }
                         }
                         foreach (var error in identityResult.Errors)
                         {
@@ -133,15 +166,56 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     identityResult = await _userManager.CreateAsync(user);
                     if (identityResult.Succeeded)
                     {
-
-                        await _userManager.AddToRoleAsync(user, registerVM.Role);
-                        TempData["success"] = "User created successfully!";
-                        return RedirectToAction("Index");
+                        try
+                        {
+                            //Send the email and password to the user via email using EmailSender
+                            await _userManager.AddToRoleAsync(user, registerVM.Role);
+                            TempData["success"] = "User created successfully!";
+                            SendEmailCreate(user.FullName, user.UserName, registerVM.Password);
+                            return RedirectToAction("Index");
+                        }
+                        catch (Exception ex)
+                        {
+                            //Log or handle the exception accordingly
+                            ModelState.AddModelError(string.Empty, "Failed to send the new password via email.");
+                        }
                     }
                 }
             }
             return RedirectToAction("Index");
 
+        }
+        [HttpPost]
+        public IActionResult SendEmailCreate([FromBody] string fullname, string userEmail, string password)
+        {
+            //The email will send password to user
+            string fromMail = "beemagazine3@gmail.com";
+            string fromPassword = "aulftywznetqjinz";
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(fromMail);
+            //Send email to the specific user
+            message.To.Add(new MailAddress(userEmail));
+            message.Subject = "Account Information";
+            message.Body = $@"<html>
+                                <body>
+                                    <p>Dear {fullname},</p>
+                                    <p>Help about accessing the portal is available on the login page.</p>
+                                    <p>Here is your account for your Magazine</p>
+                                    <p>Your email is <b>{userEmail}</b>.</p>
+                                    <p>Your password is <b>{password}</b>.</p>
+                                    <p>For more information about registration, please contact your college.</p>
+                                    <p>Best regards,<br/>The Bee Magazine Team</p>
+                                </body>
+                            </html>";
+            message.IsBodyHtml = true;
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(fromMail, fromPassword),
+                EnableSsl = true,
+            };
+            smtpClient.Send(message);
+            return Ok();
         }
 
         // GET: Admin/User/Edit/5
@@ -231,11 +305,24 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 {
                     userModel.FacultyId = registerVM.FacultyId;
                 }
+                //Get name faculty in list
+                var faculty = _context.Faculties.FirstOrDefault(f => f.Id == registerVM.FacultyId);
                 IdentityResult identityResult = await _userManager.UpdateAsync(userModel);
                 if (identityResult.Succeeded)
                 {
-                    TempData["success"] = "User updated successfully!";
-                    return RedirectToAction("Index");
+                    try
+                    {
+                        //Send the email and password to the user via email using EmailSender
+                        await _userManager.AddToRoleAsync(userModel, registerVM.Role);
+                        TempData["success"] = "User updated successfully!";
+                        SendEmailEdit(userModel.UserName, userModel.FullName, userModel.PhoneNumber, faculty.Name, registerVM.Role);
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        //Log or handle the exception accordingly
+                        ModelState.AddModelError(string.Empty, "Failed to send the new password via email.");
+                    }
                 }
                 else
                 {
@@ -249,6 +336,39 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult SendEmailEdit([FromBody] string userEmail, string fullname, string phone, string faculty, string role)
+        {
+            //The email will send update information to user
+            string fromMail = "beemagazine3@gmail.com";
+            string fromPassword = "aulftywznetqjinz";
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(fromMail);
+            //Send email to the specific user
+            message.To.Add(new MailAddress(userEmail));
+            message.Subject = "Update Account Information";
+            message.Body = $@"<html>
+                                <body>
+                                    <p>Dear {role},</p>
+                                    <p>Help with describing {role}'s personal information.</p>
+                                    <p>Your fullname is <b>{fullname}</b>.</p>
+                                    <p>Your email is <b>{userEmail}</b>.</p>
+                                    <p>Your phone number is <b>{phone}</b>.</p>
+                                    <p>Your faculty is <b>{faculty}</b>.</p>
+                                    <p>For more information about registration, please contact your college.</p>
+                                    <p>Best regards,<br/>The Bee Magazine Team</p>
+                                </body>
+                            </html>";
+            message.IsBodyHtml = true;
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(fromMail, fromPassword),
+                EnableSsl = true,
+            };
+            smtpClient.Send(message);
+            return Ok();
         }
 
         // GET: Admin/User/Delete/5
@@ -288,6 +408,93 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
 
+        }
+
+        // Reset password
+        public async Task<IActionResult> ResetPassword(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID is missing.");
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+            //Generate a random password
+            var newPassword = GenerateRandomPassword();
+            //Reset the user's password
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+            if (result.Succeeded)
+            {
+                try
+                {
+                    //Send the new password to the user via email using EmailSender
+                    TempData["success"] = "The password reseted successfully!";
+                    SendEmail(user.FullName, user.UserName, newPassword);
+                    SavePasswordToFile(user.UserName, newPassword);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    //Log or handle the exception accordingly
+                    ModelState.AddModelError(string.Empty, "Failed to send the new password via email.");
+                }
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    TempData["error"] = "The password reset failed!";
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            return RedirectToAction("Index");
+        }
+        private void SavePasswordToFile(string username, string password)
+        {
+            var directoryPath = Path.Combine("password", username);
+            var filePath = Path.Combine(directoryPath, $"{username}_password.txt");
+            //Create the directory if it doesn't exist
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            //Write the password to the file
+            System.IO.File.WriteAllText(filePath, password);
+        }
+        [HttpPost]
+        public IActionResult SendEmail([FromBody] string fullname, string userEmail, string password)
+        {
+            //The email will send password to user
+            string fromMail = "beemagazine3@gmail.com";
+            string fromPassword = "aulftywznetqjinz";
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(fromMail);
+            //Send email to the specific user
+            message.To.Add(new MailAddress(userEmail));
+            message.Subject = "Article Submission Denied";
+            message.Body = $@"<html>
+                                <body>
+                                    <p>Dear {fullname},</p>
+                                    <p>Help about accessing the portal is available on the login page.</p>
+                                    <p>Your new password is <b>{password}</b>.</p>
+                                    <p>For more information about registration, please contact your college.</p>
+                                    <p>Best regards,<br/>The Bee Magazine Team</p>
+                                </body>
+                            </html>";
+            message.IsBodyHtml = true;
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(fromMail, fromPassword),
+                EnableSsl = true,
+            };
+            smtpClient.Send(message);
+            return Ok();
         }
     }
 }
