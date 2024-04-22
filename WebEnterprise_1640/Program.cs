@@ -123,6 +123,11 @@ app.MapAreaControllerRoute(
     areaName: "Manager",
     pattern: "Dashboard",
     defaults: new { controller = "Dashboard", action = "Index" });
+app.MapAreaControllerRoute(
+    name: "Coordinator",
+    areaName: "Coordinator",
+    pattern: "Dashboard",
+    defaults: new { controller = "Dashboard", action = "Index" });
 //app.UseEndpoints(endpoints =>
 //{
 //    endpoints.MapControllerRoute(
