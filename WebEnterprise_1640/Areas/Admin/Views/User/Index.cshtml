@@ -117,7 +117,31 @@
                                 </div>
                             </form>
                         </th>
-                        <th><b>Faculty</b></th>
+                        <th>
+                            <form action="/Admin/user/index">
+                                <div class="dropdown d-flex align-items-center justify-content-center">
+                                    <b>Faculty</b>&nbsp;
+                                    <button class="btn btn-text-dark btn-icon Filter dropdown-bs-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-filter"></i>
+                                    </button>
+                                    <ul class="dropdown-menu form-control" aria-labelledby="dropdownMenuButton" style="border-radius: 20px;">
+                                        <div class="form-check">
+                                            @foreach (var faculty in ViewBag.AllFaculties)
+                                            {
+                                                <li>
+                                                    <input type="checkbox" name="facultyIds" value="@faculty.Id" @(ViewBag.FacultyIds != null && ViewBag.FacultyIds.Contains(faculty.Id) ? "checked" : "")>
+                                                    <label>@faculty.Name</label>
+                                                </li>
+                                            }
+                                        </div>
+                                        <div class="d-flex justify-content-evenly border-top pt-2">
+                                            <a asp-controller="User" asp-action="Index" class="btn text-muted">Reset</a>
+                                            <button type="submit" class="btn btn-primary" style="background-color:#4644a0; border-radius: 15px;">OK</button>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </form>
+                        </th>
                         <th colspan="3"><b>Action</b></th
                     </tr>
                 </thead>
@@ -142,7 +166,7 @@
                                 <a asp-action="Delete" asp-route-id="@item.Id" style="color: black"><i class="fa fa-trash"></i></a>
                             </td>
                             <td>
-                                <a asp-action="ResetPassword" asp-route-userId="@item.Id" onclick="sendEmail('@item.Id')" style="color: black"><i class="fa fa-lock"></i></a>
+                                <a asp-action="ResetPassword" asp-route-userId="@item.Id" style="color: black"><i class="fa fa-lock"></i></a>
                             </td>
                                 
                         </tr>
