@@ -19,6 +19,7 @@ li {
 .drop {
     display: none;
 }
+
 body {
 
     .search-container {
@@ -109,20 +110,33 @@ body {
     .next {
         color: black;
     }
-
 }
-
 /* Laptop */
 @media screen and (min-width:1025px) {
     body {
+            .title-magazine {
+                font-size: 25px !important;
+                font-weight: bold !important;
+                margin-top: 10px !important;
+            }
+
+            .description-magazine {
+                font-size: 20px !important;
+                margin-top: 10px;
+            }
+
+            .read-more {
+                margin-top: 10px;
+            }
         .search-container {
+            margin-top: 60px;
             .input {
-                padding: 5px;
-                padding-left: 50px;
+                padding: 10px 40px 10px 20px;
+                padding-left: 0px;
                 border-radius: 50px;
             }
             .icon-search {
-                margin-right: 165px;
+                margin-left: 165px;
             }
         }
 
@@ -167,21 +181,9 @@ body {
                 width: 100%;
             }
 
-            .title-magazine {
-                font-size: 25px;
-                font-weight: bold;
-                margin-top: 10px;
-            }
-
-            .description-magazine {
-                font-size: 20px;
-                margin-top: 10px;
-            }
-
-            .read-more {
-                margin-top: 10px;
-            }
+           
         }
+
         .slide3,
         .slide1,
         .slide:hover {
