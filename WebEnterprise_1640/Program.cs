@@ -17,10 +17,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //builder.Services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddIdentity<UserModel, RoleModel>()
-              .AddDefaultUI()
-              .AddEntityFrameworkStores<ApplicationDbContext>()
-              .AddDefaultTokenProviders();
+builder.Services.AddIdentity<UserModel, IdentityRole>()
+			  .AddDefaultUI()
+			  .AddEntityFrameworkStores<ApplicationDbContext>()
+			  .AddDefaultTokenProviders();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
