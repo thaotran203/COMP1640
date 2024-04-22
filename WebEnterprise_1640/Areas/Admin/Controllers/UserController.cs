@@ -8,6 +8,8 @@ using System.Web.Helpers;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
 using WebEnterprise_1640.Models.ViewModel;
+using Microsoft.EntityFrameworkCore;
+using WebEnterprise_1640.Models.NewFolder;
 
 namespace WebEnterprise_1640.Areas.Admin.Controllers
 {
@@ -48,9 +50,19 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string search = "")
         {
-            return View();
+            //Get all users first
+            var users = await _userManager.Users.ToListAsync();
+            //Filter out users with the 'Admin' role
+            users = users.Where(u => !_userManager.IsInRoleAsync(u, "Admin").Result).ToList();
+            //Search
+            if (!string.IsNullOrEmpty(search))
+            {
+                users = users.Where(u => u.FullName.Contains(search) || u.Email.Contains(search)).ToList();
+            }
+            ViewBag.Search = search;
+            return View(users);
         }
 
         // GET: Admin/User/Register

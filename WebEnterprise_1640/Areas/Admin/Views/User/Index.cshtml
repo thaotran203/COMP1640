@@ -74,6 +74,14 @@
 </head>
 <body>
     <div class="FontSize">
+        <div>
+            <form action="/Admin/user/index">
+                <div class="Search">
+                    <i class="fa fa-search"></i>
+                    <input type="search" class="form-control form-input" id="search" name="search" value="@ViewBag.Search">
+                </div>
+            </form>
+        </div>
         <div class="List">
             <p class="mb-3">
                 <a asp-action="Register" class="btn btn-primary" id="createBtn"><i class="fa fa-plus-circle"></i><b>&nbsp; Add New Account</b></a>
