@@ -1,0 +1,100 @@
+﻿@model IEnumerable<WebEnterprise_1640.Models.MagazineModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var currentDateTime = DateTime.Now;
+    var latestMagazines = Model.Where(m => m.Semester.FinalClosureDate > currentDateTime);
+    var closedMagazines = Model.Where(m => m.Semester.FinalClosureDate <= currentDateTime);
+}
+
+<!-- Include Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/magazine.css">
+
+<div>
+    <div class="containera mt-4">
+        <div class="row">
+            <div class="d-flex justify-content-between col text-center position-relative">
+
+                <form id="facultyForm" asp-action="Index" asp-controller="Magazine" method="get">
+                    <select class="form-select" id="facultySelect" name="facultyId" aria-label="Select Faculty" style="width: unset; border-radius: 20px">
+                        <option value="" hidden="hidden">Select Faculties</option>
+                        <option value="">All Faculties</option>
+                        @foreach(var faculty in ViewBag.Faculties)
+                        {
+                            <option value="@faculty.Id">@faculty.Name</option>
+                        }
+                    </select>
+                </form>
+
+                <div class="search-wrapper">
+                    <input type="text" id="magazineSearch" onkeyup="searchMagazines()">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                </div>
+                <button class="create-mgz"><i class="fa-solid fa-plus"></i> <a asp-action="Create" asp-controller="Magazine">Create magazine</a></button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="my-4">
+                <p class="latest-magazines">Latest Magazines<a href="/magazines"></a></p>
+            </div>
+            @foreach (var magazine in latestMagazines)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card magazine-card h-100" style="min-height: 300px">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title magazine-name">
+                                    <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link title-magazine">@magazine.Name</a>
+                                </h5>
+                                <p class="card-text description-magazine">Description: @magazine.Description </p>
+                            </div>
+                            <div>
+                                <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                                <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="my-4">
+                <p class="latest-magazines">Magazines have been closed<a href="/magazines"></a></p>
+            </div>
+            @foreach (var magazine in closedMagazines)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card magazine-card h-100" style="min-height: 300px">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title magazine-name">
+                                    <a href="/Coordinator/Article?magazineId=@magazine.Id" class="custom-link title-magazine">@magazine.Name</a>
+                                </h5>
+                                <p class="card-text description-magazine">Description: @magazine.Description </p>
+                            </div>
+                            <div>
+                                <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                                <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/magazine.js"></script>

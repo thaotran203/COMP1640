@@ -41,7 +41,7 @@
                             <option value="">-- Select Semester --</option>
                             @foreach (var semester in ViewBag.SemesterList)
                             {
-                                <option value="@semester.Id">@semester.Name</option>
+                                <option value="@semester.Id" id="SemesterId" final="@semester.FinalClosureDate">@semester.Name</option>
                             }
                         </select>
                         <span asp-validation-for="SemesterId" class="text-danger"></span>
@@ -58,7 +58,7 @@
 
                 <div class="button-container" style="text-align: right; margin-top: 50px;">
                     <button type="submit" form="createForm" class="btn btn-primary" style="background-color: #4644A0; border: 1px solid #4644A0">Create</button>
-                    <a asp-action="Index" asp-controller="Semester" class="btn btn-secondary">Cancel</a>
+                    <a asp-action="Index" asp-controller="Magazine" class="btn btn-secondary">Cancel</a>
                 </div>
             </form>
         </div>
@@ -72,11 +72,24 @@
                 var closureDate = $("#ClosureDate").val();
                 var selectedDate = new Date(closureDate);
                 var currentDate = new Date();
+                
 
                 if (selectedDate < currentDate) {
                     $("#ClosureDate").addClass("is-invalid");
                     $("#ClosureDate").siblings(".text-danger").text("Please enter a date not in the past");
                     event.preventDefault();
+                    return;
+                }
+
+                // Get the final closure date from the selected semester option
+                var finalClosureDate = $("#SemesterId option:selected").attr("final");
+                var finalClosureDateObj = new Date(finalClosureDate);
+
+                if (selectedDate > finalClosureDateObj) {
+                    $("#ClosureDate").addClass("is-invalid");
+                    $("#ClosureDate").siblings(".text-danger").text("Closure date must be before the final closure date of the semester");
+                    event.preventDefault();
+                    return;
                 }
             });
         });
@@ -86,5 +99,3 @@
 <!-- Include Bootstrap CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
 <link href="~/css/MagazineStyle.css" rel="stylesheet" />
-
-
