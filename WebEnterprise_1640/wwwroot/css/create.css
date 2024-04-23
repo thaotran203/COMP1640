@@ -435,6 +435,10 @@ body {
 /* Mobile */
 @media screen and (max-width:740px) {
     body {
+        .img
+        {
+            width: 50px !important;
+        }
         .body-content
 
 {
@@ -534,10 +538,7 @@ h2 {
 
 {
     width: 50px;
-    .img
-{
-    width: 50px;
-}
+    
 
 }
 
