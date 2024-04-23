@@ -130,8 +130,8 @@ h3 {
 {
     top: 50px;
     right: 150px;
-    width: 1500px;
-    height: 80vh;
+    width: 80%;
+    height: 82h;
     padding: 50px 50px 30px 50px;
     .edit-title
 
@@ -208,17 +208,16 @@ h3 {
 
 /* Tablet */
 @media screen and (min-width:741px) and (max-width:1024px) {
+    .panel {
+        width: 80% !important;
+    }
     body {
-        .show-modal
-
-{
+    .show-modal {
     height: 100%;
     .panel
-
 {
     top: 150px;
     right: 80px;
-    width: 800px;
     padding: 30px 30px 10px 30px;
     .edit-title
 
@@ -308,7 +307,7 @@ h3 {
 
 {
     top: 100px;
-    right: 40px;
+    right: 7%;
     width: 330px;
     padding: 20px 20px 10px 20px;
     .edit-title
