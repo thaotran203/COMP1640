@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/nav_footer.css" asp-append-version="true">
 <link rel="stylesheet" href="~/css/magazine.css">
+<link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
+
 <body>
     @{
         var userData = ViewBag.User;
@@ -54,41 +56,81 @@
         <div class="show-menu none">
         </div>
     </header>
-    <div>
-        <div class="containera mt-4">
-            <div class="row">
-                <div class="col text-center position-relative">
-                    <div class="search-wrapper">
-                        <input type="text" id="magazineSearch" onkeyup="searchMagazines()">
-                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+
+    <div class="body-admin">
+        <div class="left-panel">
+            <button class="icon-arrow" onclick="arrow()">
+                <i class="fa-solid fa-arrow-left"></i>
+                <i class="fa-solid fa-arrow-right none"></i>
+            </button>
+            <div style="margin-bottom: 30px;"></div>
+
+            <button class="manage">
+                <div class="account">
+                    <div class="icon-1">
+                        <i class="fa-solid fa-chart-line"></i>
                     </div>
+                    <p>Dash board</p>
                 </div>
-            </div>
+            </button>
+            <button class="manage">
+                <div class="account">
+                    <div class="icon-2">
+                        <i class="fa-solid fa-list"></i>
+                    </div>
+                    <p>Manage Articles</p>
+                </div>
+            </button>
+            <button class="manage">
+                <div class="account">
+                    <div class="icon-2">
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                    <p>Selected Articles</p>
+                </div>
+            </button>
         </div>
-
-        <div class="mt-4">
-            <p class="latest-magazines">Latest Magazines<a href="/magazines"></a></p>
-        </div>
-
-        <div class="container mt-4">
-            <div class="row">
-                @foreach (var magazine in latestMagazines)
-                {
-                    <div class="col-md-6 mb-4">
-                        <div class="card magazine-card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title magazine-name">
-                                    <a href="/Coordinator/SelectedArticle?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
-                                </h5>
-                                <p class="card-text">Description: @magazine.Description </p>
-                                <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
-                                <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+        <div class="main-box">
+            <div>
+                <div class="containera mt-4">
+                    <div class="row">
+                        <div class="col text-center position-relative">
+                            <div class="search-wrapper">
+                                <input type="text" id="magazineSearch" onkeyup="searchMagazines()">
+                                <i class="fa-solid fa-magnifying-glass search-icon"></i>
                             </div>
                         </div>
                     </div>
-                }
+                </div>
+
+                <div class="mt-4">
+                    <p class="latest-magazines">Latest Magazines<a href="/magazines"></a></p>
+                </div>
+
+                <div class="container mt-4">
+                    <div class="row">
+                        @foreach (var magazine in latestMagazines)
+                        {
+                            <div class="col-md-6 mb-4">
+                                <div class="card magazine-card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title magazine-name">
+                                            <a href="/Coordinator/SelectedArticle?magazineId=@magazine.Id" class="custom-link">@magazine.Name</a>
+                                        </h5>
+                                        <p class="card-text">Description: @magazine.Description </p>
+                                        <p class="card-text"><b>Deadline to submit: </b> @magazine.ClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                                        <p class="card-text"><b>Final Deadline: </b> @magazine.Semester.FinalClosureDate.ToString("MMMM-dd-yyyy h:mm tt")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
+
         </div>
+    </div>
+
         <footer>
             <div class="colum">
                 <div class="colum-1">
@@ -146,7 +188,9 @@
                 </div>
             </div>
         </footer>
-    </div>
+    
+    <script src="~/js/sidebar.js" asp-append-version="true"></script>
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/magazine.js"></script>

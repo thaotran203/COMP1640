@@ -14,6 +14,7 @@ body {
 
     .body-admin {
         display: flex;
+        justify-content: start;
     }
 
     .none {
@@ -38,19 +39,20 @@ body {
 
     .left-panel {
         background-color: white;
-        padding: 40px 20px;
+        padding: 20px;
         height: 100vh;
         position: relative;
 
         .icon-arrow {
-            padding: 15px;
+            padding: 10px;
             border: 1px solid white;
             background-color: #f3f3f3;
             text-align: center;
             width: 100%;
             position: absolute;
-            bottom: 10px;
-            left: 0;
+            top: 0px;
+            margin-top: 20px;
+            left: 0px;
         }
 
         .manage {
@@ -66,9 +68,11 @@ body {
                 background-color: #f3f3f3;
                 border-radius: 10px;
                 justify-content: center;
+                align-items: center;
 
                 p {
                     margin-left: 20px;
+                    margin-bottom: 0px !important;
                 }
             }
 
@@ -114,7 +118,17 @@ body {
 @media screen and (max-width:740px) {
     body {
         .main-box {
-            padding: 20px;
+            padding: 0px;
         }
-    }
+        .left-panel {
+            padding: 5px !important;
+            .icon-arrow {
+                padding: 5px 0px !important;
+        }
+        p {
+            margin-left: 0px !important;
+        }
+        .account {
+            padding: 5px 0px !important;
+        }
 }

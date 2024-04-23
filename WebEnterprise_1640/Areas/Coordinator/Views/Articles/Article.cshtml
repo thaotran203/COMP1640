@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/CMP59.css">
 <link rel="stylesheet" href="~/css/nav_footer.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
 
 <header>
     @{
@@ -50,74 +51,110 @@
     </div>
 </header>
 
-<div class="container mt-4" style="height: 100vh;">
-    <div class="">
-        @foreach (var article in Model)
-        {
-            <div class="mx-auto mb-4 ">
-                <div class="card magazine-card">
-                    <div class="card-body">
-                        <p><b>Article title:</b></p>
-                        @article.Name
-                    </div>
-                    <div class="card-body">
-                        <p><b>Article Description:</b></p>
-                        @article.Description
-                    </div>
-                    <div class="card-body">
-                        <p><b>Student Name:</b></p>
-                        @article.User.FullName
-                    </div>
-                    <div class="card-body">
-                        <p><b>Date submitted:</b></p>
-                        @article.SubmitDate.ToString("MMMM-dd-yyyy h:mm tt")
-                    </div>
+<div class="body-admin">
+    <div class="left-panel">
+        <button class="icon-arrow" onclick="arrow()">
+            <i class="fa-solid fa-arrow-left"></i>
+            <i class="fa-solid fa-arrow-right none"></i>
+        </button>
+        <div style="margin-bottom: 30px;"></div>
+
+        <button class="manage">
+            <div class="account">
+                <div class="icon-1">
+                    <i class="fa-solid fa-chart-line"></i>
                 </div>
-                <div class="card-body card magazine-card">
-                    <div class="card-body">
-                        <b><a>File submission:</a></b>
-                        @foreach (var document in article.Documents)
-                        {
-                            <a href="~/media/@document.File" class="small" download><i class="fa-regular fa-file"></i>@document.File</a>
-                            <br />
-                        }
-                    </div>
-                    <div class="card-body">
-                        <b><a>Image File:</a></b>
-                        @foreach (var document in article.Documents)
-                        {
-                            <a href="~/media/@document.Image" class="small" download><i class="fa-solid fa-file-image"></i>@document.Image</a>
-                            <br />
-                        }
-                    </div>
-                    @if (TempData["ErrorMessage"] != null)
+                <p>Dash board</p>
+            </div>
+        </button>
+        <button class="manage">
+            <div class="account">
+                <div class="icon-2">
+                    <i class="fa-solid fa-list"></i>
+                </div>
+                <p>Manage Articles</p>
+            </div>
+        </button>
+        <button class="manage">
+            <div class="account">
+                <div class="icon-2">
+                    <i class="fa-regular fa-star"></i>
+                </div>
+                <p>Selected Articles</p>
+            </div>
+        </button>
+    </div>
+    <div class="main-box">
+            <div class="container mt-4" style="height: 100vh;">
+                <div class="">
+                    @foreach (var article in Model)
                     {
-                        <div style="margin-bottom:1rem">
-                            <p style="color:red;font-weight:bold;font-size:18px">@TempData["ErrorMessage"]</p>
+                        <div class="mx-auto mb-4 ">
+                            <div class="card magazine-card">
+                                <div class="card-body">
+                                    <p><b>Article title:</b></p>
+                                    @article.Name
+                                </div>
+                                <div class="card-body">
+                                    <p><b>Article Description:</b></p>
+                                    @article.Description
+                                </div>
+                                <div class="card-body">
+                                    <p><b>Student Name:</b></p>
+                                    @article.User.FullName
+                                </div>
+                                <div class="card-body">
+                                    <p><b>Date submitted:</b></p>
+                                    @article.SubmitDate.ToString("MMMM-dd-yyyy h:mm tt")
+                                </div>
+                            </div>
+                            <div class="card-body card magazine-card">
+                                <div class="card-body">
+                                    <b><a>File submission:</a></b>
+                                    @foreach (var document in article.Documents)
+                                    {
+                                        <a href="~/media/@document.File" class="small" download><i class="fa-regular fa-file"></i>@document.File</a>
+                                        <br />
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <b><a>Image File:</a></b>
+                                    @foreach (var document in article.Documents)
+                                    {
+                                        <a href="~/media/@document.Image" class="small" download><i class="fa-solid fa-file-image"></i>@document.Image</a>
+                                        <br />
+                                    }
+                                </div>
+                                @if (TempData["ErrorMessage"] != null)
+                                {
+                                    <div style="margin-bottom:1rem">
+                                        <p style="color:red;font-weight:bold;font-size:18px">@TempData["ErrorMessage"]</p>
+                                    </div>
+                                }
+                                <div class="comment-card mt-4">
+                                    @foreach (var comment in article.Comments)
+                                    {
+                                        <div class="comment">
+                                            <p><b>@comment.User.FullName:</b><br>@comment.Content</p>
+                                        </div>
+                                    }
+                                </div>
+
+                                <form id="commentForm" asp-controller="Article" asp-action="AddComment" method="post">
+                                    <div class="form-group">
+                                        <input type="hidden" name="articleId" value="@article.Id" />
+                                        <label for="comment"><b>Add Comment:</b></label>
+                                        <div style="display: flex; align-items: flex-end ;">
+                                            <textarea class="form-control" id="comment" name="comment" style="height: 20px;"></textarea>
+                                            <button type="submit" class="btn btn-primary" style="margin-left: 5px; width: 40px; height: 40px;"><i class="fa-solid fa-arrow-pointer"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     }
-                    <div class="comment-card mt-4">
-                        @foreach (var comment in article.Comments)
-                        {
-                            <div class="comment">
-                                <p><b>@comment.User.FullName:</b><br>@comment.Content</p>
-                            </div>
-                        }
-                    </div>
-
-                    <form id="commentForm" asp-controller="Article" asp-action="AddComment" method="post">
-                        <div class="form-group">
-                            <input type="hidden" name="articleId" value="@article.Id" />
-                            <label for="comment"><b>Add Comment:</b></label>
-                            <div style="display: flex; align-items: flex-end ;">
-                                <textarea class="form-control" id="comment" name="comment" style="height: 20px;"></textarea>
-                                <button type="submit" class="btn btn-primary" style="margin-left: 5px; width: 40px; height: 40px;"><i class="fa-solid fa-arrow-pointer"></i></button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
-        }
     </div>
 </div>
 
@@ -178,6 +215,9 @@
         </div>
     </div>
 </footer>
+
+<script src="~/js/sidebar.js" asp-append-version="true"></script>
+
 
 <script>
     // Submit comment via AJAX
