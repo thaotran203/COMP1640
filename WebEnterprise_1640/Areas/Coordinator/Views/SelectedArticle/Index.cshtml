@@ -2,7 +2,9 @@
 ﻿@using WebEnterprise_1640.Models
 <link rel="stylesheet" href="~/css/article.css">
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="~/css/navbar_footer.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/nav_footer.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
+
 
 @{
     ViewData["Title"] = "Selected Articles Page";
@@ -49,64 +51,100 @@
 	<div class="show-menu none">
 	</div>
 </header>
-<div class="container" style="height: 100vh;">
-    <div class="row justify-content-center mb-3">
-        <div class="col-md-6">
-            <form id="textSearchForm" action="@Url.Action("Index", "SelectedArticle")" method="get" class="form-inline rounded-pill p-2 position-relative">
-                <div class="form-group mx-sm-3 mb-2 position-relative">
-                    <input type="text" id="searchQuery" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control form-control-sm rounded-pill pl-4" style="max-width: 80%; padding-left: 29px;" />
-                    <i class="fa-solid fa-magnifying-glass position-absolute" style="left: 10px; width: 15px; height: 15px; top: 50%; transform: translateY(-50%);"></i>
-                </div>
-            </form>
-        </div>
-    </div>
+<div class="body-admin">
+	<div class="left-panel">
+		<button class="icon-arrow" onclick="arrow()">
+			<i class="fa-solid fa-arrow-left"></i>
+			<i class="fa-solid fa-arrow-right none"></i>
+		</button>
+		<div style="margin-bottom: 30px;"></div>
+		<button class="manage">
+			<div class="account">
+				<div class="icon-1">
+					<i class="fa-solid fa-chart-line"></i>
+				</div>
+				<p>Dash board</p>
+			</div>
+		</button>
+		<button class="manage">
+			<div class="account">
+				<div class="icon-2">
+					<i class="fa-solid fa-list"></i>
+				</div>
+				<p>Manage Articles</p>
+			</div>
+		</button>
+		<button class="manage">
+			<div class="account">
+				<div class="icon-2">
+					<i class="fa-regular fa-star"></i>
+				</div>
+				<p>Selected Articles</p>
+			</div>
+		</button>
+	</div>
+	<div class="main-box">
+		<div class="container" style="height: 100vh;">
+			<div class="row justify-content-center mb-3">
+				<div class="col-md-6">
+					<form id="textSearchForm" action="@Url.Action("Index", "SelectedArticle")" method="get" class="form-inline rounded-pill p-2 position-relative">
+						<div class="form-group mx-sm-3 mb-2 position-relative">
+							<input type="text" id="searchQuery" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control form-control-sm rounded-pill pl-4" style="max-width: 80%; padding-left: 29px;" />
+							<i class="fa-solid fa-magnifying-glass position-absolute" style="left: 10px; width: 15px; height: 15px; top: 50%; transform: translateY(-50%);"></i>
+						</div>
+					</form>
+				</div>
+			</div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <form id="dateSearchForm" asp-controller="SelectedArticles" asp-action="Index" method="get" class="form-inline rounded-pill p-2">
-                <div class="form-group">
-                    <input type="date" id="searchDate" name="searchDate" class="form-control form-control-sm" onchange="submitForms();" />
-                </div>
-            </form>
-        </div>
-        <div class="col-md-6 text-md-right">
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-end mb-0">
-                    @if (Model.Any())
-                    {
-                        <li class="page-item @(ViewBag.PageIndex == 1 ? "disabled" : "")">
-                            <a class="page-link" href="@(Url.Action("Index", "SelectedArticle", new { magazineId = ViewBag.MagazineId, page = ViewBag.PageIndex - 1, searchQuery = ViewBag.SearchQuery, searchDate = ViewBag.SearchDate }))">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </a>
-                        </li>
-                        <li class="page-item @(ViewBag.PageIndex == ViewBag.TotalPages ? "disabled" : "")">
-                            <a class="page-link" href="@(Url.Action("Index", "SelectedArticle", new { magazineId = ViewBag.MagazineId, page = ViewBag.PageIndex + 1, searchQuery = ViewBag.SearchQuery, searchDate = ViewBag.SearchDate }))">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </nav>
-        </div>
-    </div>
+			<div class="row">
+				<div class="col-md-6">
+					<form id="dateSearchForm" asp-controller="SelectedArticles" asp-action="Index" method="get" class="form-inline rounded-pill p-2">
+						<div class="form-group">
+							<input type="date" id="searchDate" name="searchDate" class="form-control form-control-sm" onchange="submitForms();" />
+						</div>
+					</form>
+				</div>
+				<div class="col-md-6 text-md-right">
+					<nav aria-label="Page navigation">
+						<ul class="pagination justify-content-end mb-0">
+							@if (Model.Any())
+							{
+								<li class="page-item @(ViewBag.PageIndex == 1 ? "disabled" : "")">
+									<a class="page-link" href="@(Url.Action("Index", "SelectedArticle", new { magazineId = ViewBag.MagazineId, page = ViewBag.PageIndex - 1, searchQuery = ViewBag.SearchQuery, searchDate = ViewBag.SearchDate }))">
+										<i class="fa-solid fa-chevron-left"></i>
+									</a>
+								</li>
+								<li class="page-item @(ViewBag.PageIndex == ViewBag.TotalPages ? "disabled" : "")">
+									<a class="page-link" href="@(Url.Action("Index", "SelectedArticle", new { magazineId = ViewBag.MagazineId, page = ViewBag.PageIndex + 1, searchQuery = ViewBag.SearchQuery, searchDate = ViewBag.SearchDate }))">
+										<i class="fa-solid fa-chevron-right"></i>
+									</a>
+								</li>
+							}
+						</ul>
+					</nav>
+				</div>
+			</div>
 
-    <table class="table" style="width: 100%;">
-        <tbody>
-            @foreach (var article in Model)
-            {
-                <tr>
-                    <td class="student-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
-                    <td class="article-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
-					<td class="table-button">
-						<button onclick="handleSelect('@article.Id')" class="action-button">
-							<i class="fa-solid fa-star"></i>
-						</button>
-					</td>
-                    <td class="table-date">@article.SubmitDate.ToString("dd MMMM")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+			<table class="table" style="width: 100%;">
+				<tbody>
+					@foreach (var article in Model)
+					{
+						<tr>
+							<td class="student-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
+							<td class="article-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
+							<td class="table-button">
+								<button onclick="handleSelect('@article.Id')" class="action-button">
+									<i class="fa-solid fa-star"></i>
+								</button>
+							</td>
+							<td class="table-date">@article.SubmitDate.ToString("dd MMMM")</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+
+	</div>
 </div>
 <footer>
 	<div class="colum">
@@ -165,6 +203,10 @@
 		</div>
 	</div>
 </footer>
+
+<script src="~/js/sidebar.js" asp-append-version="true"></script>
+
+
 <script>
     			function getParameterByName(name, url) {
 				if (!url) url = window.location.href;
