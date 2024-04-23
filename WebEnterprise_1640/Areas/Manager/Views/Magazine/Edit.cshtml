@@ -1,0 +1,105 @@
+﻿@model WebEnterprise_1640.Models.MagazineModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="max-width: 80%">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h2 style="text-align: center; color: #4644A0; font-weight: 700">Update magazine</h2>
+            <form asp-action="Edit" method="post" id="createForm">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"><b>Title:</b></label>
+                    <input style="border-radius: 13px" asp-for="Name" id="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"><b>Description:</b></label>
+                    <textarea style="border-radius: 13px; height: 20vh; vertical-align: top; box-sizing: border-box;" asp-for="Description" id="Description" class="form-control" required></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="FacultyId" class="control-label"><b>Select Faculty:</b></label>
+                        <select asp-for="FacultyId" class="form-control" style="border-radius: 13px" required>
+                            <option value="">-- Select Faculty --</option>
+                            @foreach (var faculty in ViewBag.FacultyList)
+                            {
+                                <option value="@faculty.Id">@faculty.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="FacultyId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="SemesterId" class="control-label"><b>Select Semester:</b></label>
+                        <select asp-for="SemesterId" class="form-control" style="border-radius: 13px" required>
+                            <option value="">-- Select Semester --</option>
+                            @foreach (var semester in ViewBag.SemesterList)
+                            {
+                                <option value="@semester.Id" id="SemesterId" final="@semester.FinalClosureDate">@semester.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="SemesterId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6 col-xs-12">
+                        <label asp-for="ClosureDate" class="control-label"><b>Deadline to submit:</b></label>
+                        <input style="border-radius: 13px" asp-for="ClosureDate" id="ClosureDate" class="form-control" required />
+                        <span asp-validation-for="ClosureDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="button-container" style="text-align: right; margin-top: 50px;">
+                    <a asp-action="Delete" asp-controller="Magazine" asp-route-id="@ViewBag.magazineId" class="btn btn-danger">Delete</a>
+                    <div>
+                        <button type="submit" form="createForm" class="btn btn-primary" style="background-color: #4644A0; border: 1px solid #4644A0">Update</button>
+                        <a asp-action="Index" asp-controller="Magazine" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#createForm").submit(function (event) {
+                var closureDate = $("#ClosureDate").val();
+                var selectedDate = new Date(closureDate);
+                var currentDate = new Date();
+                
+
+                if (selectedDate < currentDate) {
+                    $("#ClosureDate").addClass("is-invalid");
+                    $("#ClosureDate").siblings(".text-danger").text("Please enter a date not in the past");
+                    event.preventDefault();
+                    return;
+                }
+
+                // Get the final closure date from the selected semester option
+                var finalClosureDate = $("#SemesterId option:selected").attr("final");
+                var finalClosureDateObj = new Date(finalClosureDate);
+
+                if (selectedDate > finalClosureDateObj) {
+                    $("#ClosureDate").addClass("is-invalid");
+                    $("#ClosureDate").siblings(".text-danger").text("Closure date must be before the final closure date of the semester");
+                    event.preventDefault();
+                    return;
+                }
+            });
+        });
+    </script>
+}
+
+<!-- Include Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="~/css/MagazineStyle.css" rel="stylesheet" />
