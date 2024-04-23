@@ -32,7 +32,6 @@ body {
     text-decoration: none;
     text-align: center;
     width: 100%;
-    max-width: 1000px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -48,10 +47,7 @@ body {
 }
 
 @media screen and (min-width:741px) and (max-width:1024px) {
-    .latest-magazines,
-    .closed-magazines {
-        width: 966px;
-    }
+    
 }
 
 .search-wrapper {
@@ -107,4 +103,37 @@ body {
     margin: 0 auto;
     margin-bottom: 20px;
     max-width: 1040px;
+}
+
+
+.title-magazine,
+.description-magazine {
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+}
+
+.title-magazine {
+    -webkit-line-clamp: 2;
+}
+
+.description-magazine {
+    -webkit-line-clamp: 5;
+    text-align: justify;
+}
+
+.create-mgz {
+    border-radius: 20px;
+    border: 1px solid #D1D1D1;
+    background-color: #fff;
+    padding: 0 10px;
+}
+
+.create-mgz:hover {
+    background-color: #CDDFFC;
+}
+
+.create-mgz a {
+    text-decoration: none;
+    color: black;
 }
