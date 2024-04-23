@@ -16,29 +16,22 @@ namespace WebEnterprise_1640.Areas.Coordinator.Controllers
         }
 
         [HttpPost("SendEmail")]
-        public IActionResult SendEmail([FromBody] string body)
+        public IActionResult SendEmail([FromBody] string userEmail)
         {
             string fromMail = "beemagazine3@gmail.com";
             string fromPassword = "aulftywznetqjinz";
 
-            var usersEmails = _context.Users.Select(u => u.Email).ToList();
-
             MailMessage message = new MailMessage();
             message.From = new MailAddress(fromMail);
+            message.To.Add(new MailAddress(userEmail));
             message.Subject = "Article Submission Denied";
-
-            foreach (var email in usersEmails)
-            {
-                message.To.Add(new MailAddress(email));
-            }
-
             message.Body = $@"<html>
-                                <body>
-                                    <p>Dear student,</p>
-                                    <p>Your article submission has been denied. Please review the feedback and make necessary changes.</p>
-                                    <p>Best regards,<br/>The Bee Magazine Team</p>
-                                </body>
-                            </html>";
+                        <body>
+                            <p>Dear student,</p>
+                            <p>Your article submission has been denied. Please review the feedback and make necessary changes.</p>
+                            <p>Best regards,<br/>The Bee Magazine Team</p>
+                        </body>
+                    </html>";
             message.IsBodyHtml = true;
 
             var smtpClient = new SmtpClient("smtp.gmail.com")
@@ -51,5 +44,6 @@ namespace WebEnterprise_1640.Areas.Coordinator.Controllers
             smtpClient.Send(message);
             return Ok();
         }
+
     }
 }

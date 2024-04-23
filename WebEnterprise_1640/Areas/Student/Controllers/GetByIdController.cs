@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
 using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
@@ -143,7 +144,7 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
             var formfile = await Request.ReadFormAsync();
             if (formfile == null || formfile.Files.Count == 0)
             {
-                TempData["ErrorMessage"] = "Choose one file doc and one image!";
+                TempData["ErrorMessage"] = "Choose one file pdf and one image!";
                 return RedirectToAction("Index", "GetbyId", new { id = input.MagazineId });
             }
             bool isHaveDoc = false;
@@ -156,14 +157,14 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
                 {
                     isHaveImage = true;
                 }
-                else if (file.FileName.ToLower().Contains("docx") || file.FileName.ToLower().Contains("doc"))
+                else if (file.FileName.ToLower().Contains("pdf"))
                 {
                     isHaveDoc = true;
                 }
             }
             if (!isHaveDoc || !isHaveImage)
             {
-                TempData["ErrorMessage"] = "Choose one file doc and one image!";
+                TempData["ErrorMessage"] = "Choose one file pdf and one image!";
                 return RedirectToAction("Index", "GetbyId", new { id = input.MagazineId });
             }
             input.UserId = user.Id;
@@ -190,6 +191,8 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
             string fromPassword = "bahw jbpw zyio qbqd";
             var facility = _context.Faculties.FirstOrDefault(f => f.Id == user.FacultyId);
             string url = Url.ActionLink("Index", "GetbyId", new { id = input.MagazineId });
+            string title = $"Article submission notification for {input.Name}";
+            string body = $"<p>Student {user.UserName} have submitted an article. Please check and confirm this article!</p>";
             if (facility != null)
             {
                 var coordinator = _context.Users.FirstOrDefault(u => u.Id == facility.CoordinatorId.ToString());
@@ -198,12 +201,12 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
                     if (coordinator.FacultyId == user.FacultyId)
                     {
                         // send mail to coordinator
-                        GUIUtils.SendMail(fromMail, fromPassword, coordinator, input, url);
+                        GUIUtils.SendMail(fromMail, fromPassword, title, body, coordinator);
                     }
                 }
             }
             // send mail to sender
-            GUIUtils.SendMail(fromMail, fromPassword, user, input, url);
+            GUIUtils.SendMail(fromMail, fromPassword, title, body, user);
 
             return RedirectToAction("Index", "Uploads");
         }

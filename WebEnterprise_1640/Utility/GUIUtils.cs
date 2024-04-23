@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Security.Policy;
+using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
 
 namespace WebEnterprise_1640.Utility
@@ -43,18 +45,59 @@ namespace WebEnterprise_1640.Utility
             }
             return document;
         }
+
+        public static void CheckNotification(ApplicationDbContext context)
+        {
+            var articles = context.Articles.Where(a => a.Status.ToLower() == "Submited".ToLower()).Include(a => a.User).ToList();
+            DateTime now = DateTime.Now;
+            if(articles != null && articles.Count > 0)
+            {
+                string fromMail = "Khoantgcd201759@fpt.edu.vn";
+                string fromPassword = "bahw jbpw zyio qbqd";
+                string title = "";
+                string body = "";
+                foreach(var article in articles)
+                {
+                    var facility = context.Faculties.FirstOrDefault(f => f.Id == article.User.FacultyId);
+                    if(facility == null)
+                    {
+                        continue;
+                    }
+                    var coordinator = context.Users.FirstOrDefault(u => u.Id == facility.CoordinatorId.ToString());
+                    if (coordinator == null)
+                    {
+                        continue;
+                    }
+                    if (coordinator.FacultyId == article.User.FacultyId)
+                    {
+                        title = $"14 day notification email for {article.Name}";
+                        body = $"<p>Student {article.User.UserName} submitted an article 14 days ago and still not be checked. Please comment and confirm the article for improvement!</p>";
+                        DateTime next14Days = article.SubmitDate.AddDays(14);
+                        if (now >= next14Days)
+                        {
+                            try
+                            {
+                                // send mail to coordinator
+                                SendMail(fromMail, fromPassword, title, body, coordinator);
+                                article.Status = "NotiSended";
+                                context.Articles.Update(article);
+                                context.SaveChanges();
+                            } catch(Exception ex)
+                            {
+                            }
+                        }
+                    }
+                }
+            }
+        }
         // mail gửi cho 2 người chủ nhiệm và người gửi
-        public static void SendMail(string fromMail, string fromPassword, UserModel user, ArticleModel input, string submissionLink)
+        public static void SendMail(string fromMail, string fromPassword, string title, string body, UserModel user)
         {
             MailMessage message = new MailMessage();
             message.From = new MailAddress(fromMail);
-            message.Subject = $"You have submitted your article submission for {input.Name}";
+            message.Subject = title;
             message.To.Add(new MailAddress(user.Email));//user.Email
-            message.Body = $"<p><a href=\"https://localhost:44345/\">WebEnterprise_1640</a></p>"
-                         + $"<hr/>"
-                         + $"<p>You have summitted an article submission for {input.Name}.</p>"
-                         + $"<p>You can see the status of your <a href=\"{submissionLink}\">article submission</a></p>" +
-                           $"<hr/>";
+            message.Body = body;
             message.IsBodyHtml = true;
 
             var smtpClient = new SmtpClient("smtp.gmail.com")

@@ -1,6 +1,6 @@
 ﻿@using WebEnterprise_1640.Models
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers;
-@addTagHelper *, Microsoft.AspNetCore.Mvc.IUrlHelper;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model WebEnterprise_1640.Models.ArticleModel;
 <!DOCTYPE html>
 <html lang="en">
@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
           integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="~/css//create.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/create.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/edit.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/delete.css" asp-append-version="true">
-    <link rel="stylesheet" href="~/css/navbar_footer.css">
+    <link rel="stylesheet" href="~/css/nav_footer.css">
 </head>
 
 <body>
@@ -36,13 +36,16 @@
             <div class="home an" id="home">
                 <div class="home-cover">
                     <a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
-                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none;margin-left:2rem">Uploads</a>
+                    <a href="/Uploads/Index" class="home-button" style="text-decoration:none; margin-left:2rem; color: dodgerblue">Uploads</a>
                 </div>
             </div>
             @if (user != null)
             {
-                <div class="button an" id="login">
-                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                <div class="user-1">
+                    <a href="/Profile/Test/@user.Id" class="welcome" style="color: dodgerblue; font-weight: bold; ">Welcome, @user.UserName</a>
+                    <div class="button an" id="login">
+                        <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                    </div>
                 </div>
             }
             else
@@ -77,103 +80,190 @@
     </div>
 
     <div class="body-content">
-        <div class="article">
-            <div class="article-1">
-                <div class="arti-1">
-                    Aritcle title:
+        <div style="padding-bottom: 20px">
+            <div class="article">
+                <div class="article-1">
+                    <div class="arti-1">
+                        Aritcle title:
+                    </div>
                 </div>
-                <div class="arti-1">
-                    Aritcle description:
-                </div>
-                <div class="arti-1">
-                    Date submitted:
-                </div>
-                <div class="arti-1">
-                    Final deadline:
+                <div class="article-2">
+                    <div class="arti-2">
+                        @ViewBag.Articles.Name
+                    </div>
                 </div>
             </div>
-            <div class="article-2">
-                <div class="arti-2">
-                    @ViewBag.Articles.Name
+            <div class="article">
+                <div class="article-1">
+                    <div class="arti-1">
+                        Aritcle description:
+                    </div>
                 </div>
-                <div class="arti-2">
-                    @ViewBag.Articles.Description
+                <div class="article-2">
+                    <div class="arti-2">
+                        @ViewBag.Articles.Description
+                    </div>
                 </div>
-                <div class="arti-2">
+            </div>
+            <div class="article">
+                <div class="article-1">
+                    <div class="arti-1">
+                    Date submitted:
+                    </div>
+                </div>
+                <div class="article-2">
+                    <div class="arti-2">
                     @ViewBag.Articles.TimeSubmit
+                    </div>
                 </div>
-                <div class="arti-2">
+            </div>
+            <div class="article">
+                <div class="article-1">
+                    <div class="arti-1">
+                    Final deadline:
+                    </div>
+                </div>
+                <div class="article-2">
+                    <div class="arti-2">
                     @ViewBag.Articles.TimeEnd
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="file">
-            <div class="file-1">
-                <div class="cle-1">
-                    Status:
-                </div>
-                <div class="cle-1">
+
+        <div>
+            <div class="file">
+                <div class="file-1">
+                    <div class="cle-1">
+                        Status:
+                    </div>
+                    @* <div class="cle-1">
                     File submissions:
-                </div>
-                <div class="cle-1">
+                    </div>
+                    <div class="cle-1">
                     Image File:
+                    </div> *@
                 </div>
-            </div>
-
-            <div class="file-2">
-                <div class="cle-2">
-                    Submitted
-                </div>
-                @if (ViewBag.File != null)
-                {
+                <div class="file-2">
+                    <div class="cle-2">
+                        Submitted
+                    </div>
+                    @* @if (ViewBag.File != null)
+                    {
                     foreach (var file in ViewBag.File as List<DocumentModel>)
                     {
-                        if (file.File == null || file.File.Length == 0)
-                        {
-                            continue;
-                        }
-                        <div class="cle-3">
-                            <div class="inf">
-                                <div class="sub-1">
-                                    ---
-                                </div>
-                                <div class="sub-1">
-                                    <i class="fa-regular fa-file-lines"></i>
-                                </div>
-                                <div class="sub-1">
-                                    <a href="~/media/@file.File" download="@file.File">
-                                        @file.File
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                    if (file.File == null || file.File.Length == 0)
+                    {
+                    continue;
                     }
-                }
-                @if (ViewBag.File != null)
-                {
+                    <div class="cle-3">
+                    <div class="inf">
+                    <div class="sub-1">
+                    ---
+                    </div>
+                    <div class="sub-1">
+                    <i class="fa-regular fa-file-lines"></i>
+                    </div>
+                    <div class="sub-1">
+                    <a href="~/media/@file.File" download="@file.File">
+                    @file.File
+                    </a>
+                    </div>
+                    </div>
+                    </div>
+                    }
+                    }
+                    @if (ViewBag.File != null)
+                    {
                     foreach (var file in ViewBag.File as List<DocumentModel>)
                     {
-                        if (file.Image == null || file.Image.Length == 0)
-                        {
-                            continue;
-                        }
-                        <div class="cle-3">
-                            <div class="inf">
-                                <div class="sub-1">
-                                    ---
-                                </div>
-                                <div class="sub-1">
-                                    <i class="fa-solid fa-file-image"></i>
-                                </div>
-                                <div class="sub-1">
-                                    <a href="~/media/@file.Image" download=" @file.Image"> @file.Image</a>
-                                </div>
-                            </div>
-                        </div>
+                    if (file.Image == null || file.Image.Length == 0)
+                    {
+                    continue;
                     }
-                }
+                    <div class="cle-3">
+                    <div class="inf">
+                    <div class="sub-1">
+                    ---
+                    </div>
+                    <div class="sub-1">
+                    <i class="fa-solid fa-file-image"></i>
+                    </div>
+                    <div class="sub-1">
+                    <a href="~/media/@file.Image" download=" @file.Image"> @file.Image</a>
+                    </div>
+                    </div>
+                    </div>
+                    }
+                    } *@
+                </div>
             </div>
-
+            <div class="file">
+                <div class="file-1">
+                    <div class="cle-1">
+                    File submissions:
+                    </div>
+                </div>
+                <div class="file-2">
+                    @if (ViewBag.File != null)
+                    {
+                    foreach (var file in ViewBag.File as List<DocumentModel>)
+                    {
+                    if (file.File == null || file.File.Length == 0)
+                    {
+                    continue;
+                    }
+                    <div class="cle-3">
+                    <div class="inf">
+                    <div class="sub-1">
+                    ---
+                    </div>
+                    <div class="sub-1">
+                    <i class="fa-regular fa-file-lines"></i>
+                    </div>
+                    <div class="sub-1">
+                    <a href="~/media/@file.File" download="@file.File">
+                    @file.File
+                    </a>
+                    </div>
+                    </div>
+                    </div>
+                    }
+                    }
+                </div>
+            </div>
+            <div class="file">
+                <div class="file-1">
+                    <div class="cle-1">
+                    Image File:
+                    </div>
+                </div>
+                <div class="file-2">
+                    @if (ViewBag.File != null)
+                    {
+                    foreach (var file in ViewBag.File as List<DocumentModel>)
+                    {
+                    if (file.Image == null || file.Image.Length == 0)
+                    {
+                    continue;
+                    }
+                    <div class="cle-3">
+                    <div class="inf">
+                    <div class="sub-1">
+                    ---
+                    </div>
+                    <div class="sub-1">
+                    <i class="fa-solid fa-file-image"></i>
+                    </div>
+                    <div class="sub-1">
+                    <a href="~/media/@file.Image" download=" @file.Image"> @file.Image</a>
+                    </div>
+                    </div>
+                    </div>
+                    }
+                    }
+                </div>
+            </div>
         </div>
         @if (user != null && ViewBag.check != 1)
         {
@@ -188,8 +278,42 @@
                 </div>
             </div>
         }
-        <h2 style="margin-top:1rem">Feedback, comment</h2>
-        <div class="feedback">
+        @if (Model.Comments != null && Model.Comments.Count() > 0)
+        {
+            <h2 style="margin-top:1rem; margin-bottom: 1rem;">Feedback, comment</h2>
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="feedback" style="border-radius: 10px">
+                    <div class="person">
+                        <div class="avatar">
+                            <div class="img" >
+                                <img src="https://png.pngtree.com/element_our/png/20181022/man-avatar-icon-professional-man-character-business-man-avatar-carton-symbol-png_206531.jpg" style="border-radius: 50%"
+                                     alt="">
+                            </div>
+                        </div>
+                        <div class="name">
+                            @comment.User.FullName
+                        </div>
+                    </div>
+                    <div class="feedback-content">
+                        @* <h4>Good point:</h4> *@
+                        <li>
+                            @comment.Content
+                        </li>
+                    </div>
+                    @*                 <div class="time-comment">
+            <div class="icon-time-comment">
+            <i class="fa-solid fa-calendar-days"></i>
+            </div>
+            <div class="time-comment-content">
+            1 hour ago
+            </div>
+            </div> *@
+                </div>
+            }
+        }
+        
+        @* <div class="feedback">
             <div class="person">
                 <div class="avatar">
                     <div class="img">
@@ -225,14 +349,17 @@
                     1 hour ago
                 </div>
             </div>
-        </div>
+        </div> *@
         <h2>Add a comment</h2>
-        <div class="add">
-            <input type="text" class="add-comment"><br>
-            <div class="icon-add">
-                <i class="fa-regular fa-paper-plane"></i>
+        <form asp-controller="SubmitArticle" asp-action="AddComment" method="post">
+            <input type="hidden" name="articleId" value="@Model.Id" />
+            <div class="add">
+                <input type="text" class="add-comment" name="comment"><br>
+                <button type="submit" class="icon-add" style="border: none">
+                    <i class="fa-regular fa-paper-plane"></i>
+                </button>
             </div>
-        </div>
+        </form>
     </div>
 
 

@@ -10,7 +10,7 @@ img {
 }
 
 .background {
-    background-image: url(../img/background.png);
+    background-image: url(../img/bg.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     position: relative;
@@ -18,16 +18,17 @@ img {
 
 .discover {
     padding: 5px 15px;
-    background-color: transparent;
-    color: white;
+    background-color: white;
+    color: black;
     position: absolute;
-    border: 1px solid black;
-    border-color: white;
+    border: 2px solid black;
     border-radius: 5px;
     text-decoration: none !important;
 }
 /* Laptop */
 @media screen and (min-width:1025px) {
+    .home-cover {
+    }
     body {
         .background
 

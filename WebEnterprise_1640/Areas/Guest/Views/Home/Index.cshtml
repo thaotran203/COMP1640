@@ -6,11 +6,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View All Magazines</title>
-    <link rel="stylesheet" href="~/css/navbar_footer.css">
+    <link rel="stylesheet" href="~/css/nav_footer.css">
     <link rel="stylesheet" href="~/css/guest_view.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
           integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/css/slider_guest.css"/>
 </head>
 
 <body>
@@ -22,17 +23,17 @@
             </div>
             <div class="home an" id="home">
                 <div class="home-cover">
-                    <a href="/Home/Index" class="home-button" style="text-decoration:none;color:red">Home</a>
+                    <a href="/Home/Index" class="home-button" style="text-decoration:none; color: dodgerblue; font-weight: bold">Home</a>
                     @if(Model.UserRole != null && Model.UserRole.ToString().ToLower() == "student")
                     {
-                        <a href="/Uploads/Index" class="home-button" style="text-decoration:none;margin-left:2rem">Uploads</a>
+                        <a href="/Uploads/Index" class="home-button" style="text-decoration:none; margin-left:2rem;">Uploads</a>
                     }
                 </div>
             </div>
             @if(Model.User != null)
             {
                 <div class="button an" id="login">
-                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                    <a href="@Url.ActionLink("Logout", "Account")" class="login-button" style="text-decoration: none">Log out</a>
                 </div>
             } else
             {
@@ -49,11 +50,10 @@
     </header>
     <form method="get" action="Index">
         <div class="search-container">
-            <button type="submit" style="background-color:transparent;border:0;padding:0" class="icon-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
+            <button type="submit" style="background-color:transparent; border:0; padding:0" class="icon-search">
+                <i class="fa-solid fa-magnifying-glass" id="search"></i>
             </button>
-            <input style="margin-left: 11rem;" type="text" name="search" class="input" value="@Model.Search">
-            
+            <input class="input" type="text" name="search" class="input" value="@Model.Search">
         </div>
     </form>
     <div class="container-drop">
@@ -75,7 +75,7 @@
                 {
                     foreach(var facility in Model.Faculties)
                     {
-                        <li><a href="/Home/Index?facilityIdSort=@facility.Id">@facility.Name</a></li>
+                        <li><a href="/Home/Index?facilityIdSort=@facility.Id" style="color: black; text-decoration: none">@facility.Name</a></li>
                     }
                 }
             </ul>
@@ -92,68 +92,75 @@
                 i = 1;
             }
             <div class="magazine-name">
-                <h1>
+                <h2 class="magazine-title-1">
                     @magazine.Name
-                </h1>
-                <h3>
+                </h2>
+                <p class="magazine-description-1">
                     @magazine.Description
-                </h3>
+                </p>
             </div>
-            <div class="magazine-container">
-                <div class="slideshow-container-@i" id="show-@i">
-                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            @* <div class="magazine-container"> *@
+                @* slideshow-container-@i *@
+                @* style="margin-bottom: 20px" *@
+                <input type="hidden" id="curIndex-@i" value="0" />
+                <div class="slider-container" id="show-@i">
+                <a class="prev-btn" onclick="clickBack('@i')">&#10094;</a>
+                    @* onclick="plusSlides(-1)" *@
+                <a class="next-btn" onclick="clickNext('@i')">&#10095;</a>
+                     @* onclick="plusSlides(1)" *@
                     @if (magazine.Articles != null && magazine.Articles.Count > 0)
                     {
                         int j = 1;
-                        foreach (var article in magazine.Articles)
-                        {
-                            @if (article.Documents == null || article.Documents.Count == 0)
+                        <div class="slider" id="slider-@i">
+                            @foreach (var article in magazine.Articles)
                             {
-                                continue;
+                                @if (article.Documents == null || article.Documents.Count == 0)
+                                {
+                                    continue;
+                                }
+                                @*  *@
+                                <a href="/Details/Index?articleId=@article.Id" class="item" id="item-@i">
+                                    @* <div class="slide fade" style="display: block;"> *@
+                                        @if (article.Documents[0].Image != null && article.Documents[0].Image.Length > 0)
+                                        {
+                                            <img src="~/media/@article.Documents[0].Image" class="img-magazine">
+                                        } else
+                                        {
+                                            <img src="https://img.meta.com.vn/Data/image/2022/01/13/anh-dep-thien-nhien-3.jpg" class="img-magazine">
+                                        }
+                                        <div style="font-size: 12px; margin-top: 5px"> @article.SubmitDate.ToString("dd/MM/yyyy HH:mm")</div>
+                                        <div class="title-magazine" style="text-align: justify">@article.Name</div>
+                                        <div class="description-magazine" style="text-align: justify">@article.Description.</div>
+                                        <div class="read-more" style="display: flex; justify-content: center; align-item: center;">
+                                            Read more
+                                            <i class="fa-solid fa-caret-right" style="margin-left: 10px"></i>
+                                        </div>
+                                    @* </div> *@
+                                </a>
                             }
-                            <a href="/Details/Index?articleId=@article.Id">
-                                <div class="slide fade" style="display: block;">
-                                    @if (article.Documents[0].Image != null && article.Documents[0].Image.Length > 0)
-                                    {
-                                        <img src="~/media/@article.Documents[0].Image" class="img-magazine">
-                                    } else
-                                    {
-                                        <img src="https://img.meta.com.vn/Data/image/2022/01/13/anh-dep-thien-nhien-3.jpg" class="img-magazine">
-                                    }
-                                    <div style="font-size: 12px; margin-top: 5px"> @article.SubmitDate.ToString("dd/MM/yyyy HH:mm")</div>
-                                    <div class="title-magazine">@article.Name</div>
-                                    <div class="description-magazine">@article.Description.</div>
+                        </div>
+                    } else
+                    {
+                    <div class="slider" id="slider-@i">
+                        <a href="#" class="item" id="item-@i">
+                                @* <div class="slide fade" style="display: block;"> *@
+                                    <img src="https://img.meta.com.vn/Data/image/2022/01/13/anh-dep-thien-nhien-3.jpg" class="img-magazine">
+                                    <div style="font-size: 12px; margin-top: 5px"> Empty</div>
+                                    <div class="title-magazine">Empty</div>
+                                    <div class="description-magazine">Empty</div>
                                     <div class="read-more" style="display: flex; justify-content: center; align-item: center;">
                                         Read more
                                         <i class="fa-solid fa-caret-right" style="margin-left: 10px"></i>
                                     </div>
-                                </div>
+                                @* </div> *@
                             </a>
-                        }
-                    } else
-                    {
-                        <a href="#">
-                            <div class="slide fade" style="display: block;">
-                                <img src="https://img.meta.com.vn/Data/image/2022/01/13/anh-dep-thien-nhien-3.jpg" class="img-magazine">
-                                <div style="font-size: 12px; margin-top: 5px"> Empty</div>
-                                <div class="title-magazine">Empty</div>
-                                <div class="description-magazine">Empty</div>
-                                <div class="read-more" style="display: flex; justify-content: center; align-item: center;">
-                                    Read more
-                                    <i class="fa-solid fa-caret-right" style="margin-left: 10px"></i>
-                                </div>
-                            </div>
-                        </a>
+                        </div>
                     }
                 </div>
-            </div>
+            @* </div> *@
             i++;
         }
     }
-    
-
-
 
     <footer>
         <div class="colum">
@@ -214,5 +221,45 @@
     </footer>
     <script src="~/js/guest_view.js"></script>
 </body>
+<script>
+    function slideNext(curIndex, index) {
+        var slider = document.getElementById('slider-' + index);
+        var cards = slider.children;
+        var cardWidth = cards[0].offsetWidth;
+        var totalCards = cards.length;
+        if (curIndex < totalCards - 1) {
+            curIndex++;
+            document.getElementById('curIndex-' + index).value = curIndex;
+            console.log(slider + " " + cardWidth);
+            updateSlider(curIndex, cardWidth, slider);
+        }
+    }
 
+    function slidePrev(curIndex, index) {
+        var slider = document.getElementById('slider-' + index);
+        var cards = slider.children;
+        var cardWidth = cards[0].offsetWidth;
+        if (curIndex > 0) {
+            curIndex--;
+            document.getElementById('curIndex-' + index).value = curIndex;
+            console.log(slider + " " + cardWidth);
+            updateSlider(curIndex, cardWidth, slider);
+        }
+    }
+
+    function updateSlider(curIndex, cardWidth, slider) {
+        const offset = -curIndex * cardWidth;
+        slider.style.transform = `translateX(${offset}px)`;
+    }
+    function clickBack(index) {
+        var curIndex = document.getElementById("curIndex-" + index).value;
+        console.log("click back " + index);
+        slidePrev(curIndex, index);
+    }
+    function clickNext(index) {
+        var curIndex = document.getElementById("curIndex-" + index).value;
+        console.log("click next " + index);
+        slideNext(curIndex, index);
+    }
+</script>
 </html>

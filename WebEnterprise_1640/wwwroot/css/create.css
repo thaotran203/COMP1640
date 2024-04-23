@@ -17,8 +17,7 @@ body {
 
 {
     display: grid;
-    padding: 10px;
-    margin-bottom: 20px;
+    padding: 0px 10px;
     .article-1
 
 {
@@ -27,7 +26,6 @@ body {
 {
     color: rgb(19, 77, 178);
     font-weight: bold;
-    padding-bottom: 10px;
 }
 
 }
@@ -36,7 +34,7 @@ body {
     .arti-2
 
 {
-    padding-bottom: 10px;
+    /*padding-bottom: 10px;*/
 }
 
 }
@@ -45,7 +43,8 @@ body {
 .file {
     display: grid;
     background-color: #cddffc;
-    padding: 10px;
+    padding: 10px 20px 0px 20px;
+    
     .file-1
 
 {
@@ -170,7 +169,6 @@ body {
     grid-template-columns: 1fr 6fr;
     gap: 20px;
     padding: 10px;
-    margin-bottom: 20px;
     .article-1
 
 {
@@ -194,10 +192,11 @@ body {
 
 .file {
     grid-template-columns: 1fr 6fr;
-    gap: 20px;
+    gap: 15px;
     .file-1
 
 {
+    font-size: 25px;
     .cle-1
 
 {
@@ -212,7 +211,6 @@ body {
 
 {
     font-size: 23px;
-    padding-bottom: 20px;
 }
 
 .cle-3 {
@@ -220,7 +218,7 @@ body {
     .inf
 
 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     .sub-1
 
 {
@@ -306,7 +304,7 @@ body {
 
 {
     grid-template-columns: 1fr 5fr;
-    gap: 15px;
+    gap: 10px;
     margin-bottom: 20px;
     .article-1
 
@@ -314,7 +312,7 @@ body {
     .arti-1
 
 {
-    font-size: 20px;
+    font-size: 17px;
 }
 
 }
@@ -323,8 +321,7 @@ body {
     .arti-2
 
 {
-    font-size: 20x;
-    margin-bottom: 10px;
+    font-size: 17x;
 }
 
 }
@@ -340,7 +337,7 @@ body {
 
 {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 17px;
     padding-bottom: 10px;
 }
 
@@ -350,12 +347,13 @@ body {
     .cle-2
 
 {
-    font-size: 20px;
+    font-size: 15px;
     padding-bottom: 10px;
 }
 
 .cle-3 {
     display: flex;
+    font-size: 15px;
     .inf
 
 {
@@ -444,16 +442,16 @@ body {
     .article
 
 {
-    grid-template-columns: 1fr 5fr;
-    gap: 10px;
-    margin-bottom: 10px;
+    grid-template-columns: 2fr 5fr;
+    gap: 5px;
+    margin-bottom: 5px;
     .article-1
 
 {
     .arti-1
 
 {
-    font-size: 15px;
+    font-size: 12px;
 }
 
 }
@@ -462,7 +460,7 @@ body {
     .arti-2
 
 {
-    font-size: 12x;
+    font-size: 12px;
     margin-bottom: 5px;
 }
 
@@ -474,35 +472,36 @@ h2 {
 }
 
 .file {
-    grid-template-columns: 1fr 5fr;
-    gap: 10px;
+    grid-template-columns: 1fr 4fr;
+    gap: 5px;
+    padding: 5px !important;
     .file-1
 
 {
+    align-items: center;
     .cle-1
 
 {
     font-weight: bold;
-    font-size: 15px;
-    padding-bottom: 5px;
+    font-size: 10px;
 }
 
 }
 
 .file-2 {
+    padding: 5px !important;
     .cle-2
 
 {
-    font-size: 15px;
-    padding-bottom: 15px;
+    font-size: 10px;
 }
 
 .cle-3 {
-    font-size: 8px;
+    font-size: 7px;
+    padding-bottom: 5px;
     .inf
 
 {
-    margin-bottom: 20px;
     .sub-1
 
 {
@@ -523,7 +522,8 @@ h2 {
 {
     font-size: 12px;
 }
-
+.remove {
+    margin-left: 10px;
 }
 
 .feedback {
@@ -533,8 +533,8 @@ h2 {
     .avatar
 
 {
+    width: 50px;
     .img
-
 {
     width: 50px;
 }

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
 using WebEnterprise_1640.Data;
+using WebEnterprise_1640.Models;
 using WebEnterprise_1640.Models.ViewModel;
 
 namespace WebEnterprise_1640.Controllers
@@ -11,10 +13,12 @@ namespace WebEnterprise_1640.Controllers
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public AccountController(ApplicationDbContext context)
+        private readonly UserManager<UserModel> _userManager;
+        public AccountController(ApplicationDbContext context, UserManager<UserModel> userManager)
 
         {
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult Login()
         {
@@ -27,22 +31,24 @@ namespace WebEnterprise_1640.Controllers
         {
             if (!modelLogin.Username.Contains("@"))
             {
-                ViewBag.Err = "Email Sai Định Dạng";
+                ViewBag.Err = "Email Invalid Format!";
             }
             else
             {
-                var user = _context.Users.FirstOrDefault(x => x.Email == modelLogin.Username);
+                var user = await _userManager.FindByEmailAsync(modelLogin.Username);
                 if (user == null)
                 {
-                    ViewBag.Err = "Tài Khoản Không Tồn Tại";
+                    ViewBag.Err = "Account Does Not Exist!";
 
                 }
-                if (user != null && user.PasswordHash != modelLogin.Password)
+                // Check if the provided password matches the hashed password
+                var passwordValid = await _userManager.CheckPasswordAsync(user, modelLogin.Password);
+                if (!passwordValid)
                 {
-                    ViewBag.Err = "Sai Mật Khẩu";
+                    ViewBag.Err = "Wrong Password!";
 
                 }
-                if (user != null && user.PasswordHash == modelLogin.Password)
+                else
                 {
                     var role = _context.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
                     var newRole = "";

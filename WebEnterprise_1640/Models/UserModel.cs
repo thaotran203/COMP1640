@@ -15,6 +15,7 @@ namespace WebEnterprise_1640.Models
         [Required]
         [ForeignKey("Faculties")]
         public int FacultyId { get; set; }
+        [ValidateNever]
         public FacultyModel Faculty { get; set; }
 
         [ValidateNever]
