@@ -168,7 +168,7 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
                 return RedirectToAction("Index", "GetbyId", new { id = input.MagazineId });
             }
             input.UserId = user.Id;
-            input.Status = "Submited";
+            input.Status = "submited";
             input.SubmitDate = DateTime.Now;
             var articleAdd = _context.Articles.Add(input);
             await _context.SaveChangesAsync();

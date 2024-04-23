@@ -48,7 +48,7 @@ namespace WebEnterprise_1640.Utility
 
         public static void CheckNotification(ApplicationDbContext context)
         {
-            var articles = context.Articles.Where(a => a.Status.ToLower() == "Submited".ToLower()).Include(a => a.User).ToList();
+            var articles = context.Articles.Where(a => a.Status.ToLower() == "submited".ToLower()).Include(a => a.User).ToList();
             DateTime now = DateTime.Now;
             if(articles != null && articles.Count > 0)
             {
