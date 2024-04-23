@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
 
@@ -17,10 +17,18 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         }
 
         // GET: Manager/Magazine
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? facultyId)
         {
-            var magazines = _context.Magazines.Include(m => m.Faculty).Include(m => m.Semester);
-            return View(await magazines.ToListAsync());
+            IQueryable<MagazineModel> magazinesQuery = _context.Magazines.Include(m => m.Faculty).Include(m => m.Semester);
+
+            if (facultyId.HasValue)
+            {
+                magazinesQuery = magazinesQuery.Where(m => m.FacultyId == facultyId.Value);
+            }
+
+            var magazines = await magazinesQuery.ToListAsync();
+            ViewBag.Faculties = await _context.Faculties.ToListAsync();
+            return View(magazines);
         }
 
 
@@ -45,23 +53,19 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Debug.WriteLine(error.ErrorMessage);
+                }
+            }
 
             ViewBag.FacultyList = _context.Faculties.ToList();
             ViewBag.SemesterList = _context.Semesters.ToList();
             return View(magazineModel);
         }
 
-        private List<SelectListItem> GetFacultyList()
-        {
-            var faculties = _context.Faculties.ToList();
-            return faculties.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
-        }
-
-        private List<SelectListItem> GetSemesterList()
-        {
-            var semesters = _context.Semesters.ToList();
-            return semesters.Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name }).ToList();
-        }
 
         // GET: Manager/Magazine/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -76,8 +80,9 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
             {
                 return NotFound();
             }
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Name", magazineModel.FacultyId);
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", magazineModel.SemesterId);
+            ViewBag.magazineId = magazineModel.Id;
+            ViewBag.FacultyList = _context.Faculties.ToList();
+            ViewBag.SemesterList = _context.Semesters.ToList();
             return View(magazineModel);
         }
 
@@ -113,8 +118,8 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Name", magazineModel.FacultyId);
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", magazineModel.SemesterId);
+            ViewBag.FacultyList = _context.Faculties.ToList();
+            ViewBag.SemesterList = _context.Semesters.ToList();
             return View(magazineModel);
         }
 

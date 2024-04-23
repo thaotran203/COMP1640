@@ -2,15 +2,15 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container" style="max-width: 80%">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <h2 style="text-align: center; color: #4644A0; font-weight: 700">Create new magazine</h2>
-            <form asp-action="Create" method="post" id="createForm">
+            <h2 style="text-align: center; color: #4644A0; font-weight: 700">Update magazine</h2>
+            <form asp-action="Edit" method="post" id="createForm">
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"><b>Title:</b></label>
                     <input style="border-radius: 13px" asp-for="Name" id="Name" class="form-control" required />
@@ -58,8 +58,11 @@
                 </div>
 
                 <div class="button-container" style="text-align: right; margin-top: 50px;">
-                    <button type="submit" form="createForm" class="btn btn-primary" style="background-color: #4644A0; border: 1px solid #4644A0">Create</button>
-                    <a asp-action="Index" asp-controller="Magazine" class="btn btn-secondary">Cancel</a>
+                    <a asp-action="Delete" asp-controller="Magazine" asp-route-id="@ViewBag.magazineId" class="btn btn-danger">Delete</a>
+                    <div>
+                        <button type="submit" form="createForm" class="btn btn-primary" style="background-color: #4644A0; border: 1px solid #4644A0">Update</button>
+                        <a asp-action="Index" asp-controller="Magazine" class="btn btn-secondary">Cancel</a>
+                    </div>
                 </div>
             </form>
         </div>

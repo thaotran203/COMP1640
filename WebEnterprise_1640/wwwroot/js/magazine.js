@@ -43,3 +43,10 @@ $(document).ready(function () {
         });
     });
 });
+
+
+$(document).ready(function () {
+    $('#facultySelect').change(function () {
+        $('#facultyForm').submit();
+    });
+});
