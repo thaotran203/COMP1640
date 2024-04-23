@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
@@ -46,6 +47,10 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
             var data = _context.Articles.FirstOrDefault(x => x.Id == id);
             var model = new ArticleModel();
             model = data;
+            if(model != null)
+            {
+                model.Comments = _context.Comments.Where(c => c.ArticleId == id).Include(c => c.User).ToList();
+            }
             var docs = _context.Documents.Where(x => x.ArticleId == id).ToList();
             var tempDocsJson = HttpContext.Session.GetString("TEMP_DOCS");
             if (tempDocsJson != null && tempDocsJson.Count() > 0)
@@ -83,8 +88,11 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
                     }
                 }
             }
-            ViewBag.User = user;
-            ViewBag.MagazineId = data.MagazineId;
+            ViewData["User"] = user;
+            if(data != null)
+            {
+                ViewBag.MagazineId = data.MagazineId;
+            }
             ViewBag.File = docs;
             ViewBag.check = true;
             return View(model);
@@ -143,14 +151,14 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
                     {
                         isHaveImage = true;
                     }
-                    else if (file.FileName.ToLower().Contains("docx") || file.FileName.ToLower().Contains("doc"))
+                    else if (file.FileName.ToLower().Contains("pdf"))
                     {
                         isHaveDoc = true;
                     }
                 }
                 if (!isHaveDoc && !isHaveImage)
                 {
-                    TempData["ErrorMessage"] = "Choose at least one file doc or one image!";
+                    TempData["ErrorMessage"] = "Choose at least one file pdf or one image!";
                     return RedirectToAction("Index", "Edit", new { id = input.Id });
                 }
             }

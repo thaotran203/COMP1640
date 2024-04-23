@@ -19,9 +19,7 @@ li {
 .drop {
     display: none;
 }
-/* .slide3 {
-    display: none;
-} */
+
 body {
 
     .search-container {
@@ -29,6 +27,7 @@ body {
         align-items: center;
         justify-content: center;
         margin-top: 20px;
+        position: relative;
 
         .input {
             border-color: rgb(182, 182, 182);
@@ -111,30 +110,51 @@ body {
     .next {
         color: black;
     }
-
 }
-
 /* Laptop */
 @media screen and (min-width:1025px) {
     body {
-        .search-container {
-            .input {
-                padding: 5px;
-                padding-left: 50px;
-                border-radius: 50px;
+            .title-magazine {
+                font-size: 25px !important;
+                font-weight: bold !important;
+                margin-top: 10px !important;
             }
 
+            .description-magazine {
+                font-size: 20px !important;
+                margin-top: 10px;
+            }
+
+            .read-more {
+                margin-top: 10px;
+            }
+        .search-container {
+            margin-top: 60px;
+            .input {
+                padding: 10px 40px 10px 20px;
+                padding-left: 0px;
+                border-radius: 50px;
+            }
             .icon-search {
-                padding-right: 170px;
+                margin-left: 165px;
             }
         }
 
         .magazine-name {
-            padding: 20px 60px;
+            padding: 0px 60px;
+            .magazine-title-1 {
+                font-size: 35px !important;
+                font-weight: bold !important;
+                margin-bottom: 10px !important;
+            }
+            .magazine-description-1 {
+                font-size: 17px !important;
+            }
         }
+        
+        
 
         .magazine-container {
-
             .slideshow-container-3,
             .slideshow-container-2,
             .slideshow-container-1 {
@@ -161,21 +181,9 @@ body {
                 width: 100%;
             }
 
-            .title-magazine {
-                font-size: 25px;
-                font-weight: bold;
-                margin-top: 10px;
-            }
-
-            .description-magazine {
-                font-size: 20px;
-                margin-top: 10px;
-            }
-
-            .read-more {
-                margin-top: 10px;
-            }
+           
         }
+
         .slide3,
         .slide1,
         .slide:hover {
@@ -209,13 +217,21 @@ body {
             }
 
             .icon-search {
-                padding-right: 170px;
+                margin-right: 165px !important;
             }
         }
 
         .magazine-name {
             padding: 20px 50px;
         }
+            .magazine-title {
+                font-size: 25px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            .magazine-description {
+                font-size: 17px;
+            }
 
         .magazine-container {
 
@@ -284,13 +300,22 @@ body {
             }
 
             .icon-search {
-                padding-right: 170px;
+                margin-right: 165px !important;
             }
         }
 
         .magazine-name {
             padding: 20px 20px;
+
         }
+            .magazine-title {
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            .magazine-description {
+                font-size: 15px;
+            }
 
         .magazine-container {
 
@@ -311,7 +336,7 @@ body {
             border-radius: 5px;
 
             .img-magazine {
-                height: 150px;
+                height: 100px;
                 width: 100%;
             }
 
