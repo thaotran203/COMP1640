@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebEnterprise_1640.Data;
@@ -81,8 +80,9 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
             {
                 return NotFound();
             }
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Name", magazineModel.FacultyId);
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", magazineModel.SemesterId);
+            ViewBag.magazineId = magazineModel.Id;
+            ViewBag.FacultyList = _context.Faculties.ToList();
+            ViewBag.SemesterList = _context.Semesters.ToList();
             return View(magazineModel);
         }
 
@@ -118,8 +118,8 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Name", magazineModel.FacultyId);
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", magazineModel.SemesterId);
+            ViewBag.FacultyList = _context.Faculties.ToList();
+            ViewBag.SemesterList = _context.Semesters.ToList();
             return View(magazineModel);
         }
 
