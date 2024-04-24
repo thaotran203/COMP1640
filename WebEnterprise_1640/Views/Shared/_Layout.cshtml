@@ -30,22 +30,24 @@
                    @* <button class="home-button" asp-area="" asp-controller="Home" asp-action="Index" ;>Home</button>*@
                 </div>
             </div>
-            <button class="login-button an" id="login"><a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Login">Login</a></button>
+            <a class="nav-link text-white login-button an" id="login" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
             <div onclick="showmenu()" class="icon-menu">
                 <i class="fa-solid fa-bars"></i>
             </div>
         </div>
         <div class="show-menu none">
         </div>
+        
     </header>
-    <div class="container-fluid admin">
+
+    <div class="container-fluid admin" style="padding-left: unset">
+        
         <main role="main">
-            <partial name="_Notification" />
-            @RenderBody()
+             @RenderBody()
         </main>
     </div>
-    <div style="height: 50vh"></div>
-    <footer>
+  
+    <footer >
         <div class="colum">
             <div class="colum-1">
                 <h2>COMP1640</h2>
@@ -92,6 +94,7 @@
         </div>
         <hr>
         <div class="copy-right">
+            <partial name="_Notification" />
             <div class="year">
                 2024 COMP1640. All right reserved.
             </div>

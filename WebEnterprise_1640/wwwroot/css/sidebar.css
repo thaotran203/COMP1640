@@ -11,7 +11,7 @@ img {
 
 body {
     background-color: #f2edf3;
-  
+
     .body-admin {
         display: flex;
         justify-content: start;
@@ -40,7 +40,7 @@ body {
         .icon-arrow {
             padding: 10px;
             border: 1px solid white;
-            background-color: #f3f3f3;
+            background-color: white;
             text-align: center;
             width: 100%;
             position: absolute;
