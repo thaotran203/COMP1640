@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using System.Web.Helpers;
 using WebEnterprise_1640.Models.ViewModel;
 
-
 namespace WebEnterprise_1640.Controllers
 {
     [Area("User")]
@@ -22,6 +21,7 @@ namespace WebEnterprise_1640.Controllers
             _dbContext = dbContext;
             _userManager = userManager;
         }
+        
         public IActionResult Index()
         {
             return View();
@@ -71,6 +71,7 @@ namespace WebEnterprise_1640.Controllers
             _dbContext.SaveChanges();
             return View(existingUser);
         }
+        
         [HttpPost]
         public IActionResult UpdateAvatar(string Id, IFormFile Avatar)
         {
@@ -104,6 +105,7 @@ namespace WebEnterprise_1640.Controllers
 
             return BadRequest("No image uploaded");
         }
+        
         [HttpPost]
         public async Task<IActionResult> ChangePasswordAsync(string userId, string curPassword, string newPassword, string confirmPassword)
         {
