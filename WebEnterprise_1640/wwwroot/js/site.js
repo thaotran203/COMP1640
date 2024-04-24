@@ -24,9 +24,9 @@ function loadNameFile(event) {
     //    document.getElementById("inputFile").value = null;
     //    alert("Chỉ Được Chọn File Doc");
     //}
-    if (file !== "application/pdf") {
+    if (file !== "application/pdf" && file != "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
         document.getElementById("inputFile").value = null;
-        alert("Chỉ Được Chọn File PDF");
+        alert("Chỉ Được Chọn File PDF hoặc doc");
     } else {
         document.getElementById("viewFileName").innerHTML = event.target.files[0].name;
         document.getElementById("divupfile").style.display = "revert-layer";
