@@ -157,7 +157,7 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
                 {
                     isHaveImage = true;
                 }
-                else if (file.FileName.ToLower().Contains("pdf"))
+                else if (file.FileName.ToLower().Contains("pdf") || file.FileName.ToLower().Contains("docx") || file.FileName.ToLower().Contains("doc"))
                 {
                     isHaveDoc = true;
                 }

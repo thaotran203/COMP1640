@@ -241,9 +241,9 @@
         //     alert("Chỉ Được Chọn File Doc");
         // }
         var file = event.target.files[0].type;
-        if (file !== "application/pdf") {
+        if (file !== "application/pdf" && file != "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
             document.getElementById("inputfiledoc").value = null;
-            alert("Chỉ Được Chọn File PDF");
+            alert("Chỉ Được Chọn File PDF hoặc Doc");
         }
     }
 </script>

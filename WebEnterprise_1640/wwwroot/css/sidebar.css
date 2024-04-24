@@ -11,7 +11,6 @@ img {
 
 body {
     background-color: #f2edf3;
-
     .body-admin {
         display: flex;
         justify-content: start;
@@ -87,42 +86,56 @@ body {
         }
 
     }
+
 }
 
 
 /* Laptop */
 @media screen and (min-width:1025px) {
     body {
-        .main-box {
-            padding: 50px;
-        }
-    }
+        .main-box
+
+{
+    padding: 50px;
+}
+
+}
 }
 
 /* Tablet */
 @media screen and (min-width:741px) and (max-width:1024px) {
     body {
-        .main-box {
-            padding: 30px;
-        }
-    }
+        .main-box
+
+{
+    padding: 30px;
+}
+
+}
 }
 
 /* Mobile */
 @media screen and (max-width:740px) {
     body {
-        .main-box {
-            padding: 0px;
-        }
-        .left-panel {
-            padding: 5px !important;
-            .icon-arrow {
-                padding: 5px 0px !important;
-        }
-        p {
-            margin-left: 0px !important;
-        }
-        .account {
-            padding: 5px 0px !important;
-        }
+        .main-box
+
+{
+    padding: 0px;
+}
+
+.left-panel {
+    padding: 5px !important;
+    .icon-arrow
+
+{
+    padding: 5px 0px !important;
+}
+
+p {
+    margin-left: 0px !important;
+}
+
+.account {
+    padding: 5px 0px !important;
+}
 }
