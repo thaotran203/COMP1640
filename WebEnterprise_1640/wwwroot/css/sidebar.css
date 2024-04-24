@@ -11,124 +11,143 @@ img {
 
 body {
     background-color: #f2edf3;
+    .body-admin
 
-    .body-admin {
-        display: flex;
-        justify-content: start;
-    }
+{
+    display: flex;
+    justify-content: start;
+}
 
-    .none {
-        display: none !important;
-    }
+.none {
+    display: none !important;
+}
 
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
 
-    th,
-    td {
-        padding: 8px;
-        text-align: left;
-        border: 1px solid #ddd;
-    }
+th,
+td {
+    padding: 8px;
+    text-align: left;
+}
 
-    th {
-        background-color: #f2f2f2;
-    }
+th {
+    background-color: #f2f2f2;
+}
 
-    .left-panel {
-        background-color: white;
-        padding: 20px;
-        height: 100vh;
-        position: relative;
+.left-panel {
+    background-color: white;
+    padding: 20px;
+    height: 100vh;
+    position: relative;
+    .icon-arrow
 
-        .icon-arrow {
-            padding: 10px;
-            border: 1px solid white;
-            background-color: #f3f3f3;
-            text-align: center;
-            width: 100%;
-            position: absolute;
-            top: 0px;
-            margin-top: 20px;
-            left: 0px;
-        }
+{
+    padding: 10px;
+    border: 1px solid white;
+    background-color: #f3f3f3;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    margin-top: 20px;
+    left: 0px;
+}
 
-        .manage {
-            margin-top: 20px;
-            width: 100%;
-            border: none;
-            background-color: transparent;
+.manage {
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    .account
 
-            .account {
-                display: flex;
-                padding: 10px;
-                border: 1px solid white;
-                background-color: #f3f3f3;
-                border-radius: 10px;
-                justify-content: center;
-                align-items: center;
+{
+    display: flex;
+    padding: 10px;
+    border: 1px solid white;
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    p
 
-                p {
-                    margin-left: 20px;
-                    margin-bottom: 0px !important;
-                }
-            }
+{
+    margin-left: 20px;
+    margin-bottom: 0px !important;
+}
 
-            .account:hover {
-                background-color: aliceblue;
-                cursor: pointer;
-            }
-        }
+}
 
-    }
+.account:hover {
+    background-color: aliceblue;
+    cursor: pointer;
+}
 
-    .main-box {
-        width: 100%;
-        .box {
-            background-color: white;
-            height: 100%;
-            border-radius: 10px;
-        }
+}
+}
 
-    }
+.main-box {
+    width: 100%;
+    .box
+
+{
+    background-color: white;
+    height: 100%;
+    border-radius: 10px;
+}
+
+}
 }
 
 
 /* Laptop */
 @media screen and (min-width:1025px) {
     body {
-        .main-box {
-            padding: 50px;
-        }
-    }
+        .main-box
+
+{
+    padding: 50px;
+}
+
+}
 }
 
 /* Tablet */
 @media screen and (min-width:741px) and (max-width:1024px) {
     body {
-        .main-box {
-            padding: 30px;
-        }
-    }
+        .main-box
+
+{
+    padding: 30px;
+}
+
+}
 }
 
 /* Mobile */
 @media screen and (max-width:740px) {
     body {
-        .main-box {
-            padding: 0px;
-        }
-        .left-panel {
-            padding: 5px !important;
-            .icon-arrow {
-                padding: 5px 0px !important;
-        }
-        p {
-            margin-left: 0px !important;
-        }
-        .account {
-            padding: 5px 0px !important;
-        }
+        .main-box
+
+{
+    padding: 0px;
+}
+
+.left-panel {
+    padding: 5px !important;
+    .icon-arrow
+
+{
+    padding: 5px 0px !important;
+}
+
+p {
+    margin-left: 0px !important;
+}
+
+.account {
+    padding: 5px 0px !important;
+}
 }
