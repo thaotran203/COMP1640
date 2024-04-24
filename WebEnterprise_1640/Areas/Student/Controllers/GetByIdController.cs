@@ -60,7 +60,7 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
             ViewBag.Deadline = DateTime.Compare(daynow, dayEnd);
             //kiểm tra xem có bài báo nào đã được nộp
             //nếu đã nộp thì sẽ chạy sang trang đã submit
-            var check = _context.Articles.FirstOrDefault(x => x.MagazineId == magazines.Id);
+            var check = _context.Articles.FirstOrDefault(x => x.MagazineId == magazines.Id && x.UserId == user.Id);
 
             if (check != null)
             {
