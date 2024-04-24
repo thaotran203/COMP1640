@@ -54,7 +54,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             //Get all users first
             var users = await _userManager.Users.ToListAsync();
             //Filter out users with the 'Admin' role
-            users = users.Where(u => !_userManager.IsInRoleAsync(u, "Admin").Result).ToList();
+            users = users.Where(u => !_userManager.IsInRoleAsync(u, "Admin").Result).Where(u => !_userManager.IsInRoleAsync(u, "Guest").Result).ToList();
             //Search
             if (!string.IsNullOrEmpty(search))
             {
@@ -72,7 +72,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 }
                 users = users.Where(u => usersInRoles.Select(x => x.Id).Contains(u.Id)).ToList();
             }
-            ViewBag.AllRoles = (await _roleManager.Roles.Where(r => r.Name != "Admin").ToListAsync()).Select(r => r.Name).ToList();
+            ViewBag.AllRoles = (await _roleManager.Roles.Where(r => r.Name != "Admin" && r.Name != "Guest").ToListAsync()).Select(r => r.Name).ToList();
             ViewBag.Roles = roles;
             // Filter facultyId
             if (facultyIds != null && facultyIds.Count > 0)
@@ -99,7 +99,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             }
             RegisterVM registerVM = new RegisterVM()
             {
-                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
@@ -133,7 +133,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 if (checkEmail)
                 {
                     ModelState.AddModelError("Email", "User with this email already exists!");
-                    registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                    registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                     {
                         Text = i,
                         Value = i
@@ -180,7 +180,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     else
                     {
                         TempData["error"] = "A coordinator already exists within the faculty!";
-                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                         {
                             Text = i,
                             Value = i
@@ -262,7 +262,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             var userRoles = await _userManager.GetRolesAsync(userModel);
             RegisterVM registerVM = new RegisterVM()
             {
-                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
@@ -309,7 +309,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     if (checkEmail)
                     {
                         ModelState.AddModelError("Email", "User with this email already exists!");
-                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                         {
                             Text = i,
                             Value = i

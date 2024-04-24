@@ -21,6 +21,14 @@
 </head>
 <body>
     <header>
+        @{
+            var userData = ViewBag.User;
+            UserModel? user = null;
+            if (userData != null)
+            {
+                user = (UserModel)userData;
+            }
+        }
         <div class="nav-bar">
             <div class="nav-1">
                 <p asp-area="" asp-controller="Home" asp-action="Index">BEE MAGAZINE</p>
@@ -30,7 +38,19 @@
                    @* <button class="home-button" asp-area="" asp-controller="Home" asp-action="Index" ;>Home</button>*@
                 </div>
             </div>
-            <a class="nav-link text-white login-button an" id="login" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+            @if (user != null)
+            {
+                <p style="margin-left: 50vw; margin-block: 0">Welcome, @user.UserName</p>
+                <div class="button an" id="login">
+                    <a class="nav-link text-white login-button an" href="@Url.ActionLink("Logout", "Account")">Log out</a>
+                </div>
+            }
+            else
+            {
+                <div class="button an" id="login">
+                    <a class="nav-link text-white login-button an" id="login" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                </div>
+            }
             <div onclick="showmenu()" class="icon-menu">
                 <i class="fa-solid fa-bars"></i>
             </div>
@@ -47,7 +67,7 @@
         </main>
     </div>
   
-    <footer >
+    <footer>
         <div class="colum">
             <div class="colum-1">
                 <h2>COMP1640</h2>

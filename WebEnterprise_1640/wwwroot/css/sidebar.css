@@ -34,7 +34,6 @@ body {
     .left-panel {
         background-color: white;
         padding: 20px;
-        height: 100vh;
         position: relative;
 
         .icon-arrow {

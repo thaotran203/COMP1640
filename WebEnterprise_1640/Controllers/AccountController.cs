@@ -71,10 +71,12 @@ namespace WebEnterprise_1640.Controllers
                         if (role.RoleId == "4")
                         {
                             newRole = "Manager";
+                            return RedirectToAction("Index", "Dashboard", new { area = "Manager" });
                         }
                         if (role.RoleId == "5")
                         {
                             newRole = "Admin";
+                            return RedirectToAction("Index", "Faculty", new { area = "Admin" });
                         }
                     }
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
