@@ -1,14 +1,54 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<title>Bar Chart Example</title>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	﻿@using WebEnterprise_1640.Models
 	<link rel="stylesheet" href="~/css/coordashboard.css">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
-
+	<link rel="stylesheet" href="~/css/nav_footer.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
 </head>
 <body>
+	<header>
+		@{
+			var userData = ViewBag.User;
+			UserModel? user = null;
+			if (userData != null)
+			{
+				user = (UserModel)userData;
+			}
+		}
+		<div class="nav-bar">
+			<div class="nav-1">
+				<p>BEE MAGAZINE
+				<p>
+			</div>
+			<div class="home an" id="home">
+				<div class="home-cover">
+					<a href="/Home/Index" class="home-button" style="text-decoration:none">Home</a>
+				</div>
+			</div>
+			@if (user != null)
+			{
+				<p>Welcome, @user.UserName</p>
+				<div class="button an" id="login">
+					<a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+				</div>
+			}
+			else
+			{
+				<div class="button an" id="login">
+					<a href="/Account/Login" class="login-button">Log in</a>
+				</div>
+			}
+			<div onclick="showmenu()" class="icon-menu">
+				<i class="fa-solid fa-bars"></i>
+			</div>
+		</div>
+		<div class="show-menu none">
+		</div>
+	</header>
 	<div class="body-admin">
 		<div class="left-panel">
 			<button class="icon-arrow" onclick="arrow()">
@@ -17,7 +57,7 @@
 			</button>
 			<div style="margin-bottom: 30px;"></div>
 
-			<button class="manage">
+			<button class="manage" id="dashboardButton">
 				<div class="account">
 					<div class="icon-1">
 						<i class="fa-solid fa-chart-line"></i>
@@ -25,7 +65,7 @@
 					<p>Dash board</p>
 				</div>
 			</button>
-			<button class="manage">
+			<button class="manage" id="managearticlesButton">
 				<div class="account">
 					<div class="icon-2">
 						<i class="fa-solid fa-list"></i>
@@ -33,7 +73,7 @@
 					<p>Manage Articles</p>
 				</div>
 			</button>
-			<button class="manage">
+			<button class="manage" id="selectedarticlesButton">
 				<div class="account">
 					<div class="icon-2">
 						<i class="fa-regular fa-star"></i>
@@ -102,52 +142,120 @@
 			</div>
 		</div>
 	</div>
-	
+	<footer>
+		<div class="colum">
+			<div class="colum-1">
+				<h2>COMP1640</h2>
+			</div>
+			<div class="colum-2">
+				<h3>About us</h3>
+				<div class="contact">
+					<p>Popular</p>
+					<p>Trending</p>
+					<p>Contact</p>
+					<p>Support/Help</p>
+					<p>Request Topics</p>
+				</div>
+			</div>
+			<div class="colum-3">
+				<h3>Follow us</h3>
+				<div class="social">
+					<div class="facebook">
+						<div class="icon">
+							<i class="fa-brands fa-facebook-f"></i>
+						</div>
+						<p>Facebook</p>
+					</div>
+					<div class="facebook">
+						<div class="icon">
+							<i class="fa-brands fa-instagram"></i>
+						</div>
+						<p>Instagram</p>
+					</div>
+					<div class="facebook">
+						<div class="icon">
+							<i class="fa-brands fa-twitter"></i>
+						</div>
+						<p>Twitter</p>
+					</div>
+					<div class="facebook">
+						<div class="icon">
+							<i class="fa-brands fa-linkedin"></i>
+						</div>
+						<p>LinkedIn</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="copy-right">
+			<div class="year">
+				2024 COMP1640. All right reserved.
+			</div>
+			<div class="policy">
+				<u>Privacy Policy</u>
+				<u>Term of Service</u>
+				<u>Cookies Settings</u>
+			</div>
+		</div>
+	</footer>
 
 	<script src="~/js/sidebar.js" asp-append-version="true"></script>
 
 
 	<script>
-		 function submitForm() {
-			 document.getElementById("yearForm").submit();
-		 }
+			 function submitForm() {
+				 document.getElementById("yearForm").submit();
+			 }
 
-		 var ctx = document.getElementById('myChart').getContext('2d');
-		 var myChart = new Chart(ctx, {
-			 type: 'bar',
-			 data: {
-				 labels: @Html.Raw(Json.Serialize(ViewBag.Labels)),
-				 datasets: [{
-					 label: 'Submissions',
-					 data: @Html.Raw(Json.Serialize(ViewBag.Data)),
-					 backgroundColor: 'rgb(100, 189, 239)',
-					 borderColor: 'rgb(100, 189, 239)',
-				 }]
-			 },
-			 options: {
-				 scales: {
-					 y: {
-						 beginAtZero: true
+			 var ctx = document.getElementById('myChart').getContext('2d');
+			 var myChart = new Chart(ctx, {
+				 type: 'bar',
+				 data: {
+					 labels: @Html.Raw(Json.Serialize(ViewBag.Labels)),
+					 datasets: [{
+						 label: 'Submissions',
+						 data: @Html.Raw(Json.Serialize(ViewBag.Data)),
+						 backgroundColor: 'rgb(100, 189, 239)',
+						 borderColor: 'rgb(100, 189, 239)',
+					 }]
+				 },
+				 options: {
+					 scales: {
+						 y: {
+							 beginAtZero: true
+						 }
 					 }
 				 }
-			 }
-		 });
+			 });
 
-		var articleStatusCtx = document.getElementById('articleStatusChart').getContext('2d');
-		 var articleStatusChart = new Chart(articleStatusCtx, {
-			 type: 'doughnut',
-			 data: {
-				 labels: ['Selected', 'Denied'],
-				 datasets: [{
-					 backgroundColor: ['#ff6384', '#ffce56'],
-					 data: [@ViewBag.SelectedPercentage, @ViewBag.DeniedPercentage]
-				 }]
-			 },
-			 options: {
-				 responsive: true,
-				 maintainAspectRatio: false
-			 }
-		 });
+			var articleStatusCtx = document.getElementById('articleStatusChart').getContext('2d');
+			 var articleStatusChart = new Chart(articleStatusCtx, {
+				 type: 'doughnut',
+				 data: {
+					 labels: ['Selected', 'Denied'],
+					 datasets: [{
+						 backgroundColor: ['#ff6384', '#ffce56'],
+						 data: [@ViewBag.SelectedPercentage, @ViewBag.DeniedPercentage]
+					 }]
+				 },
+				 options: {
+					 responsive: true,
+					 maintainAspectRatio: false
+				 }
+			 });
+			document.getElementById("dashboardButton").addEventListener("click", function () {
+			// Redirect to the Coordinator Dashboard page
+			window.location.href = "/Coordinator/Dashboard";
+			});
+			document.getElementById("managearticlesButton").addEventListener("click", function () {
+			// Redirect to the Coordinator Dashboard page
+			window.location.href = "/Coordinator/Magazine";
+			});
+			document.getElementById("selectedarticlesButton").addEventListener("click", function () {
+			// Redirect to the Coordinator Dashboard page
+			window.location.href = "/Coordinator/MagazineSelected";
+			});
 	</script>
 </body>
 </html>

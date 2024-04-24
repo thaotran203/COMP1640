@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace WebEnterprise_1640.Controllers
 {
@@ -21,18 +19,16 @@ namespace WebEnterprise_1640.Controllers
             return View();
         }
 
-        public IActionResult Test(int? id)
+        public IActionResult Test(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var userId = id.ToString();
-
             var user = _dbContext.Users
                                .Include(u => u.Faculty)
-                               .FirstOrDefault(a => a.Id == userId);
+                               .FirstOrDefault(a => a.Id == id);
 
             if (user == null)
             {

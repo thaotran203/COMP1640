@@ -63,7 +63,7 @@ namespace WebEnterprise_1640.Areas.Guest.Controllers
                 }
                 foreach (var magazine in magazines)
                 {
-                    magazine.Articles = _context.Articles.Where(a => a.MagazineId == magazine.Id && a.Status.ToLower() == "approved".ToLower()).ToList();
+                    magazine.Articles = _context.Articles.Where(a => a.MagazineId == magazine.Id && a.Status.ToLower() == "selected".ToLower()).ToList();
                     if (magazine.Articles != null && magazine.Articles.Count > 0)
                     {
                         foreach (var article in magazine.Articles)

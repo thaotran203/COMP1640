@@ -54,9 +54,9 @@ namespace WebEnterprise_1640.Controllers
             }
 
             var article = _dbContext.Articles
-    .Include(a => a.User)
-    .Include(a => a.Magazine)
-    .FirstOrDefault(a => a.Id == id);
+                .Include(a => a.User)
+                .Include(a => a.Magazine)
+                .FirstOrDefault(a => a.Id == id);
 
             if (article == null)
             {
