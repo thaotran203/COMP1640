@@ -59,30 +59,30 @@
         </button>
         <div style="margin-bottom: 30px;"></div>
 
-        <button class="manage">
-            <div class="account">
-                <div class="icon-1">
-                    <i class="fa-solid fa-chart-line"></i>
-                </div>
-                <p>Dash board</p>
-            </div>
-        </button>
-        <button class="manage">
-            <div class="account">
-                <div class="icon-2">
-                    <i class="fa-solid fa-list"></i>
-                </div>
-                <p>Manage Articles</p>
-            </div>
-        </button>
-        <button class="manage">
-            <div class="account">
-                <div class="icon-2">
-                    <i class="fa-regular fa-star"></i>
-                </div>
-                <p>Selected Articles</p>
-            </div>
-        </button>
+      <button class="manage" id="dashboardButton">
+			<div class="account">
+				<div class="icon-1">
+					<i class="fa-solid fa-chart-line"></i>
+				</div>
+				<p>Dash board</p>
+			</div>
+		</button>
+		<button class="manage" id="managearticlesButton">
+			<div class="account">
+				<div class="icon-2">
+					<i class="fa-solid fa-list"></i>
+				</div>
+				<p>Manage Articles</p>
+			</div>
+		</button>
+		<button class="manage" id="selectedarticlesButton">
+			<div class="account">
+				<div class="icon-2">
+					<i class="fa-regular fa-star"></i>
+				</div>
+				<p>Selected Articles</p>
+			</div>
+		</button>
     </div>
     <div class="main-box">
             <div class="container mt-4" style="height: 100vh;">
@@ -233,5 +233,17 @@
             }
         };
         xhr.send(formData); // Send the form data
+    });
+    document.getElementById("dashboardButton").addEventListener("click", function () {
+        // Redirect to the Coordinator Dashboard page
+        window.location.href = "/Coordinator/Dashboard";
+		   });
+		  document.getElementById("managearticlesButton").addEventListener("click", function () {
+        // Redirect to the Coordinator Dashboard page
+        window.location.href = "/Coordinator/Magazine";
+			});
+			  document.getElementById("selectedarticlesButton").addEventListener("click", function () {
+        // Redirect to the Coordinator Dashboard page
+        window.location.href = "/Coordinator/MagazineSelected";
     });
 </script>
