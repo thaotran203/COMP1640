@@ -7,6 +7,7 @@
 <head>
     <link href="~/css/faculty.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
         th {
@@ -41,36 +42,69 @@
     </style>
 </head>
 <body>
-    <div class="List">
-        <p>
-            <a asp-action="Create" class="btn btn-primary" id="createBtn"><i class="fa fa-plus-circle"></i><b>&nbsp; Add New Faculty</b></a>
-        </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th><b>ID</b></th>
-                    <th><b>Faculty Name</b></th>
-                    <th><b>Account Count</b></th>
-                    <th colspan="2"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td>@ViewBag.UserList[item.Id]</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" style="color: black"><i class="fa fa-pencil"></i></a>
-                        </td>
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@item.Id" style="color: black"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="body-admin">
+        <div class="left-panel">
+            <div style="margin-top: 40px">
+                <button class="manage">
+                    <div class="account">
+                        <div class="icon-1">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <p>
+                            <a asp-controller="Faculty" asp-action="Index" class="btn text-muted">Manage Faculty</a>
+                        </p>
+                    </div>
+                </button>
+                <button class="manage">
+                    <div class="account">
+                        <div class="icon-2">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <p>
+                            <a asp-controller="User" asp-action="Index" class="btn text-muted">Manage Account</a>
+                        </p>
+                    </div>
+                </button>
+            </div>
+            <button class="icon-arrow" onclick="arrow()">
+                <i class="fa-solid fa-arrow-left"></i>
+                <i class="fa-solid fa-arrow-right none"></i>
+            </button>
+        </div>
+        <div class="main-box">
+            <div class="List">
+                <p>
+                    <a asp-action="Create" class="btn btn-primary" id="createBtn"><i class="fa fa-plus-circle"></i><b>&nbsp; Add New Faculty</b></a>
+                </p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th><b>ID</b></th>
+                            <th><b>Faculty Name</b></th>
+                            <th><b>Account Count</b></th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td>@ViewBag.UserList[item.Id]</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" style="color: black"><i class="fa fa-pencil"></i></a>
+                                </td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" style="color: black"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
+<script src="~/js/sidebar.js" asp-append-version="true"></script>
 

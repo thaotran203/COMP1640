@@ -497,7 +497,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             message.From = new MailAddress(fromMail);
             //Send email to the specific user
             message.To.Add(new MailAddress(userEmail));
-            message.Subject = "Article Submission Denied";
+            message.Subject = "Reset Password";
             message.Body = $@"<html>
                                 <body>
                                     <p>Dear {fullname},</p>
