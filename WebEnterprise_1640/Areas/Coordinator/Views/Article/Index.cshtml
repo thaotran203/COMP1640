@@ -125,8 +125,8 @@
 				@foreach (var article in Model)
 				{
 					<tr>
-						<td>@article.User.FullName</td>
-						<td class="article-name">@article.Name</td>
+						<td class="student-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
+						<td class="article-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
 						<td class="table-button">
 							<button onclick="handleSelect('@article.Id')" class="action-button">
 								<i class="fa-regular fa-star"></i>
