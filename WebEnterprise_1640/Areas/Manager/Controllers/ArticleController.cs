@@ -20,6 +20,7 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
 
         public async Task<IActionResult> SelectedMagazine(int? facultyId)
         {
+
             IQueryable<MagazineModel> magazinesQuery = _context.Magazines.Include(m => m.Faculty).Include(m => m.Semester);
 
             if (facultyId.HasValue)
@@ -57,18 +58,20 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         }
 
 
-        // GET: Manager/Article
-        public async Task<IActionResult> Index(int magazineId)
+        public async Task<IActionResult> Index(int magazineId, int page = 1)
         {
             int pageSize = 4;
 
             var articles = await _context.Articles
                 .Include(a => a.User)
-                .Where(a => a.MagazineId == magazineId && a.Status == "approved")
+                .Where(a => a.MagazineId == magazineId && a.Status == "selected")
                 .OrderByDescending(a => a.SubmitDate)
+                .Skip((page - 1) * pageSize) // Skip previous pages
+                .Take(pageSize) // Take only the articles for the current page
                 .ToListAsync();
 
-            //ViewData["page"] = page; // Pass the page parameter to the view
+            ViewData["Page"] = page;
+            ViewData["TotalPages"] = (int)Math.Ceiling((double)_context.Articles.Count(a => a.MagazineId == magazineId && a.Status == "selected") / pageSize);
 
             return View(articles);
         }
@@ -134,7 +137,6 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
             // Return the zip file as a file download
             return File(memoryStream, "application/zip", "Documents.zip");
         }
-
 
 
         private bool ArticleModelExists(int id)
