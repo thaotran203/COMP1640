@@ -1,5 +1,6 @@
-﻿@model IEnumerable<WebEnterprise_1640.Models.ArticleModel>
-﻿@using WebEnterprise_1640.Models
+@model IEnumerable<WebEnterprise_1640.Models.ArticleModel>
+@using WebEnterprise_1640.Models
+  
 <link rel="stylesheet" href="~/css/article.css">
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/nav_footer.css" asp-append-version="true">
@@ -128,16 +129,16 @@
 				<tbody>
 					@foreach (var article in Model)
 					{
-										<tr>
-											<td class="student-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
-											<td class="article-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
-											<td class="table-button">
-												<button onclick="handleSelect('@article.Id')" class="action-button">
-													<i class="fa-solid fa-star"></i>
-												</button>
-											</td>
-											<td class="table-date">@article.SubmitDate.ToString("dd MMMM")</td>
-										</tr>
+						<tr>
+							<td class="student-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.User.FullName</a></td>
+							<td class="article-name"><a href="/Article?Id=@article.Id" class="custom-link">@article.Name</a></td>
+							<td class="table-button">
+								<button onclick="handleSelect('@article.Id')" class="action-button">
+									<i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+								</button>
+							</td>
+							<td class="table-date">@article.SubmitDate.ToString("dd MMMM")</td>
+						</tr>
 					}
 				</tbody>
 			</table>

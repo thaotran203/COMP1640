@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
 * {
     margin: 0;
     box-sizing: border-box;
     padding: 0;
+    font-family: "Mulish", sans-serif;
 }
 
 img {
@@ -16,14 +18,31 @@ img {
     position: relative;
 }
 
+.overlay{
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.4;
+}
+
 .discover {
     padding: 5px 15px;
-    background-color: white;
-    color: black;
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    font-weight: 500;
+    font-size: 35px;
     position: absolute;
-    border: 2px solid black;
     border-radius: 5px;
     text-decoration: none !important;
+    cursor: pointer;
+}
+
+.discover:hover{
+    border: 2px solid white;
+    color: black;
+    background: white;
+
 }
 /* Laptop */
 @media screen and (min-width:1025px) {
@@ -37,7 +56,6 @@ img {
     .discover
 
 {
-    font-size: 27px;
     bottom: 200px;
     left: 50px;
 }
@@ -56,7 +74,6 @@ img {
     }
 
     .discover {
-        font-size: 20px;
         bottom: 250px;
         left: 40px;
     }
@@ -72,7 +89,7 @@ img {
     }
 
     .discover {
-        font-size: 13px;
+        font-size: 20px;
         top: 200px;
         left: 30px;
     }
