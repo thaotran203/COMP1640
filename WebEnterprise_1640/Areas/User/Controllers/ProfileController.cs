@@ -2,6 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
+using System.Linq;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Identity;
+using System.Web.Helpers;
+using WebEnterprise_1640.Models.ViewModel;
 
 namespace WebEnterprise_1640.Controllers
 {
@@ -9,10 +14,12 @@ namespace WebEnterprise_1640.Controllers
     public class ProfileController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly UserManager<UserModel> _userManager;
 
-        public ProfileController(ApplicationDbContext dbContext)
+        public ProfileController(ApplicationDbContext dbContext, UserManager<UserModel> userManager)
         {
             _dbContext = dbContext;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -97,7 +104,7 @@ namespace WebEnterprise_1640.Controllers
             return BadRequest("No image uploaded");
         }
         [HttpPost]
-        public IActionResult ChangePassword(string userId, string curPassword, string newPassword, string confirmPassword)
+        public async Task<IActionResult> ChangePasswordAsync(string userId, string curPassword, string newPassword, string confirmPassword)
         {
             if (string.IsNullOrEmpty(curPassword) || string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(confirmPassword))
             {
@@ -112,22 +119,26 @@ namespace WebEnterprise_1640.Controllers
             var user = _dbContext.Users
                                .Include(u => u.Faculty)
                                .FirstOrDefault(a => a.Id == userId);
+            var passwordValid = await _userManager.CheckPasswordAsync(user, curPassword);
             if (user == null)
             {
                 TempData["ErrorMessage"] = "Not Found User";
                 return RedirectToAction("Test", "Profile", new { id = userId });
             }
-            if (user.PasswordHash != curPassword)
+            if (passwordValid)
+            {
+                user.PasswordHash = Crypto.HashPassword(newPassword);
+                var nUser = _dbContext.Update(user);
+                _dbContext.SaveChanges();
+                if (nUser.Entity == null)
+                {
+                    TempData["ErrorMessage"] = "Database connection got error!";
+                    return RedirectToAction("Test", "Profile", new { id = userId });
+                }
+            }
+            else
             {
                 TempData["ErrorMessage"] = "Current password is incorrect";
-                return RedirectToAction("Test", "Profile", new { id = userId });
-            }
-            user.PasswordHash = newPassword;
-            var nUser = _dbContext.Update(user);
-            _dbContext.SaveChanges();
-            if (nUser.Entity == null)
-            {
-                TempData["ErrorMessage"] = "Database connection got error!";
                 return RedirectToAction("Test", "Profile", new { id = userId });
             }
             TempData["SuccessMessage"] = "Change password successful";

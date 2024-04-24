@@ -11,7 +11,8 @@ img {
 
 body {
     background-color: #f2edf3;
-    .body-admin{
+  
+    .body-admin {
         display: flex;
         justify-content: start;
     }
