@@ -71,7 +71,7 @@ namespace WebEnterprise_1640.Utility
                     if (coordinator.FacultyId == article.User.FacultyId)
                     {
                         title = $"14 day notification email for {article.Name}";
-                        body = $"<p>Student {article.User.UserName} submitted an article 14 days ago and still not be checked. Please comment and confirm the article for improvement!</p>";
+                        body = $"<p>Student {article.User.FullName} submitted an article 14 days ago and still not be checked. Please comment and confirm the article for improvement!</p>";
                         DateTime next14Days = article.SubmitDate.AddDays(14);
                         if (now >= next14Days)
                         {
