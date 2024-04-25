@@ -1,0 +1,148 @@
+﻿@model IEnumerable<WebEnterprise_1640.Models.ArticleModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/SemesterStyle.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/magazine.css" asp-append-version="true" />
+
+
+<div class="container">
+    <div class="row justify-content-center m-3">
+        <div class="col-md-6">
+            <div class="search-wrapper" style="width: 100%">
+                <input type="text" id="magazineSearch">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </div>
+        </div>
+    </div>
+    <table class="table mt-4" style="background-color: white">
+        <thead>
+            <!-- Table Head -->
+            <tr>
+                <th style="vertical-align: middle">
+                    <input class="ms-2" type="checkbox" id="checkAll" name="" value="" style="width: 15px; height: 15px; cursor: pointer" />
+                </th>
+                <th scope="col" style="vertical-align: middle">All</th>
+                <th scope="col">
+                    <span class="datepicker-toggle">
+                        <i class="fa-regular fa-calendar pe-2"></i>
+                        <span>Date</span>
+                        <span class="datepicker-toggle-button"></span>
+                        <input type="date" class="datepicker-input" />
+                    </span>
+                </th>
+                <th scope="col">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-light download-button" style="max-width: 100px; border-radius: 25px; border: 1px solid #ced4da">Download</button>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="d-flex justify-content-evenly text-center" style="height: 26px">
+                        <i class="fa-solid fa-angle-left"></i>
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+
+        <!-- TABLE BODY -->
+        <tbody>
+            @foreach (var article in Model)
+            {
+                <tr class="article-row">
+                    <th>
+                        <input class="article-checkbox ms-2" type="checkbox" data-article-id="@article.Id" style="width: 15px; height: 15px; cursor: pointer" />
+                    </th>
+                    <th scope="row">
+                        <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                    </th>
+                    <td>
+                        <a asp-action="ArticleContent" asp-controller="Article" asp-route-id="@article.Id" style="text-decoration:none; color: black">@article.User.FullName</a>
+                    </td>
+                    <td>
+                        <a asp-action="ArticleContent" asp-controller="Article" asp-route-id="@article.Id" style="text-decoration:none; color: black">@article.Name</a>
+                    </td>
+                    <td class="text-center" data-submit-date="@article.SubmitDate">@(article.SubmitDate.ToString("d MMM"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Function to update download button data-article-id attribute
+            function updateDownloadButton() {
+                var selectedArticles = $('.article-checkbox:checked');
+                var articleIds = selectedArticles.map(function() {
+                    return $(this).data('article-id');
+                }).get();
+                $('.download-button').data('article-id', articleIds.join(','));
+            }
+
+            // Handle Check All checkbox click event
+            $('#checkAll').click(function () {
+                $('.article-checkbox').prop('checked', this.checked);
+                updateDownloadButton();
+            });
+
+            // Handle individual article checkbox click event
+            $('.article-checkbox').click(function () {
+                updateDownloadButton();
+            });
+
+            // Handle Download button click event
+            $('.download-button').click(function () {
+                var articleIds = $(this).data('article-id');
+                if (articleIds) {
+                    // Redirect to DownloadDocuments action with the selected articleIds
+                    window.location.href = "/Manager/Article/DownloadDocuments?articleIds=" + articleIds;
+                } else {
+                    alert("Please select at least one article to download.");
+                }
+            });
+
+
+            // Handle search input keyup event
+            $('#magazineSearch').keyup(function () {
+                var searchText = $(this).val().toLowerCase();
+                $('.article-checkbox').each(function () {
+                    var articleName = $(this).closest('tr').find('td:nth-child(4)').text().toLowerCase();
+                    if (articleName.includes(searchText)) {
+                        $(this).closest('tr').removeClass('d-none');
+                    } else {
+                        $(this).closest('tr').addClass('d-none');
+                    }
+                });
+            });
+
+
+            // Function to filter articles based on selected date
+            function filterArticles(selectedDate) {
+                $('.article-row').each(function() {
+                    var $row = $(this);
+                    var submitDate = $row.find('.text-center').data('submit-date');
+                    // Convert the submitDate to match the format of the selectedDate
+                    var formattedSubmitDate = new Date(submitDate).toLocaleDateString('en-US');
+                    if (formattedSubmitDate === selectedDate) {
+                        $row.show(); // Show the row if it matches the selected date
+                    } else {
+                        $row.hide(); // Hide the row if it doesn't match the selected date
+                    }
+                });
+            }
+
+            // Event listener for datepicker input change
+            $('.datepicker-input').on('change', function() {
+                var selectedDate = $(this).val();
+                filterArticles(selectedDate); // Filter articles based on the selected date
+            });
+        });
+    </script>
+}

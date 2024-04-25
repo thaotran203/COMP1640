@@ -267,16 +267,19 @@
         </div>
         @if (user != null && ViewBag.check != 1)
         {
-            <div class="submit-button">
-                <div class="icon-delete">
-                    <a onclick="deletell()" href="@Url.Action("Index","Edit", new {id = @ViewBag.Articles.Id})" class="remove">
-                        Edit Submission
-                    </a>
-                    <a href="@Url.Action("RemoveArticle","SubmitArticle", new {id = @ViewBag.Articles.Id})" class="remove">
-                        Remove Submission
-                    </a>
+            @if(Model.Status.ToLower() != "selected".ToLower())
+            {
+                <div class="submit-button">
+                    <div class="icon-delete">
+                        <a onclick="deletell()" href="@Url.Action("Index","Edit", new {id = @ViewBag.Articles.Id})" class="remove">
+                            Edit Submission
+                        </a>
+                        <a href="@Url.Action("RemoveArticle","SubmitArticle", new {id = @ViewBag.Articles.Id})" class="remove">
+                            Remove Submission
+                        </a>
+                    </div>
                 </div>
-            </div>
+            }
         }
         @if (Model.Comments != null && Model.Comments.Count() > 0)
         {
