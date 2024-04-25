@@ -192,7 +192,7 @@ namespace WebEnterprise_1640.Areas.Student.Controllers
             var facility = _context.Faculties.FirstOrDefault(f => f.Id == user.FacultyId);
             string url = Url.ActionLink("Index", "GetbyId", new { id = input.MagazineId });
             string title = $"Article submission notification for {input.Name}";
-            string body = $"<p>Student {user.UserName} have submitted an article. Please check and confirm this article!</p>";
+            string body = $"<p>Student {user.FullName} have submitted an article. Please check and confirm this article!</p>";
             if (facility != null)
             {
                 var coordinator = _context.Users.FirstOrDefault(u => u.Id == facility.CoordinatorId.ToString());
