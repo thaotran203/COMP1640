@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using System.Text.Json;
 using WebEnterprise_1640.Data;
+using WebEnterprise_1640.Models;
 
 namespace WebEnterprise_1640.Areas.Manager.Controllers
 {
@@ -16,6 +18,32 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
 
         public IActionResult Index(int selectedYear = -1, string selectedStatus = "selected")
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
             if (selectedYear == -1)
                 selectedYear = DateTime.Now.Year;
 
@@ -28,7 +56,7 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
             ViewBag.BusinessStudentCount = businessStudentCount;
 
             var totalSubmissionsForYear = _context.Articles
-      .Count(a => a.SubmitDate.Year == selectedYear);
+                .Count(a => a.SubmitDate.Year == selectedYear);
 
 
             var submissionsByMonth = _context.Articles

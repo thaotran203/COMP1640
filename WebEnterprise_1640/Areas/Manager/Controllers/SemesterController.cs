@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
 
 namespace WebEnterprise_1640.Areas.Manager.Controllers
 {
     [Area("Manager")]
-
     public class SemesterController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,6 +19,32 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         // GET: Manager/Semester
         public async Task<IActionResult> Index()
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
             return View(await _context.Semesters.ToListAsync());
         }
 
@@ -26,6 +52,33 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         // GET: Manager/Semester/Create
         public IActionResult Create()
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
+
             return View();
         }
 
@@ -48,6 +101,33 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         // GET: Manager/Semester/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
+
             if (id == null || _context.Semesters == null)
             {
                 return NotFound();
@@ -99,6 +179,33 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         // GET: Manager/Semester/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
+
             if (id == null || _context.Semesters == null)
             {
                 return NotFound();

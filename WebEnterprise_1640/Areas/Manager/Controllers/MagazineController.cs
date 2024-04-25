@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
 
@@ -19,6 +20,32 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         // GET: Manager/Magazine
         public async Task<IActionResult> Index(int? facultyId)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
             IQueryable<MagazineModel> magazinesQuery = _context.Magazines.Include(m => m.Faculty).Include(m => m.Semester);
 
             if (facultyId.HasValue)
@@ -35,6 +62,33 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         // GET: Manager/Magazine/Create
         public IActionResult Create()
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
+
             ViewBag.FacultyList = _context.Faculties.ToList();
             ViewBag.SemesterList = _context.Semesters.ToList();
             return View();
@@ -70,6 +124,33 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         // GET: Manager/Magazine/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
+
             if (id == null || _context.Magazines == null)
             {
                 return NotFound();
@@ -126,6 +207,33 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         // GET: Manager/Magazine/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
+
             if (id == null || _context.Magazines == null)
             {
                 return NotFound();

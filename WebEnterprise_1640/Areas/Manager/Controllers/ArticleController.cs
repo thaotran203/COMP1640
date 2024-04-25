@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IO.Compression;
+using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
 
@@ -20,6 +21,31 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
 
         public async Task<IActionResult> SelectedMagazine(int? facultyId)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
 
             IQueryable<MagazineModel> magazinesQuery = _context.Magazines.Include(m => m.Faculty).Include(m => m.Semester);
 
@@ -36,6 +62,33 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
 
         public async Task<IActionResult> ArticleContent(int? id)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
+
             if (id == null)
             {
                 return NotFound();
@@ -58,33 +111,59 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         }
 
 
-        public async Task<IActionResult> Index(int magazineId)
+        public async Task<IActionResult> Index(int magazineId, int page = 1)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "manager")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
+
+
+            int pageSize = 4;
+
             var articles = await _context.Articles
                 .Include(a => a.User)
                 .Where(a => a.MagazineId == magazineId && a.Status == "selected")
                 .OrderByDescending(a => a.SubmitDate)
+                .Skip((page - 1) * pageSize) // Skip previous pages
+                .Take(pageSize) // Take only the articles for the current page
                 .ToListAsync();
+
+            ViewData["Page"] = page;
+            ViewData["TotalPages"] = (int)Math.Ceiling((double)_context.Articles.Count(a => a.MagazineId == magazineId && a.Status == "selected") / pageSize);
 
             return View(articles);
         }
 
 
-        public async Task<IActionResult> DownloadDocuments(string articleIds)
+        public async Task<IActionResult> DownloadDocuments(int articleId)
         {
-            if (string.IsNullOrEmpty(articleIds))
-            {
-                return BadRequest("No article IDs provided.");
-            }
-
-            var articleIdList = articleIds.Split(',').Select(int.Parse).ToList();
-
-            // Filter documents based on the provided article IDs
-            var documents = _context.Documents.Where(d => articleIdList.Contains(d.ArticleId)).ToList();
+            var documents = _context.Documents.Where(d => d.ArticleId == articleId).ToList();
 
             if (documents.Count == 0)
             {
-                return NotFound("No documents found for the provided article IDs.");
+                return NotFound();
             }
 
             // Create a memory stream to hold the zip file
@@ -100,18 +179,20 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
 
                     if (!System.IO.File.Exists(fullPath))
                     {
-                        continue;
+                        return NotFound();
                     }
 
                     // Add each document to the zip archive
                     var entry = archive.CreateEntry(Path.GetFileName(document.File));
 
+                    // Write the content of the document to the zip archive
                     using (var entryStream = entry.Open())
                     using (var fileStream = new FileStream(fullPath, FileMode.Open))
                     {
                         await fileStream.CopyToAsync(entryStream);
                     }
 
+                    // If the document has an associated image, include it in the zip archive
                     if (!string.IsNullOrEmpty(document.Image))
                     {
                         string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "media", document.Image);
