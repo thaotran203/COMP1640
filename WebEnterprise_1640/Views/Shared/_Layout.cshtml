@@ -1,5 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+    @using WebEnterprise_1640.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,16 +23,35 @@
 </head>
 <body>
     <header>
+        @{
+            var userData = ViewBag.User;
+            UserModel? user = null;
+            if (userData != null)
+            {
+                user = (UserModel)userData;
+            }
+        }
         <div class="nav-bar">
             <div class="nav-1">
-                <p asp-area="" asp-controller="Home" asp-action="Index">BEE MAGAZINE</p>
+                <p asp-area="" asp-controller="Home" asp-action="Index" style="margin-block: auto">BEE MAGAZINE</p>
             </div>
-            <div class="home an" id="home">
-                <div class="home-cover">
-                   @* <button class="home-button" asp-area="" asp-controller="Home" asp-action="Index" ;>Home</button>*@
+            @if (user != null)
+            {
+                <div class="user-1">
+                    <a href="/Profile/Test/@user.Id" class="welcome" style="color: dodgerblue; font-weight: bold; ">Welcome, @user.UserName</a>
+                    <div class="button an" id="login">
+                        <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
+                    </div>
                 </div>
+            }
+            <div class="home an" id="home" style="display: none;">
+                @if (user == null)
+                {
+                    <div class="button an" id="login">
+                        <a href="/Account/Login" class="login-button">Log in</a>
+                    </div>
+                }
             </div>
-            <a class="nav-link text-white login-button an" id="login" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
             <div onclick="showmenu()" class="icon-menu">
                 <i class="fa-solid fa-bars"></i>
             </div>
@@ -47,7 +68,7 @@
         </main>
     </div>
   
-    <footer >
+    <footer>
         <div class="colum">
             <div class="colum-1">
                 <h2>COMP1640</h2>

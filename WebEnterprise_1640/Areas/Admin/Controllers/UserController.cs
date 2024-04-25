@@ -10,6 +10,7 @@ using WebEnterprise_1640.Models;
 using WebEnterprise_1640.Models.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise_1640.Models.NewFolder;
+using System.Text.Json;
 
 namespace WebEnterprise_1640.Areas.Admin.Controllers
 {
@@ -51,10 +52,36 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index(string search = "", List<string> roles = null, List<int> facultyIds = null)
         {
-            //Get all users first
-            var users = await _userManager.Users.ToListAsync();
+			var userJson = HttpContext.Session.GetString("USER");
+			UserModel userM = null;
+			if (userJson != null && userJson.Length > 0)
+			{
+				userM = JsonSerializer.Deserialize<UserModel>(userJson);
+			}
+			if (userM == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == userM.Id);
+			if (userRole == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			var roleM = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+			if (roleM == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			if (roleM.Name.ToLower() != "admin")
+			{
+				return Redirect("/Account/Login");
+			}
+			ViewBag.User = userM;
+
+			//Get all users first
+			var users = await _userManager.Users.ToListAsync();
             //Filter out users with the 'Admin' role
-            users = users.Where(u => !_userManager.IsInRoleAsync(u, "Admin").Result).ToList();
+            users = users.Where(u => !_userManager.IsInRoleAsync(u, "Admin").Result).Where(u => !_userManager.IsInRoleAsync(u, "Guest").Result).ToList();
             //Search
             if (!string.IsNullOrEmpty(search))
             {
@@ -72,7 +99,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 }
                 users = users.Where(u => usersInRoles.Select(x => x.Id).Contains(u.Id)).ToList();
             }
-            ViewBag.AllRoles = (await _roleManager.Roles.Where(r => r.Name != "Admin").ToListAsync()).Select(r => r.Name).ToList();
+            ViewBag.AllRoles = (await _roleManager.Roles.Where(r => r.Name != "Admin" && r.Name != "Guest").ToListAsync()).Select(r => r.Name).ToList();
             ViewBag.Roles = roles;
             // Filter facultyId
             if (facultyIds != null && facultyIds.Count > 0)
@@ -89,17 +116,34 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         // GET: Admin/User/Register
         public async Task<IActionResult> Register()
         {
-            if (!_context.Roles.Any())
-            {
-                await _roleManager.CreateAsync(new IdentityRole { Id = "1", Name = "Guest" });
-                await _roleManager.CreateAsync(new IdentityRole { Id = "2", Name = "Student" });
-                await _roleManager.CreateAsync(new IdentityRole { Id = "3", Name = "Coordinator" });
-                await _roleManager.CreateAsync(new IdentityRole { Id = "4", Name = "Manager" });
-                await _roleManager.CreateAsync(new IdentityRole { Id = "5", Name = "Admin" });
-            }
+			var userJson = HttpContext.Session.GetString("USER");
+			UserModel userM = null;
+			if (userJson != null && userJson.Length > 0)
+			{
+				userM = JsonSerializer.Deserialize<UserModel>(userJson);
+			}
+			if (userM == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == userM.Id);
+			if (userRole == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			var roleM = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+			if (roleM == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			if (roleM.Name.ToLower() != "admin")
+			{
+				return Redirect("/Account/Login");
+			}
+			ViewBag.User = userM;
             RegisterVM registerVM = new RegisterVM()
             {
-                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
@@ -133,7 +177,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                 if (checkEmail)
                 {
                     ModelState.AddModelError("Email", "User with this email already exists!");
-                    registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                    registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                     {
                         Text = i,
                         Value = i
@@ -180,7 +224,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     else
                     {
                         TempData["error"] = "A coordinator already exists within the faculty!";
-                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                         {
                             Text = i,
                             Value = i
@@ -254,7 +298,33 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         // GET: Admin/User/Edit/5
         public async Task<IActionResult> Edit(string? id)
         {
-            if (id == null)
+			var userJson = HttpContext.Session.GetString("USER");
+			UserModel userM = null;
+			if (userJson != null && userJson.Length > 0)
+			{
+				userM = JsonSerializer.Deserialize<UserModel>(userJson);
+			}
+			if (userM == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == userM.Id);
+			if (userRole == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			var roleM = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+			if (roleM == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			if (roleM.Name.ToLower() != "admin")
+			{
+				return Redirect("/Account/Login");
+			}
+			ViewBag.User = userM;
+
+			if (id == null)
             {
                 return NotFound();
             }
@@ -262,7 +332,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             var userRoles = await _userManager.GetRolesAsync(userModel);
             RegisterVM registerVM = new RegisterVM()
             {
-                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
@@ -309,7 +379,7 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
                     if (checkEmail)
                     {
                         ModelState.AddModelError("Email", "User with this email already exists!");
-                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin").Select(x => x.Name).Select(i => new SelectListItem
+                        registerVM.RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem
                         {
                             Text = i,
                             Value = i
@@ -396,7 +466,33 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         // GET: Admin/User/Delete/5
         public async Task<IActionResult> Delete(string? id)
         {
-            if (id == null || id == null)
+			var userJson = HttpContext.Session.GetString("USER");
+			UserModel userM = null;
+			if (userJson != null && userJson.Length > 0)
+			{
+				userM = JsonSerializer.Deserialize<UserModel>(userJson);
+			}
+			if (userM == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == userM.Id);
+			if (userRole == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			var roleM = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+			if (roleM == null)
+			{
+				return Redirect("/Account/Login");
+			}
+			if (roleM.Name.ToLower() != "admin")
+			{
+				return Redirect("/Account/Login");
+			}
+			ViewBag.User = userM;
+
+			if (id == null || id == null)
             {
                 return NotFound();
             }

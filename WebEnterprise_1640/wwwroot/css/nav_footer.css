@@ -56,7 +56,6 @@ footer {
     padding: 20px 40px;
     .colum {
         display: grid;
-        margin-bottom: 60px;
         .colum-2 {
             .contact {
                 p {
@@ -104,6 +103,9 @@ footer {
                 }
             }
         }
+    }
+    .Weluser {
+        margin-left: 50vw;
     }
 
 .user-1 {
@@ -155,6 +157,9 @@ footer {
             }
         }
     }
+.Weluser {
+    margin-left: 0;
+}
 
     .user-1 {
         display: flex;
@@ -221,7 +226,7 @@ footer {
             }
             .button {
                 position: absolute;
-                top: 120px;
+                top: 105px;
                 width: 100%;
                 text-align: center;
                 left: 0;

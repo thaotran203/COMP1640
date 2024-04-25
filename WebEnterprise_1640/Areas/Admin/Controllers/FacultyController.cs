@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
 
@@ -23,6 +24,32 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         // GET: Admin/Faculty
         public async Task<IActionResult> Index()
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel userM = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                userM = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (userM == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == userM.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "admin")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = userM;
+
             //Get user have roles want show
             var nonRoles = await _roleManager.Roles.Where(r => r.Name != "Admin" && r.Name != "Manager").Select(r => r.Name).ToListAsync();
             var users = new List<UserModel>();
@@ -44,11 +71,38 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
             }
             ViewBag.UserList = userCounts;
             return View(faculties);
+
         }
 
         // GET: Admin/Faculty/Create
         public IActionResult Create()
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel userM = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                userM = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (userM == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == userM.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "admin")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = userM;
+
             return View();
         }
 
@@ -69,6 +123,32 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         // GET: Admin/Faculty/Edit/5
         public IActionResult Edit(int? id)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel userM = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                userM = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (userM == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == userM.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "admin")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = userM;
+
             if (id == null || id == 0)
             {
                 return NotFound();
@@ -98,6 +178,32 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
         // GET: Admin/Faculty/Delete/5
         public IActionResult Delete(int? id)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel userM = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                userM = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (userM == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == userM.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _context.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            if (role.Name.ToLower() != "admin")
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = userM;
+
             if (id == null || id == null)
             {
                 return NotFound();
