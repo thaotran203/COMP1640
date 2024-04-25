@@ -12,7 +12,7 @@ namespace WebEnterprise_1640.Models
 
         [Required]
         public string Name { get; set; }
-        public int CoordinatorId { get; set; }
+        public string CoordinatorId { get; set; }
 
         [ValidateNever]
         [NotMapped]

@@ -63,7 +63,7 @@ namespace WebEnterprise_1640.Utility
                     {
                         continue;
                     }
-                    var coordinator = context.Users.FirstOrDefault(u => u.Id == facility.CoordinatorId.ToString());
+                    var coordinator = context.Users.FirstOrDefault(u => u.Id == facility.CoordinatorId);
                     if (coordinator == null)
                     {
                         continue;
