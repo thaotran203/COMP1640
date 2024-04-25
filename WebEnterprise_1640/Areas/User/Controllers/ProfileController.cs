@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Identity;
 using System.Web.Helpers;
 using WebEnterprise_1640.Models.ViewModel;
+using System.Diagnostics;
+using System.Text.Json;
 
 namespace WebEnterprise_1640.Controllers
 {
@@ -21,7 +23,7 @@ namespace WebEnterprise_1640.Controllers
             _dbContext = dbContext;
             _userManager = userManager;
         }
-        
+
         public IActionResult Index()
         {
             return View();
@@ -29,26 +31,69 @@ namespace WebEnterprise_1640.Controllers
 
         public IActionResult Test(string? id)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _dbContext.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _dbContext.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = _dbContext.Users
-                               .Include(u => u.Faculty)
-                               .FirstOrDefault(a => a.Id == id);
+            var targetUser = _dbContext.Users
+                                     .Include(u => u.Faculty)
+                                     .FirstOrDefault(a => a.Id == id);
 
-            if (user == null)
+            if (targetUser == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(targetUser);
         }
+
 
         [HttpPost]
         public IActionResult Test(UserModel model)
         {
+            var userJson = HttpContext.Session.GetString("USER");
+            UserModel user = null;
+            if (userJson != null && userJson.Length > 0)
+            {
+                user = JsonSerializer.Deserialize<UserModel>(userJson);
+            }
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userRole = _dbContext.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+            if (userRole == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var role = _dbContext.Roles.FirstOrDefault(r => r.Id == userRole.RoleId);
+            if (role == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            ViewBag.User = user;
             if (ModelState.IsValid == false)
             {
                 return BadRequest();
@@ -71,7 +116,7 @@ namespace WebEnterprise_1640.Controllers
             _dbContext.SaveChanges();
             return View(existingUser);
         }
-        
+
         [HttpPost]
         public IActionResult UpdateAvatar(string Id, IFormFile Avatar)
         {
@@ -105,7 +150,7 @@ namespace WebEnterprise_1640.Controllers
 
             return BadRequest("No image uploaded");
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> ChangePasswordAsync(string userId, string curPassword, string newPassword, string confirmPassword)
         {
