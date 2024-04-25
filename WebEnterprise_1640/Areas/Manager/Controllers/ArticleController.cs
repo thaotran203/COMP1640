@@ -58,32 +58,33 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
         }
 
 
-        public async Task<IActionResult> Index(int magazineId, int page = 1)
+        public async Task<IActionResult> Index(int magazineId)
         {
-            int pageSize = 4;
-
             var articles = await _context.Articles
                 .Include(a => a.User)
                 .Where(a => a.MagazineId == magazineId && a.Status == "selected")
                 .OrderByDescending(a => a.SubmitDate)
-                .Skip((page - 1) * pageSize) // Skip previous pages
-                .Take(pageSize) // Take only the articles for the current page
                 .ToListAsync();
-
-            ViewData["Page"] = page;
-            ViewData["TotalPages"] = (int)Math.Ceiling((double)_context.Articles.Count(a => a.MagazineId == magazineId && a.Status == "selected") / pageSize);
 
             return View(articles);
         }
 
 
-        public async Task<IActionResult> DownloadDocuments(int articleId)
+        public async Task<IActionResult> DownloadDocuments(string articleIds)
         {
-            var documents = _context.Documents.Where(d => d.ArticleId == articleId).ToList();
+            if (string.IsNullOrEmpty(articleIds))
+            {
+                return BadRequest("No article IDs provided.");
+            }
+
+            var articleIdList = articleIds.Split(',').Select(int.Parse).ToList();
+
+            // Filter documents based on the provided article IDs
+            var documents = _context.Documents.Where(d => articleIdList.Contains(d.ArticleId)).ToList();
 
             if (documents.Count == 0)
             {
-                return NotFound();
+                return NotFound("No documents found for the provided article IDs.");
             }
 
             // Create a memory stream to hold the zip file
@@ -99,20 +100,18 @@ namespace WebEnterprise_1640.Areas.Manager.Controllers
 
                     if (!System.IO.File.Exists(fullPath))
                     {
-                        return NotFound();
+                        continue;
                     }
 
                     // Add each document to the zip archive
                     var entry = archive.CreateEntry(Path.GetFileName(document.File));
 
-                    // Write the content of the document to the zip archive
                     using (var entryStream = entry.Open())
                     using (var fileStream = new FileStream(fullPath, FileMode.Open))
                     {
                         await fileStream.CopyToAsync(entryStream);
                     }
 
-                    // If the document has an associated image, include it in the zip archive
                     if (!string.IsNullOrEmpty(document.Image))
                     {
                         string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "media", document.Image);
