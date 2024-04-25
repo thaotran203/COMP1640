@@ -56,7 +56,6 @@ footer {
     padding: 20px 40px;
     .colum {
         display: grid;
-        margin-bottom: 60px;
         .colum-2 {
             .contact {
                 p {

@@ -28,20 +28,6 @@
             text-align: center;
         }
 
-        .Search {
-            position: relative;
-            width: 50%;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-        }
-
-            .Search .fa-search {
-                position: absolute;
-                top: 13px;
-                left: 20px;
-            }
-
         .form-input {
             box-sizing: border-box;
             border-radius: 50px;
@@ -107,10 +93,16 @@
                 <div class="FontSize">
         <div>
             <form action="/Admin/user/index">
-                <div class="Search">
+                <div class="col text-center position-relative">
+                    <div class="search-wrapper">
+                         <input type="search" class="form-control form-input" id="search" name="search" value="@ViewBag.Search">
+                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    </div>
+                </div>
+                @*<div class="Search">
                     <i class="fa fa-search"></i>
                     <input type="search" class="form-control form-input" id="search" name="search" value="@ViewBag.Search">
-                </div>
+                </div>*@
             </form>
         </div>
         <div class="List">
