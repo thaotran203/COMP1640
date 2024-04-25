@@ -34,7 +34,7 @@
             @if (user != null)
             {
                 <div class="user-1">
-                    <a href="/Profile/Test/@user.Id" class="welcome" style="color: dodgerblue; font-weight: bold; ">Welcome, @user.UserName</a>
+                    <a href="/Profile/Test/@user.Id" class="welcome" style="color: dodgerblue; font-weight: bold; ">Welcome, @user.FullName</a>
                     <div class="button an" id="login">
                         <a href="@Url.ActionLink("Logout", "Account")" class="login-button">Log out</a>
                     </div>
