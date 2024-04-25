@@ -7,13 +7,13 @@
 ﻿@using WebEnterprise_1640.Models
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="~/css/CMP26.css">
 <link rel="stylesheet" href="~/css/nav_footer.css" asp-append-version="true">
 <link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/CMP26.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/cmp27.js"></script>
 
-<header>
+<header style="margin-top: -40px">
 	@{
 		var userData = ViewBag.User;
 		UserModel? user = null;
@@ -58,20 +58,21 @@
         <div class="row h-50">
             <div class="col-lg-3 h-100">
                 <div class="profile card h-100">
-                    <div class="card-body">
+                    <div class="card-body" >
                         <div class="d-flex flex-column align-items-center text-center">
-                            @if (!string.IsNullOrEmpty(Model.PersonalImage))
-                            {
-                                <img src="data:image/jpeg;base64,@GetImageBase64(Model.PersonalImage)" alt="Avatar" id="avatarPreview" class="rounded-circle p-1 bg-primary mt-5" width="110">
-                            }
-                            else
-                            {
-                                <img src="~/img/default-avatar.jpg" alt="Default Avatar" id="avatarPreview" class="rounded-circle p-1 bg-primary mt-5" width="110">
-                            }
+                                @if (!string.IsNullOrEmpty(Model.PersonalImage))
+                                {
+                                    <img src="data:image/jpeg;base64,@GetImageBase64(Model.PersonalImage)" alt="Avatar" id="avatarPreview" style="border-radius: 50%; object-fit: cover; width: 150px; height: 150px;">
+                                }
+                                else
+                                {
+                                    <img src="~/img/default-avatar.jpg" alt="Default Avatar" id="avatarPreview">
+                                }
                             <form method="post" action="@Url.Action("UpdateAvatar", "Profile")" enctype="multipart/form-data">
                                 <input type="hidden" name="Id" value="@Model.Id" />
-                                <input type="file" name="avatar" required>
-                                <button type="submit">Save</button>
+                                <input type="file" name="avatar" id="files" class="d-none" required>
+                                <label class="btn btn-secondary mt-2" for="files">Select file</label>
+                                <button class="btn btn-primary mt-2"type="submit">Save</button>
                             </form>
                             <div class="mt-3">
                                 <h4>@Model.FullName</h4>
@@ -128,10 +129,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-3"></div>
-                                <div class="col-sm-9 text-secondary">
-                                    <button type="submit" class="btn btn-primary px-4">Save Changes</button>
-                                    <a id="cancelButton" class="btn btn-primary px-4">Cancel</a>
+                                <div class="d-flex justify-content-center text-secondary">
+                                    <button type="submit" class="btn btn-primary px-4 mx-2">Save Changes</button>
+                                    <a id="cancelButton" class="btn btn-primary px-4 mx-2">Cancel</a>
                                 </div>
                             </div>
                         </form>
@@ -157,24 +157,23 @@
                                 <form method="post" asp-controller="Profile" asp-action="ChangePassword">
                                     <input type="hidden" name="userId" value="@Model.Id" />
                                     <h6><p>Current Password</p></h6>
-                                    <div class="col-sm-9 text-secondary">
+                                    <div class="col text-secondary">
                                         <input type="password" name="curPassword" class="form-control">
                                     </div>
                                     <div style="margin-bottom: 10px;"></div>
                                     <h6><p>New Password</p></h6>
-                                    <div class="col-sm-9 text-secondary">
+                                    <div class="col text-secondary">
                                         <input type="password" name="newPassword" class="form-control">
                                     </div>
                                     <div style="margin-bottom: 10px;"></div>
                                     <h6><p>Confirm Password</p></h6>
-                                    <div class="col-sm-9 text-secondary">
+                                    <div class="col text-secondary">
                                         <input type="password" name="confirmPassword" class="form-control">
                                     </div>
-                                    <div class="row pb-2">
-                                        <div class="col-sm-3"></div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
-                                            <a href="#" class="btn btn-primary px-4">Cancel</a>
+                                    <div class="row mt-4">
+                                        <div class="d-flex justify-content-center text-secondary">
+                                            <button type="submit" class="btn btn-primary px-4 mx-2">Save Changes</button>
+                                            <a id="cancelButton" class="btn btn-primary px-4 mx-2">Cancel</a>
                                         </div>
                                     </div>
                                 </form>

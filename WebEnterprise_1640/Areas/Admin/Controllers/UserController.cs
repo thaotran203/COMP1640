@@ -141,15 +141,6 @@ namespace WebEnterprise_1640.Areas.Admin.Controllers
 				return Redirect("/Account/Login");
 			}
 			ViewBag.User = userM;
-
-			if (!_context.Roles.Any())
-            {
-                await _roleManager.CreateAsync(new IdentityRole { Id = "1", Name = "Guest" });
-                await _roleManager.CreateAsync(new IdentityRole { Id = "2", Name = "Student" });
-                await _roleManager.CreateAsync(new IdentityRole { Id = "3", Name = "Coordinator" });
-                await _roleManager.CreateAsync(new IdentityRole { Id = "4", Name = "Manager" });
-                await _roleManager.CreateAsync(new IdentityRole { Id = "5", Name = "Admin" });
-            }
             RegisterVM registerVM = new RegisterVM()
             {
                 RoleList = _roleManager.Roles.Where(x => x.Name != "Manager" && x.Name != "Admin" && x.Name != "Guest").Select(x => x.Name).Select(i => new SelectListItem

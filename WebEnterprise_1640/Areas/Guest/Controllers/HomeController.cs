@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using WebEnterprise_1640.Data;
 using WebEnterprise_1640.Models;
@@ -10,15 +11,26 @@ namespace WebEnterprise_1640.Areas.Guest.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public HomeController(ApplicationDbContext context)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public HomeController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
 
         {
             _context = context;
+            _roleManager = roleManager;
         }
 
         [Route("[controller]/[action]")]
         public async Task<IActionResult> MainPage()
         {
+            if (!_context.Roles.Any())
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Id = "1", Name = "Guest" });
+                await _roleManager.CreateAsync(new IdentityRole { Id = "2", Name = "Student" });
+                await _roleManager.CreateAsync(new IdentityRole { Id = "3", Name = "Coordinator" });
+                await _roleManager.CreateAsync(new IdentityRole { Id = "4", Name = "Manager" });
+                await _roleManager.CreateAsync(new IdentityRole { Id = "5", Name = "Admin" });
+            }
+
             return View();
         }
         [Route("[controller]/[action]")]
